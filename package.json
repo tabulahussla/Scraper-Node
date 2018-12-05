@@ -1,0 +1,59 @@
+{
+	"name": "resource-broker",
+	"version": "1.0.0",
+	"description": "Centralised resource broker. Manage resources via JSON-RPC",
+	"main": "src/index.js",
+	"repository": "git@gitlab.com:index_php/scraping/resource-broker.git",
+	"author": "Georgy Chirkov <mail@api.haus>",
+	"license": "UNLICENSED",
+	"private": true,
+	"engines": {
+		"node": ">= 8.2.0"
+	},
+	"scripts": {
+		"lint": "eslint --fix src/. test/. --config .eslintrc.json",
+		"test": "NODE_ENV=test mocha --bail --exit --recursive -r @babel/register -r @babel/polyfill",
+		"cov": "nyc mocha --bail --exit --recursive -r @babel/register -r @babel/polyfill",
+		"tdd": "yarn run test -w --reporter min",
+		"dev": "nodemon bin/nodemon --exec babel-node",
+		"pm2": "pm2 start process.yml --env production",
+		"build": "BABEL_ENV=production rollup -c && yarn uglify && yarn obfuscate",
+		"uglify": "uglifyjs dist/bundle.min.js -o dist/bundle.min.js --compress --mangle toplevel",
+		"obfuscate": "javascript-obfuscator dist/bundle.min.js -o dist/bundle.min.js --config obfuscate.config.json"
+	},
+	"dependencies": {
+		"config": "^2.0.1",
+		"fs-extra": "^7.0.0",
+		"mongodb": "^3.1.8",
+		"pino": "^4.17.6"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.0.0-beta.55",
+		"@babel/core": "^7.0.0-rc.2",
+		"@babel/node": "^7.0.0-beta.55",
+		"@babel/preset-env": "^7.0.0-beta.55",
+		"@babel/register": "^7.0.0-beta.55",
+		"@types/config": "^0.0.34",
+		"@types/fs-extra": "^5.0.4",
+		"@types/mocha": "^5.2.5",
+		"@types/mongodb": "^3.1.12",
+		"@types/node": "^10.12.0",
+		"@types/pino": "^4.16.1",
+		"babel-plugin-add-module-exports": "^0.2.1",
+		"babel-plugin-module-resolver": "^3.1.1",
+		"eslint": "^5.2.0",
+		"eslint-import-resolver-babel-module": "^5.0.0-beta.1",
+		"eslint-plugin-babel": "^5.1.0",
+		"eslint-plugin-import": "^2.13.0",
+		"eslint-plugin-node": "^7.0.1",
+		"javascript-obfuscator": "^0.18.1",
+		"mocha": "^5.2.0",
+		"nodemon": "^1.18.3",
+		"nyc": "^12.0.2",
+		"rollup": "^0.67.4",
+		"rollup-plugin-babel": "^4.0.3",
+		"rollup-plugin-commonjs": "^9.2.0",
+		"rollup-plugin-node-resolve": "^3.4.0",
+		"uglify-es": "^3.3.9"
+	}
+}

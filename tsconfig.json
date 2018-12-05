@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"module": "es2015",
+		"moduleResolution": "node",
+		"target": "es2015",
+		"noImplicitAny": false,
+		"baseUrl": "./src",
+		"outDir": "dist",
+		"paths": {
+			"test/*": ["test/*"]
+		},
+		"lib": ["es2017"],
+		"checkJs": true,
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"typeRoots": ["./type-definitions/", "node_modules/@types"]
+	},
+	"exclude": ["node_modules", "dist"]
+}

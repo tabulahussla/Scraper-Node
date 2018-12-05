@@ -1,0 +1,9 @@
+{
+	"project-name": "NODE-TEMPLATE",
+	"log-level": "trace",
+	"mongodb": {
+		"url": "mongodb://localhost:27017/node-template",
+		"options": {}
+	},
+	"make-folders": []
+}
