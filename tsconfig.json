@@ -9,7 +9,7 @@
 		"paths": {
 			"test/*": ["test/*"]
 		},
-		"lib": ["es2017"],
+		"lib": ["es2017", "dom"],
 		"checkJs": true,
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,

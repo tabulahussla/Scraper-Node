@@ -5,7 +5,8 @@
 		"url": "mongodb://localhost:27017/node-template",
 		"options": {}
 	},
-	"make-folders": [],
+	"make-folders": ["storage/profiles"],
+	"profileDir": "storage/profiles",
 	"resource-broker": {},
 	"cluster": {
 		"maxWorkers": 4,
@@ -32,5 +33,15 @@
 			"workerType": "http",
 			"concurrency": 25
 		}
+	},
+	"puppeteer": {
+		"headless": true,
+		"args": ["--lang=en-US,en"],
+		"languages": ["en-US", "en"],
+		"timeout": 120000
+	},
+	"agent": {
+		"defaultLanguages": ["en-US", "en"],
+		"defaultNavigationTimeout": 125000
 	}
 }

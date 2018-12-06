@@ -19,7 +19,6 @@ export default async function setupQueues(options) {
  * @param {SetupQueueOptions} options
  */
 export function setupQueue(name, options) {
-
 	const queue = new Queue(name);
 
 	if (!(options.workerType in workers)) {
