@@ -1,9 +1,9 @@
 {
-	"name": "node-template",
+	"name": "scraper-node",
 	"version": "1.0.0",
-	"description": "Node.js template with ES2018 support",
+	"description": "Node.js scraping system",
 	"main": "src/index.js",
-	"repository": "git@gitlab.com:index_php/general/node.js-template.git",
+	"repository": "git@gitlab.com:index_php/scraping/scraper-node.git",
 	"author": "Georgy Chirkov <mail@api.haus>",
 	"license": "UNLICENSED",
 	"private": true,
@@ -22,10 +22,12 @@
 		"obfuscate": "javascript-obfuscator dist/bundle.min.js -o dist/bundle.min.js --config obfuscate.config.json"
 	},
 	"dependencies": {
+		"bee-queue": "^1.2.2",
 		"config": "^2.0.1",
 		"fs-extra": "^7.0.0",
 		"mongodb": "^3.1.8",
-		"pino": "^4.17.6"
+		"pino": "^4.17.6",
+		"resource-broker-client": "ssh://git@gitlab.com:index_php/scraping/resource-broker-client.git"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0-beta.55",

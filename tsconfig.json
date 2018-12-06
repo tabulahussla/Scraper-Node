@@ -14,7 +14,8 @@
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
-		"typeRoots": ["./type-definitions/", "node_modules/@types"]
+		"typeRoots": ["./type-definitions/", "node_modules/@types"],
+		"locale": "en"
 	},
 	"exclude": ["node_modules", "dist"]
 }

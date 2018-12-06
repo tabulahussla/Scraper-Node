@@ -3,6 +3,7 @@ let [, startTime] = process.hrtime();
 
 import makeFolders from './00-make-folders';
 import connectDatabases from './01-database';
+import setupCluster from './02-cluster';
 import log from 'common/log';
 
 export default async function bootstrapPipeline() {
@@ -13,6 +14,7 @@ export default async function bootstrapPipeline() {
 
 	await bootStep(makeFolders, 'create_directories');
 	await bootStep(connectDatabases, 'connect_databases');
+	await bootStep(setupCluster, 'setup_cluster');
 
 	[, now] = process.hrtime();
 	log.info('bootstrap finish in %d ms', nsToMs(now - beginningTime));

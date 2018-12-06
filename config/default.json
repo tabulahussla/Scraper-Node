@@ -5,5 +5,32 @@
 		"url": "mongodb://localhost:27017/node-template",
 		"options": {}
 	},
-	"make-folders": []
+	"make-folders": [],
+	"resource-broker": {},
+	"cluster": {
+		"maxWorkers": 4,
+		"entryPointForWorker": "src/worker.index.js"
+	},
+	"queues": {
+		"appannie-web": {
+			"resources": ["proxy", "account"],
+			"workerType": "agent",
+			"concurrency": 25
+		},
+		"appannie-http": {
+			"resources": ["proxy", "account"],
+			"workerType": "http",
+			"concurrency": 25
+		},
+		"google-play": {
+			"resources": ["proxy"],
+			"workerType": "http",
+			"concurrency": 25
+		},
+		"app-store": {
+			"resources": ["proxy"],
+			"workerType": "http",
+			"concurrency": 25
+		}
+	}
 }
