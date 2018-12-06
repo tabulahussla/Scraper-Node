@@ -1,9 +1,9 @@
 {
-	"name": "resource-broker",
+	"name": "node-template",
 	"version": "1.0.0",
-	"description": "Centralised resource broker. Manage resources via JSON-RPC",
+	"description": "Node.js template with ES2018 support",
 	"main": "src/index.js",
-	"repository": "git@gitlab.com:index_php/scraping/resource-broker.git",
+	"repository": "git@gitlab.com:index_php/general/node.js-template.git",
 	"author": "Georgy Chirkov <mail@api.haus>",
 	"license": "UNLICENSED",
 	"private": true,
