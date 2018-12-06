@@ -130,6 +130,8 @@ export default class Agent {
 			},
 			this._languages,
 		]);
+
+		this._puppeteerOptions.args.push(`--lang=${this._languages.join(',')}`);
 	}
 
 	async _createPage() {

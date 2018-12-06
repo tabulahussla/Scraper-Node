@@ -36,8 +36,6 @@
 	},
 	"puppeteer": {
 		"headless": true,
-		"args": ["--lang=en-US,en"],
-		"languages": ["en-US", "en"],
 		"timeout": 120000
 	},
 	"agent": {
