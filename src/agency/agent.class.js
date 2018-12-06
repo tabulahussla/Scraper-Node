@@ -52,8 +52,6 @@ export default class Agent {
 		await this._setupPage();
 	}
 
-	async restoreSession() {}
-
 	/**
 	 * Click on random point inside element bounding box
 	 *
