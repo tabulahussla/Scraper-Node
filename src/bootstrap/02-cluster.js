@@ -2,9 +2,17 @@ import cluster from 'cluster';
 import config from 'config';
 import path from 'path';
 import os from 'os';
+import { inactivityTimeout, bootstrapWorker } from 'worker.index';
+
+clearTimeout(inactivityTimeout);
 
 export default async function setupCluster() {
-	const { maxWorkers, entryPointForWorker } = config.get('cluster');
+	const { maxWorkers, entryPointForWorker, enabled } = config.get('cluster');
+
+	if (!enabled) {
+		await setupOnMainThread();
+		return;
+	}
 
 	const amountOfCPUs = os.cpus().length;
 	let amountOfWorkers;
@@ -22,6 +30,13 @@ export default async function setupCluster() {
 	for (let i = 0; i < amountOfWorkers; i++) {
 		await setupWorker(i, amountOfWorkers);
 	}
+}
+
+export async function setupOnMainThread() {
+	bootstrapWorker({
+		_workerInit: true,
+		queues: config.get('queues'),
+	});
 }
 
 export async function setupWorker(workerNumber, amountOfWorkers) {

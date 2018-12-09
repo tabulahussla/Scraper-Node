@@ -1,7 +1,7 @@
-import { worker } from 'cluster';
 import Queue from 'bee-queue';
 import workers from 'scraping';
 import log from 'common/log';
+import { workerId } from './index';
 
 /**
  * @export
@@ -35,6 +35,6 @@ export function setupQueue(name, options) {
 		'processing %s jobs with %d concurrency on worker %d',
 		name,
 		options.concurrency,
-		worker.id,
+		workerId,
 	);
 }

@@ -1,13 +1,14 @@
 import cluster from 'cluster';
 
-let now;
-let [, startTime] = process.hrtime();
+let startTime = process.hrtime();
+let diff;
 
 import connectDatabases from './00-database';
 import setupQueues from './01-queues';
 import log from 'common/log';
+import hrtimeToMsFixed from 'common/hrtime-to-ms';
 
-const workerId = cluster.worker.id;
+export const workerId = cluster.worker ? cluster.worker.id : 0;
 
 /**
  * @export
@@ -16,28 +17,26 @@ const workerId = cluster.worker.id;
 export default async function bootstrapWorker(options) {
 	const beginningTime = startTime;
 
-	[, now] = process.hrtime();
-	log.info('bootstrap() worker #%d +%d ms', workerId, nsToMs(now - startTime));
+	diff = process.hrtime(startTime);
+	log.info('bootstrap() worker #%d +%d ms', workerId, hrtimeToMsFixed(diff));
 
 	await bootStep(connectDatabases, [], 'connect_databases');
 	await bootStep(setupQueues, [options.queues], 'setup_queues');
 
-	[, now] = process.hrtime();
-	log.info('bootstrap finish for worker #%d in %d ms', workerId, nsToMs(now - beginningTime));
+	diff = process.hrtime(beginningTime);
+	log.info('bootstrap finish for worker #%d in %d ms', workerId, hrtimeToMsFixed(diff));
 }
 
 async function bootStep(method, args, description = method.name) {
-	[, startTime] = process.hrtime();
+	startTime = process.hrtime();
+
 	try {
 		await method(...args);
 	} catch (err) {
 		log.fatal('bootstrap failed for worker #%d on step "%s":', workerId, description);
 		throw err;
 	}
-	[, now] = process.hrtime();
-	log.info('%s() +%d ms (worker #%d)', description, nsToMs(now - startTime), workerId);
-}
 
-function nsToMs(number) {
-	return (number / 1000 / 1000).toFixed(6);
+	diff = process.hrtime(startTime);
+	log.info('%s() +%d ms (worker #%d)', description, hrtimeToMsFixed(diff), workerId);
 }

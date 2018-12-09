@@ -1,14 +1,16 @@
 {
-	"project-name": "NODE-TEMPLATE",
+	"project-name": "SCRAPER-NODE",
 	"log-level": "trace",
 	"mongodb": {
-		"url": "mongodb://localhost:27017/node-template",
+		"url": "mongodb://localhost:27017/scraping",
 		"options": {}
 	},
+	"redis": {},
 	"make-folders": ["storage/profiles"],
 	"profileDir": "storage/profiles",
 	"resource-broker": {},
 	"cluster": {
+		"enabled": false,
 		"maxWorkers": 4,
 		"entryPointForWorker": "src/worker.index.js"
 	},

@@ -1,37 +1,36 @@
-let now;
-let [, startTime] = process.hrtime();
+let startTime = process.hrtime();
+let diff;
 
 import makeFolders from './00-make-folders';
 import connectDatabases from './01-database';
 import setupCluster from './02-cluster';
 import log from 'common/log';
+import hrtimeToMsFixed from 'common/hrtime-to-ms';
 
 export default async function bootstrapPipeline() {
 	const beginningTime = startTime;
 
-	[, now] = process.hrtime();
-	log.info('bootstrap() +%d ms', nsToMs(now - startTime));
+	diff = process.hrtime(startTime);
+	log.info('bootstrap() +%d ms', hrtimeToMsFixed(diff));
 
 	await bootStep(makeFolders, 'create_directories');
 	await bootStep(connectDatabases, 'connect_databases');
 	await bootStep(setupCluster, 'setup_cluster');
 
-	[, now] = process.hrtime();
-	log.info('bootstrap finish in %d ms', nsToMs(now - beginningTime));
+	diff = process.hrtime(beginningTime);
+	log.info('bootstrap finish in %d ms', hrtimeToMsFixed(diff));
 }
 
 async function bootStep(method, description = method.name) {
-	[, startTime] = process.hrtime();
+	startTime = process.hrtime();
+
 	try {
 		await method();
 	} catch (err) {
 		log.fatal('bootstrap failed on step "%s":', description);
 		throw err;
 	}
-	[, now] = process.hrtime();
-	log.info('%s() +%d ms', description, nsToMs(now - startTime));
-}
 
-function nsToMs(number) {
-	return (number / 1000 / 1000).toFixed(6);
+	diff = process.hrtime(startTime);
+	log.info('%s() +%d ms', description, hrtimeToMsFixed(diff));
 }
