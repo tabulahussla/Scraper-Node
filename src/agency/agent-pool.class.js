@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { ResourceBrokerClient } from 'resource-broker-client';
 import Agent from './agent.class';
+import config from 'config';
 
 export default class AgentPool {
 	/**
@@ -12,18 +13,49 @@ export default class AgentPool {
 	 */
 	constructor({ resourceBrokerClient }) {
 		this._resourceBrokerClient = resourceBrokerClient;
+		/** @type {Agent[]} */
+		this._pool = [];
 	}
 
-	async getOrCreateAgent({ proxyPoolId, accountPoolId }) {
-		
+	async getOrCreateAgent({ queue: queueName }) {
+		const resourceList = config.get('resources-for-queue')[queueName] || [];
+
+		let agent, index = this.findIndex(resourceList);
+		if (~index) {
+			agent = this._pool[index];
+			this._pool.splice(index, 1);
+			return agent;
+		}
+
+		const [proxyPoolId, accountPoolId] = resourceList;
+		agent = await this.createAgent({ proxyPoolId, accountPoolId });
+
+		return agent;
+	}
+
+	returnAgent(agent) {
+		this._pool.push(agent);
+	}
+
+	findIndex(resourceList) {
+		return this._pool.findIndex(agent =>
+			agent.resources.every(resource => resourceList.includes(resource)),
+		);
 	}
 
 	async createAgent({ proxyPoolId, accountPoolId }) {
-		const proxy = await this._resourceBrokerClient.getResource(proxyPoolId);
-		const account = await this._resourceBrokerClient.getResource(accountPoolId);
+		const proxy = proxyPoolId && (await this._resourceBrokerClient.getResource(proxyPoolId));
+		const account =
+			accountPoolId && (await this._resourceBrokerClient.getResource(accountPoolId));
 
-		// @ts-ignore
-		const agent = new Agent({ proxy, account });
+		const agent = new Agent({
+			// @ts-ignore
+			proxy,
+			// @ts-ignore
+			account,
+			puppeteerOptions: { ...config.get('puppeteer') },
+			resources: [proxy && proxyPoolId, account && accountPoolId].filter(v => v),
+		});
 
 		await agent.init();
 		await agent.restoreSession();

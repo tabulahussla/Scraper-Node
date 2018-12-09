@@ -13,9 +13,12 @@ export default class Agent {
 	 * @param {Proxy} options.proxy
 	 * @param {Account} options.account
 	 * @param {puppeteer.LaunchOptions} options.puppeteerOptions
+	 * @param {string[]} options.resources
 	 * @memberof Agent
 	 */
-	constructor({ proxy, account, puppeteerOptions }) {
+	constructor({ proxy, account, puppeteerOptions, resources }) {
+		this.resources = [...resources];
+
 		this._proxy = proxy;
 		this._account = account;
 
