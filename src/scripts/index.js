@@ -100,7 +100,7 @@ export async function register({
 	}
 
 	if (!(handler instanceof Function)) {
-		handler = new Function('return ' + handler);
+		handler = new Function('return ' + handler)();
 	}
 	const mapKey = key(site, section, mode.toString());
 

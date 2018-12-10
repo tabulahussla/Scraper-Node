@@ -2,9 +2,7 @@ import cluster from 'cluster';
 import config from 'config';
 import path from 'path';
 import os from 'os';
-import { inactivityTimeout, bootstrapWorker } from 'worker.index';
-
-clearTimeout(inactivityTimeout);
+import bootstrapWorker from 'bootstrap/worker';
 
 export default async function setupCluster() {
 	const { maxWorkers, entryPointForWorker, enabled } = config.get('cluster');

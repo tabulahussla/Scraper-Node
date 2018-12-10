@@ -62,15 +62,15 @@ export default async function httpHandler(job) {
 		}
 
 		for (let { handler } of preHandlers) {
-			handler && (await handler()({ resources, proxyAgent, payload, log, require }));
+			handler && (await handler({ resources, proxyAgent, payload, log, require }));
 		}
 
 		let { handler } = scripts.get(payload.site, payload.section, scripts.RegisterMode.default);
 
-		const result = await handler()({ resources, proxyAgent, payload, log, require });
+		const result = await handler({ resources, proxyAgent, payload, log, require });
 
 		for ({ handler } of postHandlers) {
-			handler && (await handler()({ resources, proxyAgent, payload, log, require, result }));
+			handler && (await handler({ resources, proxyAgent, payload, log, require, result }));
 		}
 	
 		return result;

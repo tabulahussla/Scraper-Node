@@ -20,15 +20,15 @@ export default async function agentHandler(job) {
 
 	try {
 		for (let { handler } of preHandlers) {
-			handler && (await handler()({ agent, payload, log, require }));
+			handler && (await handler({ agent, payload, log, require }));
 		}
 
 		let { handler } = scripts.get(payload.site, payload.section, scripts.RegisterMode.default);
 
-		const result = await handler()({ agent, payload, log, require });
+		const result = await handler({ agent, payload, log, require });
 
 		for ({ handler } of postHandlers) {
-			handler && (await handler()({ agent, payload, log, require, result }));
+			handler && (await handler({ agent, payload, log, require, result }));
 		}
 
 		return result;

@@ -13,7 +13,7 @@
 	"scripts": {
 		"lint": "eslint --fix src/. test/. --config .eslintrc.json",
 		"test": "NODE_ENV=test mocha --bail --exit --recursive --timeout 10000 -r @babel/register -r @babel/polyfill",
-		"cov": "nyc mocha --bail --exit --recursive -r @babel/register -r @babel/polyfill",
+		"cov": "NODE_ENV=test nyc mocha --bail --exit --recursive -r @babel/register -r @babel/polyfill",
 		"tdd": "yarn run test -w --reporter min",
 		"dev": "nodemon bin/nodemon --exec babel-node",
 		"pm2": "pm2 start process.yml --env production",

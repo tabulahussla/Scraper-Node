@@ -30,8 +30,6 @@ async function testGlobalPostHandler({ payload, result, require, log }) {
 }
 
 /**
- *
- *
  * @param {Object} options
  * @param {Agent} options.agent
  * @param {any} options.payload
