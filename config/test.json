@@ -5,6 +5,18 @@
 		"url": "mongodb://localhost:27017/scraping",
 		"options": {}
 	},
+	"service": {
+		"host": "127.0.0.1",
+		"port": 51226,
+		"tlsOptions": {
+			"sessionTimeout": 15000,
+			"rejectUnauthorized": true,
+			"requestCert": true,
+			"ca": "./ROOT.crt",
+			"key": "./SERVER.key",
+			"cert": "./SERVER.crt"
+		}
+	},
 	"redis": {},
 	"make-folders": ["storage/profiles"],
 	"profileDir": "storage/profiles",
