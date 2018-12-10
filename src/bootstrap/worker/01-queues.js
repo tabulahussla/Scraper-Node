@@ -1,7 +1,6 @@
 import Queue from 'bee-queue';
 import workers from 'scraping';
 import log from 'common/log';
-import { workerId } from './index';
 import redisClient from 'database/redis';
 import queueRegistry from 'queues/registry';
 
