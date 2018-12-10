@@ -17,7 +17,11 @@
 			"cert": "./SERVER.crt"
 		}
 	},
-	"redis": {},
+	"redis": {
+		"host": "127.0.0.1",
+		"port": 6379,
+		"db": 0
+	},
 	"make-folders": ["storage/profiles"],
 	"profileDir": "storage/profiles",
 	"resource-broker": {
