@@ -2,10 +2,12 @@ import puppeteer from 'puppeteer';
 import path from 'path';
 import config from 'config';
 import log from 'common/log';
+import { ObjectId } from 'bson';
+import { EventEmitter } from 'events';
 
 const { defaultLanguages, defaultNavigationTimeout } = config.get('agent');
 
-export default class Agent {
+export default class Agent extends EventEmitter {
 	/**
 	 * Creates an instance of Agent.
 	 *
@@ -13,10 +15,12 @@ export default class Agent {
 	 * @param {Proxy} options.proxy
 	 * @param {Account} options.account
 	 * @param {puppeteer.LaunchOptions} options.puppeteerOptions
-	 * @param {string[]} options.resources
+	 * @param {Resource[]} options.resources
 	 * @memberof Agent
 	 */
 	constructor({ proxy, account, puppeteerOptions, resources }) {
+		super();
+
 		this.resources = [...resources];
 
 		this._proxy = proxy;
@@ -29,6 +33,13 @@ export default class Agent {
 		this._languages = defaultLanguages;
 		this._extraHTTPHeaders = {};
 		this._evaluateOnNewDocument = [];
+
+		// @ts-ignore
+		this.id = new ObjectId().toString('binary');
+		/** @type {puppeteer.Page} */
+		this.page = null;
+		/** @type {puppeteer.Browser} */
+		this.browser = null;
 	}
 
 	async init() {
@@ -78,6 +89,7 @@ export default class Agent {
 	}
 
 	async destroy() {
+		this.emit('destroy');
 		if (this.browser) {
 			await this.browser.close();
 			this.page = this.browser = void 0;

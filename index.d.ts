@@ -7,6 +7,7 @@ declare interface WorkerInitOptions {
 
 declare interface Resource {
 	_id: any;
+	poolId?: string
 	type: string;
 }
 
@@ -30,4 +31,5 @@ declare interface SetupQueueOptions {
 	resources: string[];
 	workerType: string;
 	concurrency: number;
+	settings: any;
 }

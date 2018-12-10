@@ -2,6 +2,7 @@ import Queue from 'bee-queue';
 import workers from 'scraping';
 import log from 'common/log';
 import { workerId } from './index';
+import redisClient from 'database/redis';
 
 /**
  * @export
@@ -19,17 +20,24 @@ export default async function setupQueues(options) {
  * @param {SetupQueueOptions} options
  */
 export function setupQueue(name, options) {
-	const queue = new Queue(name);
+	options.settings = options.settings || {};
+	const redis = options.settings.redis || redisClient;
+	const queue = new Queue(name, { ...options.settings, redis });
 
 	if (!(options.workerType in workers)) {
 		throw new Error(`invalid worker type: "${options.workerType}`);
 	}
 
-	const handler = workers[options.workerType]({
-		resourcesToLoad: options.resources,
-	});
+	const handler = workers[options.workerType];
 
-	queue.process(options.concurrency, handler);
+	queue.process(options.concurrency, async job => {
+		try {
+			return await handler(job);
+		} catch (err) {
+			log.fatal({ err });
+			throw err;
+		}
+	});
 
 	log.info(
 		'processing %s jobs with %d concurrency on worker %d',
