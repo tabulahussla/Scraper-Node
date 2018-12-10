@@ -4,7 +4,6 @@ import Agent from '../agent.class';
 import config from 'config';
 import { findPool } from 'resources/pools';
 import AgentPoolTimeouts from './agent-pool-timeouts.class';
-// @ts-ignore
 import log from 'common/log';
 
 const queueConfig = config.get('queues');
@@ -62,12 +61,16 @@ export default class AgentPool {
 		agent = await this.createAgent({ proxyPoolId, accountPoolId });
 
 		agent.once('destroy', async () => {
-			for (const resource of agent.resources) {
-				try {
-					await this._resourceBrokerClient.returnResource(resource, resource.poolId);
-				} catch (err) {
-					log.fatal({ err });
+			try {
+				for (const resource of agent.resources) {
+					try {
+						await this._resourceBrokerClient.returnResource(resource, resource.poolId);
+					} catch (err) {
+						log.fatal({ err });
+					}
 				}
+			} catch (err) {
+				log.fatal({ err });
 			}
 		});
 
