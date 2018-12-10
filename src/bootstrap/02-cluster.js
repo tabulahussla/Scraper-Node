@@ -48,13 +48,17 @@ export async function setupWorker(workerNumber, amountOfWorkers) {
 	for (const queue in queueConfig) {
 		const queueOptions = (queues[queue] = { ...queueConfig[queue] });
 
-		const concurrencyPerWorker = Math.round(queueOptions.concurrency / amountOfWorkers);
+		const concurrencyPerWorker = Math.floor(queueOptions.concurrency / amountOfWorkers);
 		const additionalConcurrency =
 			queueOptions.concurrency - concurrencyPerWorker * amountOfWorkers;
 
 		queueOptions.concurrency = concurrencyPerWorker;
 		if (workerNumber + 1 === amountOfWorkers) {
 			queueOptions.concurrency += additionalConcurrency;
+		}
+
+		if (queueOptions.concurrency <= 0) {
+			delete queues[queue];
 		}
 	}
 
