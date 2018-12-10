@@ -1,18 +1,33 @@
 import 'mocha';
 import assert from 'assert';
 import Queue from 'bee-queue';
-import { register } from 'scripts';
+import { register, RegisterMode } from 'scripts';
 // eslint-disable-next-line no-unused-vars
 import Agent from 'agency/agent.class';
 // eslint-disable-next-line no-unused-vars
 import http from 'http';
-// @ts-ignore
-import rp from 'request-promise-native';
 import resourceBrokerClient from 'resources/broker';
 import bootstrapPipeline from 'bootstrap';
 import { ObjectId } from 'bson';
 
 const testId = '5c0dac05b4da54983769b022';
+
+// @ts-ignore
+async function testAuthorizeAgent({ agent, log }) {
+	log.debug('run testAuthorizeAgent');
+	agent.isAuthorized = true;
+}
+
+async function testGlobalPreHandler({ payload, log }) {
+	log.debug('run testGlobalPreHandler');
+	payload._testGlobalPreHandler = true;
+}
+
+async function testGlobalPostHandler({ payload, result, require, log }) {
+	log.debug('run testGlobalPostHandler');
+	require('assert').ok(result && result.parameter);
+	payload._testGlobalPostHandler = true;
+}
 
 /**
  *
@@ -21,9 +36,15 @@ const testId = '5c0dac05b4da54983769b022';
  * @param {Agent} options.agent
  * @param {any} options.payload
  * @param {any} [options.log]
+ * @param {any} [options.require]
  */
-// @ts-ignore
-async function testAgentScraping({ agent, payload }) {
+async function testAgentScraping({ agent, payload, require }) {
+	// @ts-ignore
+	require('assert').ok(agent.isAuthorized);
+	require('assert').ok(payload._testGlobalPreHandler);
+	// @ts-ignore
+	agent.isAuthorized = false;
+
 	await agent.page.goto('https://example.com');
 
 	const title = await agent.page.title();
@@ -45,6 +66,7 @@ async function testAgentScraping({ agent, payload }) {
  */
 async function testHttpScraping({ proxyAgent, payload, require }) {
 	require('assert').ok(proxyAgent);
+	require('assert').ok(payload._testGlobalPreHandler);
 
 	const body = await require('request-promise-native')({
 		url: 'https://example.com',
@@ -63,8 +85,35 @@ describe('Scraping', () => {
 	before(async () => {
 		await bootstrapPipeline();
 
-		register('test.com', 'front-page', testAgentScraping, []);
-		register('test.com', 'http-page', testHttpScraping, ['assert']);
+		register({
+			site: 'test.com',
+			handler: testGlobalPreHandler,
+			mode: RegisterMode.pre,
+		});
+		register({
+			site: 'test.com',
+			handler: testGlobalPostHandler,
+			mode: RegisterMode.post,
+		});
+		register({
+			site: 'test.com',
+			section: 'front-page',
+			handler: testAuthorizeAgent,
+			mode: RegisterMode.pre,
+		});
+		register({
+			site: 'test.com',
+			section: 'front-page',
+			handler: testAgentScraping,
+			mode: RegisterMode.default,
+		});
+		register({
+			site: 'test.com',
+			section: 'http-page',
+			handler: testHttpScraping,
+			externalDependencies: ['assert'],
+			mode: RegisterMode.default,
+		});
 
 		await resourceBrokerClient.returnResource(
 			{

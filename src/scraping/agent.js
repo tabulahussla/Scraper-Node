@@ -8,14 +8,34 @@ export default async function agentHandler(job) {
 
 	let agent = await agentPool.getOrCreateAgent({ queue: job.queue.name });
 
-	try {
-		const { handler } = scripts.get(payload.site, payload.section);
+	const preHandlers = [
+		scripts.get(payload.site, '', scripts.RegisterMode.pre),
+		scripts.get(payload.site, payload.section, scripts.RegisterMode.pre),
+	].filter(v => v);
 
-		return await handler()({ agent, payload, log, require });
+	const postHandlers = [
+		scripts.get(payload.site, '', scripts.RegisterMode.post),
+		scripts.get(payload.site, payload.section, scripts.RegisterMode.post),
+	].filter(v => v);
+
+	try {
+		for (let { handler } of preHandlers) {
+			handler && (await handler()({ agent, payload, log, require }));
+		}
+
+		let { handler } = scripts.get(payload.site, payload.section, scripts.RegisterMode.default);
+
+		const result = await handler()({ agent, payload, log, require });
+
+		for ({ handler } of postHandlers) {
+			handler && (await handler()({ agent, payload, log, require, result }));
+		}
+
+		return result;
 	} catch (e) {
 		if (validateException(e)) {
 			try {
-				agent && await agent.destroy();
+				agent && (await agent.destroy());
 			} catch (err) {
 				log.fatal({ err });
 			}

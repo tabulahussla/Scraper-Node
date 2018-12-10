@@ -44,6 +44,16 @@ export default async function httpHandler(job) {
 		}
 	}
 
+	const preHandlers = [
+		scripts.get(payload.site, '', scripts.RegisterMode.pre),
+		scripts.get(payload.site, payload.section, scripts.RegisterMode.pre),
+	].filter(v => v);
+
+	const postHandlers = [
+		scripts.get(payload.site, '', scripts.RegisterMode.post),
+		scripts.get(payload.site, payload.section, scripts.RegisterMode.post),
+	].filter(v => v);
+
 	try {
 		for (const required of requiredResources) {
 			if (!resources.find(resource => resource.type === required)) {
@@ -51,9 +61,19 @@ export default async function httpHandler(job) {
 			}
 		}
 
-		const { handler } = scripts.get(payload.site, payload.section);
+		for (let { handler } of preHandlers) {
+			handler && (await handler()({ resources, proxyAgent, payload, log, require }));
+		}
 
-		return await handler()({ resources, proxyAgent, payload, log, require });
+		let { handler } = scripts.get(payload.site, payload.section, scripts.RegisterMode.default);
+
+		const result = await handler()({ resources, proxyAgent, payload, log, require });
+
+		for ({ handler } of postHandlers) {
+			handler && (await handler()({ resources, proxyAgent, payload, log, require, result }));
+		}
+	
+		return result;
 	} catch (e) {
 		throw e;
 	} finally {

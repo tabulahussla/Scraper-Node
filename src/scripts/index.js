@@ -5,6 +5,12 @@ import log from 'common/log';
 
 // TODO: support cluster mode
 
+export const RegisterMode = {
+	default: 'default',
+	pre: 'pre',
+	post: 'post',
+};
+
 export const filePath = path.resolve('storage/scripts.json');
 
 export const separator = '|';
@@ -40,7 +46,15 @@ export async function read() {
 
 		map.clear();
 		for (let [scriptKey, { handler, externalDependencies }] of scriptMap) {
-			await register(...unkey(scriptKey), handler, externalDependencies, false);
+			const [site, section, mode] = unkey(scriptKey);
+			await register({
+				site,
+				section,
+				mode,
+				handler,
+				externalDependencies,
+				write: false,
+			});
 		}
 	} catch (err) {
 		if (err.type === 'SyntaxError') {
@@ -60,7 +74,25 @@ export async function _write() {
 	await writeFile(filePath, contents);
 }
 
-export async function register(site, section, handler, externalDependencies, write = true) {
+/**
+ * @export
+ * @param {Object} options
+ * @param {string} options.site
+ * @param {string} [options.section='']
+ * @param {Function|string} options.handler
+ * @param {Symbol|string} [options.mode=RegisterMode.default]
+ * @param {string[]} [options.externalDependencies=[]]
+ * @param {boolean} [options.write=true]
+ * @returns
+ */
+export async function register({
+	site,
+	section = '',
+	handler,
+	mode = RegisterMode.default,
+	externalDependencies = [],
+	write = true,
+}) {
 	for (const module of externalDependencies) {
 		if (!require(module)) {
 			throw new Error('scraper node is missing external dependency: ' + module);
@@ -70,8 +102,9 @@ export async function register(site, section, handler, externalDependencies, wri
 	if (!(handler instanceof Function)) {
 		handler = new Function('return ' + handler);
 	}
+	const mapKey = key(site, section, mode.toString());
 
-	map.set(key(site, section), { handler, externalDependencies });
+	map.set(mapKey, { handler, externalDependencies });
 	write && (await _write());
 
 	return handler;
@@ -81,6 +114,6 @@ export async function register(site, section, handler, externalDependencies, wri
  * @export
  * @returns {{ handler:Function,externalDependencies:number }}
  */
-export function get(site, section) {
-	return map.get(key(site, section));
+export function get(site, section, mode) {
+	return map.get(key(site, section, mode));
 }
