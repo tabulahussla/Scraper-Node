@@ -19,6 +19,10 @@ export default class QueueRegistry {
 
 		this._queueConfig[queue.name].registered = true;
 		this._queueConfig[queue.name].concurrency += options.concurrency;
+		this._queueConfig[queue.name].settings = {
+			...queue.settings,
+			redis: getRedisConfig(queue.settings.redis),
+		};
 
 		log.info(
 			'register "%s" queue with %d concurrency on worker %d',
@@ -37,4 +41,8 @@ export default class QueueRegistry {
 	getAvailableQueues() {
 		return this._queueConfig;
 	}
+}
+
+export function getRedisConfig(redisClient) {
+	return redisClient.options || redisClient;
 }
