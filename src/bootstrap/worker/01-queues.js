@@ -3,6 +3,7 @@ import workers from 'scraping';
 import log from 'common/log';
 import { workerId } from './index';
 import redisClient from 'database/redis';
+import queueRegistry from 'queues/registry';
 
 /**
  * @export
@@ -39,10 +40,5 @@ export function setupQueue(name, options) {
 		}
 	});
 
-	log.info(
-		'processing %s jobs with %d concurrency on worker %d',
-		name,
-		options.concurrency,
-		workerId,
-	);
+	queueRegistry.register(queue, options);
 }
