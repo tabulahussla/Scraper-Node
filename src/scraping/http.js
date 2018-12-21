@@ -29,7 +29,7 @@ export default async function httpHandler(job) {
 	for (const resource of requiredResources) {
 		const poolId = findPool(resource, allowedPools);
 
-		const resolved = await resourceBrokerClient.getResource(poolId);
+		const resolved = await resourceBrokerClient.retrieve(poolId);
 
 		if (!resolved) {
 			continue;
@@ -72,14 +72,18 @@ export default async function httpHandler(job) {
 		for ({ handler } of postHandlers) {
 			handler && (await handler({ resources, proxyAgent, payload, log, require, result }));
 		}
-	
+
 		return result;
 	} catch (e) {
 		throw e;
 	} finally {
 		for (const resource of resources) {
-			// @ts-ignore
-			await resourceBrokerClient.returnResource(resource, resource.poolId);
+			try {
+				await resourceBrokerClient.release(resource, resource.poolId);
+			} catch (err) {
+				log.error('failed to release resource %o', resource);
+				log.error({ err });
+			}
 		}
 	}
 }

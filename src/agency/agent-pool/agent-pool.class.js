@@ -60,20 +60,6 @@ export default class AgentPool {
 
 		agent = await this.createAgent({ proxyPoolId, accountPoolId });
 
-		agent.once('destroy', async () => {
-			try {
-				for (const resource of agent.resources) {
-					try {
-						await this._resourceBrokerClient.returnResource(resource, resource.poolId);
-					} catch (err) {
-						log.fatal({ err });
-					}
-				}
-			} catch (err) {
-				log.fatal({ err });
-			}
-		});
-
 		this._timeouts.warnIfNotReturned(agent);
 		return agent;
 	}
@@ -97,9 +83,9 @@ export default class AgentPool {
 	}
 
 	async createAgent({ proxyPoolId, accountPoolId }) {
-		const proxy = proxyPoolId && (await this._resourceBrokerClient.getResource(proxyPoolId));
+		const proxy = proxyPoolId && (await this._resourceBrokerClient.retrieve(proxyPoolId));
 		const account =
-			accountPoolId && (await this._resourceBrokerClient.getResource(accountPoolId));
+			accountPoolId && (await this._resourceBrokerClient.retrieve(accountPoolId));
 
 		if (proxy) {
 			// @ts-ignore
@@ -119,7 +105,36 @@ export default class AgentPool {
 			resources: [proxy, account].filter(v => v),
 		});
 
-		await agent.init();
+		agent.once('destroy', async () => {
+			try {
+				for (const resource of agent.resources) {
+					try {
+						await this._resourceBrokerClient.release(resource, resource.poolId);
+					} catch (err) {
+						log.fatal('failed to release resource %o', resource);
+						log.fatal({ err });
+					}
+				}
+			} catch (err) {
+				log.fatal('failed to release resources');
+				log.fatal({ err });
+			}
+		});
+
+		try {
+			await agent.init();
+		} catch (error1) {
+			log.fatal('failed to initialize agent');
+			log.fatal({ err: error1 });
+			try {
+				await agent.destroy();
+			} catch (error2) {
+				log.fatal('failed to destroy agent after unsuccessful init');
+				log.fatal({ err: error2 });
+			}
+
+			throw error1;
+		}
 
 		return agent;
 	}

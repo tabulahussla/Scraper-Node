@@ -113,10 +113,9 @@ describe('Scraping', () => {
 			mode: RegisterMode.default,
 		});
 
-		await resourceBrokerClient.returnResource(
+		await resourceBrokerClient.release(
 			{
 				type: 'proxy',
-				// @ts-ignore
 				host: '127.0.0.1',
 				port: 1234,
 				protocol: 'http',
@@ -124,10 +123,9 @@ describe('Scraping', () => {
 			},
 			'test proxies',
 		);
-		await resourceBrokerClient.returnResource(
+		await resourceBrokerClient.release(
 			{
 				type: 'account',
-				// @ts-ignore
 				email: 'le',
 				password: 'test',
 				_id: new ObjectId(testId),
@@ -177,7 +175,6 @@ describe('Scraping', () => {
 
 		const job = httpQueue.createJob(payload);
 
-		// @ts-ignore
 		job.on('succeeded', result => {
 			try {
 				// @ts-ignore
