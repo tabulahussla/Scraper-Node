@@ -26,6 +26,7 @@
 		"bluebird": "^3.5.3",
 		"clone": "^2.1.2",
 		"config": "^2.0.1",
+		"discovery-client": "ssh://git@gitlab.com:index_php/scraping/discovery/node.js-client.git",
 		"fs-extra": "^7.0.0",
 		"ioredis": "^4.3.0",
 		"mongodb": "^3.1.8",
@@ -35,8 +36,7 @@
 		"redis": "^2.8.0",
 		"request": "^2.88.0",
 		"request-promise-native": "^1.0.5",
-		"resource-broker-client": "ssh://git@gitlab.com:index_php/scraping/resource-broker-client.git",
-		"service-discovery": "ssh://git@gitlab.com:index_php/scraping/Gate/service-discovery.git"
+		"resource-broker-client": "ssh://git@gitlab.com:index_php/scraping/resource-broker-client.git"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0-beta.55",

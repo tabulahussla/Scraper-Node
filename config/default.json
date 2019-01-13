@@ -38,6 +38,16 @@
 			"cert": "../resource-broker/SERVER.crt"
 		}
 	},
+	"discovery": {
+		"nodeId": "anonymous-scraper",
+		"client": {
+			"type": "ws",
+			"host": "5.189.189.195",
+			"port": 30019,
+			"token": "",
+			"namespace": "default"
+		}
+	},
 	"make-folders": ["storage/profiles"],
 	"profileDir": "storage/profiles",
 	"cluster": {
@@ -81,9 +91,5 @@
 		"destroyOnNetworkError": true,
 		"destroyAfterTimeout": 300000,
 		"warnIfNotReturnedTimeout": 800000
-	},
-	"service-discovery": {
-		"id": "default",
-		"host": "127.0.0.1"
 	}
 }

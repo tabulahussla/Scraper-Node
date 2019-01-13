@@ -1,0 +1,11 @@
+{
+	"discovery": {
+		"nodeId": "dev-scraper",
+		"client": {
+			"type": "ws",
+			"host": "localhost",
+			"port": 3000,
+			"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoibm9kZS5qcy1jbGllbnQiLCJub2RlSWQiOiJkZWZhdWx0IiwiZXhwIjo0NzAzMDU4MjEwLCJpYXQiOjE1NDcyOTgyMTB9.C5eBGQZgvcO2rvYY5GpHLU68FdI1VlrL8539EaDkPwiiX0yn5DEt1JpJwdINh4jD"
+		}
+	}
+}
