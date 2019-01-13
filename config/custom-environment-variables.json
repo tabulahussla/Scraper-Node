@@ -1,0 +1,9 @@
+{
+	"discovery": {
+		"nodeId": "DISCOVERY_NODE_ID",
+		"client": {
+			"token": "DISCOVERY_TOKEN",
+			"namespace": "DISCOVERY_NS"
+		}
+	}
+}
