@@ -1,0 +1,79 @@
+stages:
+    - test
+    - build
+    - deploy
+
+variables:
+    CI_REGISTRY_IMAGE: registry.gitlab.com/index_php/scraping/scraper/node.js:$CI_COMMIT_SHA
+    CI_PROJECT_NAME: scraper
+
+test:
+    image: node:8-alpine
+    stage: test
+    # services: # TODO: 
+    script:
+        - apk add --no-cache make gcc g++ python
+        - yarn install
+        - yarn test-ci
+    only:
+        changes:
+            - src/**/*
+            - test/**/*
+            - config/**/*
+            - package.json
+
+build:
+    image: docker:stable
+    stage: build
+    services:
+        - docker:dind
+    script:
+        - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+        - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+        - docker push "$CI_REGISTRY_IMAGE"
+    only:
+        refs:
+            - master
+        changes:
+            - src/**/*
+            - test/**/*
+            - config/**/*
+            - package.json
+            - Dockerfile
+            - .dockerignore
+            - rollup.config.js
+            - obfuscate.config.json
+            - .babelrc
+            - kubernetes.tpl.yml
+
+deploy:
+    stage: deploy
+    image: alpine
+    environment:
+        name: develop
+    script:
+        - apk add --no-cache curl
+        - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+        - chmod +x ./kubectl
+        - mv ./kubectl /usr/local/bin/kubectl
+        - kubectl config set-cluster kubernetes --server="$KUBE_URL" --insecure-skip-tls-verify=true
+        - kubectl config set-credentials kubernetes-admin --token="$KUBE_TOKEN"
+        - kubectl config set-context default --cluster=kubernetes --user=kubernetes-admin
+        - kubectl config use-context default
+        - 'printf "apiVersion: v1\nkind: Secret\n$(kubectl create secret docker-registry gitlab-registry --docker-server=$DOCKER_SERVER --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL -o yaml --dry-run)" | kubectl apply -f -'
+        - sed 's/_APP_NAME_/'"$CI_PROJECT_NAME"'/g; s/_VERSION_/'"$CI_COMMIT_SHA"'/g; s/_JWT_SECRET_/'"$JWT_SECRET"'/g; s/_ETCD_HOSTS_/'"$ETCD_PROD_HOSTS"'/g; s/_ETCD_PASSWORD_/'"$ETCD_PROD_PASSWORD"'/g; s/_ETCD_USERNAME_/'"$ETCD_PROD_USERNAME"'/g' kubernetes.tpl.yml > kubernetes.yml;
+        - kubectl apply -f kubernetes.yml
+    only:
+        refs:
+            - master
+        changes:
+            - src/**/*
+            - test/**/*
+            - config/**/*
+            - package.json
+            - Dockerfile
+            - .dockerignore
+            - rollup.config.js
+            - obfuscate.config.json
+            - .babelrc
+            - kubernetes.tpl.yml
