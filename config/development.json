@@ -1,4 +1,25 @@
 {
+	"resource-broker": {
+		"pools": {
+			"proxy": ["dev_proxies"],
+			"account": ["dev_accounts"]
+		},
+		"token": ""
+	},
+	"queues": {
+		"dev-agent": {
+			"pools": ["dev_proxies", "dev_accounts"],
+			"resources": ["proxy", "account"],
+			"workerType": "agent",
+			"concurrency": 25
+		},
+		"dev-http": {
+			"pools": ["dev_proxies", "dev_accounts"],
+			"resources": ["proxy", "account"],
+			"workerType": "http",
+			"concurrency": 25
+		}
+	},
 	"discovery": {
 		"nodeId": "dev-scraper",
 		"client": {

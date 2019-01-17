@@ -22,13 +22,15 @@
 		"obfuscate": "javascript-obfuscator dist/bundle.min.js -o dist/bundle.min.js --config obfuscate.config.json"
 	},
 	"dependencies": {
+		"@metarhia/jstp": "^2.2.0",
 		"bee-queue": "^1.2.2",
 		"bluebird": "^3.5.3",
 		"clone": "^2.1.2",
 		"config": "^2.0.1",
-		"discovery-client": "ssh://git@gitlab.com:index_php/scraping/discovery/node.js-client.git",
+		"discovery-client": "ssh://git@gitlab.com:openseen/discovery/node.js-client.git",
 		"fs-extra": "^7.0.0",
 		"ioredis": "^4.3.0",
+		"jwt-simple": "^0.5.5",
 		"mongodb": "^3.1.8",
 		"pino": "^4.17.6",
 		"proxy-agent": "^3.0.3",
@@ -36,7 +38,7 @@
 		"redis": "^2.8.0",
 		"request": "^2.88.0",
 		"request-promise-native": "^1.0.5",
-		"resource-broker-client": "ssh://git@gitlab.com:index_php/scraping/resource-broker-client.git"
+		"resource-broker-client": "ssh://git@gitlab.com:openseen/asidc/scraping-system/resource-broker/node.js-client.git"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0-beta.55",

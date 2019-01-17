@@ -29,6 +29,7 @@ declare interface Proxy extends Resource {
 
 declare interface SetupQueueOptions {
 	resources: string[];
+	pools: string[];
 	workerType: string;
 	concurrency: number;
 	settings: any;

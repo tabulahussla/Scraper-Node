@@ -1,9 +1,31 @@
 {
+	"jwt": {
+		"secret": "JWT_SECRET"
+	},
+	"api": {
+		"type": "SVC_TYPE",
+		"tls": {
+			"cert": "TLS_CERT_PATH",
+			"key": "TLS_KEY_PATH"
+		},
+		"host": "SVC_HOST",
+		"port": "SVC_PORT"
+	},
+	"resource-broker": {
+		"token": "RESOURCE_BROKER_TOKEN"
+	},
 	"discovery": {
 		"nodeId": "DISCOVERY_NODE_ID",
+		"payload": {
+			"host": "DISCOVERY_EXT_HOST",
+			"port": "DISCOVERY_EXT_PORT"
+		},
 		"client": {
+			"type": "DISCOVERY_API_TYPE",
+			"host": "DISCOVERY_API_HOST",
+			"port": "DISCOVERY_API_PORT",
 			"token": "DISCOVERY_TOKEN",
-			"namespace": "DISCOVERY_NS"
+			"namespace": "DISCOVERY_NAMESPACE"
 		}
 	}
 }

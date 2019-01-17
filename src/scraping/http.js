@@ -1,21 +1,16 @@
-import config from 'config';
-// @ts-ignore
 import { findPool } from 'resources/pools';
-// @ts-ignore
 import resourceBrokerClient from 'resources/broker';
-import * as scripts from 'scripts';
-// @ts-ignore
+import * as plugins from 'plugins';
 import ProxyAgent from 'proxy-agent';
 import stringifyProxy from 'common/stringify-proxy';
 import log from 'common/log';
-
-const queueConfig = config.get('queues');
+import registry from 'queues/registry';
 
 export default async function httpHandler(job) {
 	const payload = parsePayload(job.data);
-	const configForQueue = queueConfig[job.queue.name] || {};
-	const allowedPools = configForQueue.pools || [];
-	const requiredResources = configForQueue.resources || [];
+	const queueConfig = registry.getQueueConfig(job.queue);
+	const allowedPools = queueConfig.pools || [];
+	const requiredResources = queueConfig.resources || [];
 
 	if (requiredResources.length && !allowedPools.length) {
 		throw new Error(
@@ -35,7 +30,6 @@ export default async function httpHandler(job) {
 			continue;
 		}
 
-		// @ts-ignore
 		resolved.poolId = poolId;
 		resources.push(resolved);
 
@@ -44,34 +38,18 @@ export default async function httpHandler(job) {
 		}
 	}
 
-	const preHandlers = [
-		scripts.get(payload.site, '', scripts.RegisterMode.pre),
-		scripts.get(payload.site, payload.section, scripts.RegisterMode.pre),
-	].filter(v => v);
-
-	const postHandlers = [
-		scripts.get(payload.site, '', scripts.RegisterMode.post),
-		scripts.get(payload.site, payload.section, scripts.RegisterMode.post),
-	].filter(v => v);
-
 	try {
 		for (const required of requiredResources) {
 			if (!resources.find(resource => resource.type === required)) {
 				throw new Error('cannot resolve all resources');
 			}
 		}
-
-		for (let { handler } of preHandlers) {
-			handler && (await handler({ resources, proxyAgent, payload, log, require }));
+		const fetch = plugins.getScript(payload.site, payload.section, 'fetch');
+		const fetchOptions = { proxyAgent, payload };
+		for (const resource of resources) {
+			fetchOptions[resource.type] = resource;
 		}
-
-		let { handler } = scripts.get(payload.site, payload.section, scripts.RegisterMode.default);
-
-		const result = await handler({ resources, proxyAgent, payload, log, require });
-
-		for ({ handler } of postHandlers) {
-			handler && (await handler({ resources, proxyAgent, payload, log, require, result }));
-		}
+		const result = await fetch(fetchOptions);
 
 		return result;
 	} catch (e) {

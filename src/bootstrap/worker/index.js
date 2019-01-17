@@ -5,9 +5,9 @@ let diff;
 
 import connectDatabases from './00-database';
 import setupQueues from './01-queues';
-import readStorage from './02-storage';
+import readStorage from './02-plugins';
 import log from 'common/log';
-import hrtimeToMsFixed from 'common/hrtime-to-ms';
+import hrtimeToMsFixed from 'bootstrap/common/hrtime-to-ms';
 
 export const workerId = cluster.worker ? cluster.worker.id : 0;
 

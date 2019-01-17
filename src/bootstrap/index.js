@@ -5,9 +5,9 @@ import makeFolders from './00-make-folders';
 import connectDatabases from './01-database';
 import setupCluster from './02-cluster';
 import setupAPIServer from './03-api';
-import setupServiceDiscovery from './04-service-discovery';
+import setupServiceDiscovery from './04-discovery';
 import log from 'common/log';
-import hrtimeToMsFixed from 'common/hrtime-to-ms';
+import hrtimeToMsFixed from 'bootstrap/common/hrtime-to-ms';
 
 export default async function bootstrapPipeline() {
 	const beginningTime = startTime;

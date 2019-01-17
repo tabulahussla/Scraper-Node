@@ -5,6 +5,7 @@ import clone from 'clone';
 export default class QueueRegistry {
 	constructor(queueConfig) {
 		this._queueConfig = clone(queueConfig);
+		this._queues = {};
 
 		for (let key in this._queueConfig) {
 			this._queueConfig[key].desiredConcurrency = this._queueConfig[key].concurrency;
@@ -17,6 +18,7 @@ export default class QueueRegistry {
 			this._queueConfig[queue.name] = {};
 		}
 
+		this._queues[queue.name] = queue;
 		this._queueConfig[queue.name].registered = true;
 		this._queueConfig[queue.name].concurrency += options.concurrency;
 		this._queueConfig[queue.name].settings = {
@@ -38,8 +40,18 @@ export default class QueueRegistry {
 		return config.registered || false;
 	}
 
-	getAvailableQueues() {
-		return this._queueConfig;
+	/**
+	 * @param {*} name
+	 * @returns {import('bee-queue')}
+	 * @memberof QueueRegistry
+	 */
+	getQueue(name) {
+		return this._queues[name];
+	}
+
+	getQueueConfig(nameOrQueue) {
+		const name = (nameOrQueue && nameOrQueue.name) || nameOrQueue;
+		return name ? this._queueConfig[name] : this._queueConfig;
 	}
 }
 
