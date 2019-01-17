@@ -5,7 +5,7 @@ let diff;
 
 import connectDatabases from './00-database';
 import setupQueues from './01-queues';
-import readStorage from './02-plugins';
+import setupPlugins from './02-plugins';
 import log from 'common/log';
 import hrtimeToMsFixed from 'bootstrap/common/hrtime-to-ms';
 
@@ -25,7 +25,7 @@ export default async function bootstrapWorker(options) {
 		await bootStep(connectDatabases, [], 'connect_databases');
 	}
 	await bootStep(setupQueues, [options.queues], 'setup_queues');
-	await bootStep(readStorage, [], 'read_storage');
+	await bootStep(setupPlugins, [], 'setup_plugins');
 
 	diff = process.hrtime(beginningTime);
 	log.info('bootstrap finish for worker #%d in %d ms', workerId, hrtimeToMsFixed(diff));

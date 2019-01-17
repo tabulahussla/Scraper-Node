@@ -48,10 +48,10 @@ export async function authentication({ agent, site }) {
 	}
 
 	const verify = plugins.getScript(site, 'authentication', 'verify');
-	const authorize = plugins.getScript(site, 'authentication', 'verify');
+	const authorize = plugins.getScript(site, 'authentication', 'authorize');
 
 	if (!verify || !authorize) {
-		log.trace('SKIP AUTHENTICATION FOR %s: no auth script', site);
+		log.trace('SKIP AUTHENTICATION FOR %s: no script', site);
 		return;
 	}
 
@@ -65,6 +65,11 @@ export async function authentication({ agent, site }) {
 
 export async function validation({ agent, site, allowedPools }) {
 	const validate = plugins.getScript(site, 'validate');
+	if (!validate) {
+		log.trace('SKIP VALIDATION FOR %s: no script', site);
+		return;
+	}
+
 	const { account, proxy } = await validate({ agent });
 
 	if (!account && !proxy) {
