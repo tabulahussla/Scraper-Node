@@ -50,26 +50,26 @@
 		"entryPointForWorker": "src/worker.index.js"
 	},
 	"queues": {
-		"appannie-web": {
-			"pools": ["appannie proxies", "appannie accounts"],
+		"appannie.com": {
+			"pools": ["appannie-proxies", "appannie-accounts"],
 			"resources": ["proxy", "account"],
 			"workerType": "agent",
 			"concurrency": 25
 		},
-		"appannie-http": {
-			"pools": ["appannie proxies", "appannie accounts"],
+		"api.appannie.com": {
+			"pools": ["appannie-proxies", "appannie-accounts"],
 			"resources": ["proxy", "account"],
 			"workerType": "http",
 			"concurrency": 25
 		},
-		"google-play": {
-			"pools": ["google play"],
+		"play.google.com": {
+			"pools": ["google-play-proxies"],
 			"resources": ["proxy"],
 			"workerType": "http",
 			"concurrency": 25
 		},
-		"app-store": {
-			"pools": ["app store"],
+		"itunes.apple.com": {
+			"pools": ["app-store-proxies"],
 			"resources": ["proxy"],
 			"workerType": "http",
 			"concurrency": 25

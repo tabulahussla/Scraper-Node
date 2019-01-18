@@ -39,7 +39,7 @@ export default async function httpHandler(job) {
 		}
 		await authentication({ proxyAgent, site: payload.site, ...resourcesByType });
 
-		const fetch = plugins.getScript(payload.site, payload.section, 'fetch');
+		const fetch = plugins.getHandler(payload.site, payload.section, 'fetch');
 		const result = await fetch({ proxyAgent, payload, ...resourcesByType });
 
 		return result;
@@ -85,8 +85,8 @@ export async function authentication({ proxyAgent, site, ...resources }) {
 		return;
 	}
 
-	const verify = plugins.getScript(site, 'authentication', 'verify');
-	const authorize = plugins.getScript(site, 'authentication', 'authorize');
+	const verify = plugins.getHandler(site, 'authentication', 'verify');
+	const authorize = plugins.getHandler(site, 'authentication', 'authorize');
 
 	if (!verify || !authorize) {
 		log.trace('SKIP AUTHENTICATION FOR %s: no auth script', site);
@@ -102,7 +102,7 @@ export async function authentication({ proxyAgent, site, ...resources }) {
 }
 
 export async function validation({ proxyAgent, site, allowedPools, ...resources }) {
-	const validate = plugins.getScript(site, 'validate');
+	const validate = plugins.getHandler(site, 'validate');
 	if (!validate) {
 		return;
 	}

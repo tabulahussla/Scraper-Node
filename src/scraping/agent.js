@@ -17,7 +17,7 @@ export default async function agentHandler(job) {
 	try {
 		await authentication({ agent, site: payload.site });
 
-		const fetch = plugins.getScript(payload.site, payload.section, 'fetch');
+		const fetch = plugins.getHandler(payload.site, payload.section, 'fetch');
 		const result = await fetch({ agent, payload });
 
 		return result;
@@ -47,8 +47,8 @@ export async function authentication({ agent, site }) {
 		return;
 	}
 
-	const verify = plugins.getScript(site, 'authentication', 'verify');
-	const authorize = plugins.getScript(site, 'authentication', 'authorize');
+	const verify = plugins.getHandler(site, 'authentication', 'verify');
+	const authorize = plugins.getHandler(site, 'authentication', 'authorize');
 
 	if (!verify || !authorize) {
 		log.trace('SKIP AUTHENTICATION FOR %s: no script', site);
@@ -64,7 +64,7 @@ export async function authentication({ agent, site }) {
 }
 
 export async function validation({ agent, site, allowedPools }) {
-	const validate = plugins.getScript(site, 'validate');
+	const validate = plugins.getHandler(site, 'validate');
 	if (!validate) {
 		log.trace('SKIP VALIDATION FOR %s: no script', site);
 		return;

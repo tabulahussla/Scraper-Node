@@ -1,0 +1,34 @@
+export const map = new Map();
+export const plugins = new Set();
+
+export function getHandler(...args) {
+	return map.get(_key(...args));
+}
+
+export function load(name) {
+	const plugin = require(name);
+	const { sites, modules } = plugin;
+	plugins.add(plugin);
+
+	for (const site of sites) {
+		for (const section in modules[site]) {
+			if (modules[site][section] instanceof Function) {
+				map.set(_key(site, section), modules[site][section]);
+			} else {
+				for (const script in modules[site][section]) {
+					map.set(_key(site, section, script), modules[site][section][script]);
+				}
+			}
+		}
+	}
+}
+
+export const SEP = '/';
+
+export function _key(...args) {
+	return args.join(SEP);
+}
+
+export function _unkey(key) {
+	return key.split(SEP);
+}

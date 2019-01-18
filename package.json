@@ -22,7 +22,7 @@
 		"obfuscate": "javascript-obfuscator dist/bundle.min.js -o dist/bundle.min.js --config obfuscate.config.json"
 	},
 	"dependencies": {
-		"@metarhia/jstp": "^2.2.0",
+		"@metarhia/jstp": "youritech/jstp",
 		"bee-queue": "^1.2.2",
 		"bluebird": "^3.5.3",
 		"clone": "^2.1.2",

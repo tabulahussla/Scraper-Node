@@ -39,5 +39,5 @@ export function setupQueue(name, options) {
 		}
 	});
 
-	queueRegistry.register(queue);
+	queueRegistry.register(queue, options);
 }

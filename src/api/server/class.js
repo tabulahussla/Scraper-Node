@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import authPolicy from './jwt-auth-policy';
 import isEmptyObject from '../common/is-empty-object';
 
-export const ApplicationName = 'discovery';
+export const ApplicationName = 'scraping-system';
 export const SecureServerType = ['wss', 'tls'];
 export const ValidOptions = 'false (to disable tls), { key: string|Buffer, cert: string|Buffer }';
 
