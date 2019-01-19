@@ -3,7 +3,11 @@ export default function stringifyProxy(
 	{ includeProtocol = true, includeAuth = false } = {},
 ) {
 	const protocolString = includeProtocol && `${resource.protocol}://`;
-	const authString = includeAuth && `${resource.username}:${resource.password}@`;
+	let authString = '';
+
+	if (includeAuth && resource.username && resource.password) {
+		authString = `${resource.username}:${resource.password}@`;
+	}
 
 	return `${protocolString}${authString}${resource.host}:${resource.port}`;
 }

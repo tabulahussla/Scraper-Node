@@ -83,9 +83,9 @@ export default class AgentPool {
 	}
 
 	async createAgent({ proxyPoolId, accountPoolId }) {
-		const proxy = proxyPoolId && (await this._resourceBrokerClient.retrieve(proxyPoolId));
+		const proxy = proxyPoolId && (await this._resourceBrokerClient().retrieve(proxyPoolId));
 		const account =
-			accountPoolId && (await this._resourceBrokerClient.retrieve(accountPoolId));
+			accountPoolId && (await this._resourceBrokerClient().retrieve(accountPoolId));
 
 		if (proxy) {
 			// @ts-ignore
@@ -106,10 +106,12 @@ export default class AgentPool {
 		});
 
 		agent.once('destroy', async () => {
+			log.debug('AGENT DESTROYED!', agent.id);
+
 			try {
 				for (const resource of agent.resources) {
 					try {
-						await this._resourceBrokerClient.release(resource, resource.poolId);
+						await this._resourceBrokerClient().release(resource, resource.poolId);
 					} catch (err) {
 						log.fatal('failed to release resource %o', resource);
 						log.fatal({ err });

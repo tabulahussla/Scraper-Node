@@ -113,7 +113,7 @@ describe('Scraping', () => {
 			mode: RegisterMode.default,
 		});
 
-		await resourceBrokerClient.release(
+		await resourceBrokerClient().release(
 			{
 				type: 'proxy',
 				host: '127.0.0.1',
@@ -123,7 +123,7 @@ describe('Scraping', () => {
 			},
 			'test proxies',
 		);
-		await resourceBrokerClient.release(
+		await resourceBrokerClient().release(
 			{
 				type: 'account',
 				email: 'le',

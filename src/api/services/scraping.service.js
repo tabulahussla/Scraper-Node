@@ -19,7 +19,7 @@ export default {
 		},
 	) {
 		const queue = registry.getQueue(queueName);
-		if (queue) {
+		if (!queue) {
 			throw new Error(`no such queue "${queueName}"`);
 		}
 

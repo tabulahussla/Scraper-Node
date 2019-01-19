@@ -22,9 +22,6 @@
 		"options": {}
 	},
 	"resource-broker": {
-		"type": "ws",
-		"host": "",
-		"port": 31252,
 		"pools": {
 			"proxy": [],
 			"account": []

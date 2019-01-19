@@ -1,4 +1,5 @@
-import createClient from 'resource-broker-client';
-import config from 'config';
+import { getClients } from 'discovery/resource-broker';
 
-export default createClient(config.get('resource-broker'));
+export default function getResourceBroker() {
+	return getClients()[0];
+}

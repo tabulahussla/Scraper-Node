@@ -43,6 +43,11 @@ export default async function httpHandler(job) {
 		await authentication({ proxyAgent, site, ...resourcesByType });
 
 		const fetch = plugins.getHandler(site, section, 'fetch');
+
+		if (!fetch) {
+			throw new Error(`Invalid site/section: "${site}/${section}". No fetch script`);
+		}
+
 		const result = await fetch({ proxyAgent, request, ...resourcesByType });
 
 		return result;
@@ -52,7 +57,7 @@ export default async function httpHandler(job) {
 	} finally {
 		for (const resource of resolvedResources) {
 			try {
-				await resourceBrokerClient.release(resource, resource.poolId);
+				await resourceBrokerClient().release(resource, resource.poolId);
 			} catch (err) {
 				log.error('failed to release resource %o', resource);
 				log.error({ err });
@@ -70,7 +75,7 @@ export async function resolveResources({
 	for (const resource of required) {
 		const poolId = findPool(resource, allowedPools);
 
-		const resolved = await resourceBrokerClient.retrieve(poolId);
+		const resolved = await resourceBrokerClient().retrieve(poolId);
 
 		if (!resolved) {
 			throw new Error(`Cannot retreive "${resource}" resource from pool "${poolId}"`);
@@ -119,7 +124,7 @@ export async function validation({ proxyAgent, site, allowedPools, ...resources 
 
 	for (const bannedResource of [account, proxy]) {
 		const poolId = findPool(bannedResource.type, allowedPools);
-		await resourceBrokerClient.ban(bannedResource, poolId);
+		await resourceBrokerClient().ban(bannedResource, poolId);
 	}
 }
 

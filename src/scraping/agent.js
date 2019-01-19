@@ -19,6 +19,11 @@ export default async function agentHandler(job) {
 		await authentication({ agent, site });
 
 		const fetch = plugins.getHandler(site, section, 'fetch');
+
+		if (!fetch) {
+			throw new Error(`Invalid site/section: "${site}/${section}". No fetch script`);
+		}
+
 		const result = await fetch({ agent, request });
 
 		return result;
@@ -76,7 +81,7 @@ export async function validation({ agent, site, allowedPools }) {
 
 	for (const bannedResource of [account, proxy]) {
 		const poolId = findPool(bannedResource.type, allowedPools);
-		await resourceBrokerClient.ban(bannedResource, poolId);
+		await resourceBrokerClient().ban(bannedResource, poolId);
 	}
 }
 

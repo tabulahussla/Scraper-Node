@@ -1,8 +1,5 @@
 {
 	"resource-broker": {
-		"type": "ws",
-		"host": "localhost",
-		"port": 31252,
 		"pools": {
 			"proxy": ["dev_proxies"],
 			"account": ["dev_accounts"]

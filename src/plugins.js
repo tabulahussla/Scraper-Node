@@ -1,4 +1,5 @@
 import path from 'path';
+import log from 'common/log';
 
 export const map = new Map();
 export const plugins = new Set();
@@ -12,6 +13,8 @@ export function load(name) {
 
 	const { sites, modules } = plugin;
 	plugins.add(plugin);
+
+	log.debug('LOAD PLUGIN %s: sites - %o', name, sites);
 
 	for (const site of sites) {
 		for (const section in modules[site]) {
