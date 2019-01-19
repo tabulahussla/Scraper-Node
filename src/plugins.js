@@ -1,3 +1,5 @@
+import path from 'path';
+
 export const map = new Map();
 export const plugins = new Set();
 
@@ -7,6 +9,7 @@ export function getHandler(...args) {
 
 export function load(name) {
 	const plugin = require(name);
+
 	const { sites, modules } = plugin;
 	plugins.add(plugin);
 

@@ -7,7 +7,7 @@ export default {
 		connection,
 		{
 			queue: queueName,
-			payload,
+			contract,
 			jobOptions: {
 				retries = 10,
 				delayUntil = void 0,
@@ -16,7 +16,6 @@ export default {
 				backoffStrategy = void 0,
 				backoffDelayFactor = void 0,
 			} = {},
-			waitForJob: doWaitForJob = false,
 		},
 	) {
 		const queue = registry.getQueue(queueName);
@@ -24,7 +23,7 @@ export default {
 			throw new Error(`no such queue "${queueName}"`);
 		}
 
-		const job = queue.createJob(payload);
+		const job = queue.createJob(contract);
 
 		if (retries > 0) {
 			job.retries(retries);
@@ -46,15 +45,11 @@ export default {
 			job.backoff(backoffStrategy, backoffDelayFactor);
 		}
 
+		const resultPromise = waitForJob(job);
+
 		await job.save();
 
-		if (!doWaitForJob) {
-			return { jobId: job.id, queue: queue.name };
-		}
-
-		const result = await waitForJob(job);
-
-		return result;
+		return resultPromise;
 	},
 	getQueueConfig(connection, name = void 0) {
 		return registry.getQueueConfig(name);

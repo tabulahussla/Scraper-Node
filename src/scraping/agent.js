@@ -8,6 +8,7 @@ import registry from 'queues/registry';
 
 export default async function agentHandler(job) {
 	const payload = parsePayload(job.data);
+	const { site, section, request } = payload;
 
 	const queueConfig = registry.getQueueConfig(job.queue);
 	const allowedPools = queueConfig.pools || [];
@@ -15,17 +16,14 @@ export default async function agentHandler(job) {
 	let agent = await agentPool.getOrCreateAgent({ queue: job.queue.name });
 
 	try {
-		await authentication({ agent, site: payload.site });
+		await authentication({ agent, site });
 
-		const fetch = plugins.getHandler(payload.site, payload.section, 'fetch');
-		const result = await fetch({ agent, payload });
+		const fetch = plugins.getHandler(site, section, 'fetch');
+		const result = await fetch({ agent, request });
 
 		return result;
 	} catch (e) {
-		if (
-			isAgentBrokenException(e) ||
-			!(await validation({ agent, site: payload.site, allowedPools }))
-		) {
+		if (isAgentBrokenException(e) || !(await validation({ agent, site, allowedPools }))) {
 			try {
 				agent && (await agent.destroy());
 			} catch (err) {

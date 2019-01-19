@@ -11,6 +11,9 @@ export const accountResource = 'account';
 
 export default async function httpHandler(job) {
 	const payload = parsePayload(job.data);
+
+	const { site, section, request } = payload;
+
 	const queueConfig = registry.getQueueConfig(job.queue);
 	const allowedPools = queueConfig.pools || [];
 	const requiredResources = queueConfig.resources || [];
@@ -37,14 +40,14 @@ export default async function httpHandler(job) {
 				stringifyProxy(resourcesByType[proxyResource], { includeAuth: true }),
 			);
 		}
-		await authentication({ proxyAgent, site: payload.site, ...resourcesByType });
+		await authentication({ proxyAgent, site, ...resourcesByType });
 
-		const fetch = plugins.getHandler(payload.site, payload.section, 'fetch');
-		const result = await fetch({ proxyAgent, payload, ...resourcesByType });
+		const fetch = plugins.getHandler(site, section, 'fetch');
+		const result = await fetch({ proxyAgent, request, ...resourcesByType });
 
 		return result;
 	} catch (e) {
-		await validation({ proxyAgent, site: payload.site, allowedPools, ...resourcesByType });
+		await validation({ proxyAgent, site, allowedPools, ...resourcesByType });
 		throw e;
 	} finally {
 		for (const resource of resolvedResources) {
@@ -94,6 +97,7 @@ export async function authentication({ proxyAgent, site, ...resources }) {
 	}
 
 	if (!(await verify({ proxyAgent, ...resources }))) {
+		// TODO: SAVE CHANGES TO MODIFIED RESOURCES MAYBE?
 		await authorize({ proxyAgent, ...resources });
 		if (!(await verify({ proxyAgent, ...resources }))) {
 			throw new Error('authentication failed');

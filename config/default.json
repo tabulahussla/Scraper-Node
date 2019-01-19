@@ -22,9 +22,12 @@
 		"options": {}
 	},
 	"resource-broker": {
+		"type": "ws",
+		"host": "",
+		"port": 31252,
 		"pools": {
-			"proxy": ["appannie proxies", "google play", "app store"],
-			"account": ["appannie accounts"]
+			"proxy": [],
+			"account": []
 		},
 		"token": ""
 	},
@@ -42,6 +45,7 @@
 			"namespace": "default"
 		}
 	},
+	"userAgent": "AAppC34JTB1NDTWD:290",
 	"make-folders": ["storage/profiles"],
 	"profileDir": "storage/profiles",
 	"cluster": {
@@ -86,5 +90,5 @@
 		"destroyAfterTimeout": 300000,
 		"warnIfNotReturnedTimeout": 800000
 	},
-	"plugins": ["google-play-scraping"]
+	"plugins": ["google-play-plugin", "app-store-plugin", "app-annie-plugin"]
 }
