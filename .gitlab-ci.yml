@@ -61,7 +61,7 @@ deploy:
         - kubectl config set-credentials kubernetes-admin --token="$KUBE_TOKEN"
         - kubectl config set-context default --cluster=kubernetes --user=kubernetes-admin
         - kubectl config use-context default
-        - 'printf "apiVersion: v1\nkind: Secret\n$(kubectl create secret docker-registry gitlab-registry --docker-server=$DOCKER_SERVER --docker-username=$REGISTRY_USER --docker-password=$REGISTRY_PASSWORD --docker-email=$REGISTRY_EMAIL -o yaml --dry-run)" | kubectl apply -f -'
+        - 'printf "apiVersion: v1\nkind: Secret\n$(kubectl create secret docker-registry gitlab-registry --docker-server=$REGISTRY_URL --docker-username=$REGISTRY_USER --docker-password=$REGISTRY_PASSWORD --docker-email=$REGISTRY_EMAIL -o yaml --dry-run)" | kubectl apply -f -'
         - sed 's/_APP_NAME_/'"$CI_PROJECT_NAME"'/g; s/_REGISTRY_IMAGE_/'${CI_REGISTRY_IMAGE//\//\\\/}'/g; s/_JWT_SECRET_/'"$JWT_SECRET"'/g; s/_DISCOVERY_HOST_/'"$DISCOVERY_HOST"'/g; s/_DISCOVERY_PORT_/'"$DISCOVERY_PORT"'/g; s/_DISCOVERY_TOKEN_/'"$DISCOVERY_TOKEN"'/g; s/_RESOURCE_BROKER_TOKEN_/'"$RESOURCE_BROKER_TOKEN"'/g' kubernetes.tpl.yml > kubernetes.yml;
         - kubectl apply -f kubernetes.yml
     only:
