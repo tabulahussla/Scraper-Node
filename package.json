@@ -11,7 +11,7 @@
 		"node": ">= 8.2.0"
 	},
 	"scripts": {
-		"start": "node dist/bundle.min.js",
+		"start": "NODE_ENV=production node dist/bundle.min.js",
 		"validate-token": "babel-node bin/token/validate",
 		"generate-token": "babel-node bin/token/generate",
 		"lint": "eslint --fix src/. test/. --config .eslintrc.json",

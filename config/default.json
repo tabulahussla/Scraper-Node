@@ -50,32 +50,7 @@
 		"maxWorkers": 4,
 		"entryPointForWorker": "src/worker.index.js"
 	},
-	"queues": {
-		"appannie.com": {
-			"pools": ["appannie-proxies", "appannie-accounts"],
-			"resources": ["proxy", "account"],
-			"workerType": "agent",
-			"concurrency": 25
-		},
-		"api.appannie.com": {
-			"pools": ["appannie-proxies", "appannie-accounts"],
-			"resources": ["proxy", "account"],
-			"workerType": "http",
-			"concurrency": 25
-		},
-		"play.google.com": {
-			"pools": ["google-play-proxies"],
-			"resources": ["proxy"],
-			"workerType": "http",
-			"concurrency": 25
-		},
-		"itunes.apple.com": {
-			"pools": ["app-store-proxies"],
-			"resources": ["proxy"],
-			"workerType": "http",
-			"concurrency": 25
-		}
-	},
+	"queues": {},
 	"puppeteer": {
 		"headless": true,
 		"timeout": 120000
@@ -87,5 +62,5 @@
 		"destroyAfterTimeout": 300000,
 		"warnIfNotReturnedTimeout": 800000
 	},
-	"plugins": ["@xxorg/google-play-plugin", "@xxorg/app-store-plugin", "@xxorg/app-annie-plugin"]
+	"plugins": []
 }

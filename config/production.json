@@ -1,4 +1,5 @@
 {
+	"node-id": false,
 	"resource-broker": {
 		"pools": {
 			"proxy": ["appannie proxies", "google play", "app store"],
@@ -6,29 +7,34 @@
 		}
 	},
 	"queues": {
-		"appannie-web": {
-			"pools": ["appannie proxies", "appannie accounts"],
+		"appannie.com": {
+			"pools": ["appannie_proxies", "appannie_accounts"],
 			"resources": ["proxy", "account"],
 			"workerType": "agent",
 			"concurrency": 25
 		},
-		"appannie-http": {
-			"pools": ["appannie proxies", "appannie accounts"],
+		"api.appannie.com": {
+			"pools": ["appannie_proxies", "appannie_accounts"],
 			"resources": ["proxy", "account"],
 			"workerType": "http",
 			"concurrency": 25
 		},
-		"google-play": {
-			"pools": ["google play"],
+		"play.google.com": {
+			"pools": ["google_play_proxies"],
 			"resources": ["proxy"],
 			"workerType": "http",
 			"concurrency": 25
 		},
-		"app-store": {
-			"pools": ["app store"],
+		"itunes.apple.com": {
+			"pools": ["app_store_proxies"],
 			"resources": ["proxy"],
 			"workerType": "http",
 			"concurrency": 25
 		}
-	}
+	},
+	"plugins": [
+		"@xxorg/google-play-plugin",
+		"@xxorg/app-store-plugin",
+		"@xxorg/app-annie-plugin"
+	]
 }
