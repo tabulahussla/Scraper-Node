@@ -1,6 +1,6 @@
 {
 	"project-name": "SCRAPER-NODE",
-	"log-level": "trace",
+	"log-level": "debug",
 	"node-id": "anonymous-scraper",
 	"mongodb": {
 		"url": "mongodb://localhost:27017/scraping",
