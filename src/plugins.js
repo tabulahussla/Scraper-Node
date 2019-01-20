@@ -1,4 +1,3 @@
-import path from 'path';
 import log from 'common/log';
 
 export const map = new Map();

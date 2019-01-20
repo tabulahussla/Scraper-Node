@@ -87,5 +87,5 @@
 		"destroyAfterTimeout": 300000,
 		"warnIfNotReturnedTimeout": 800000
 	},
-	"plugins": ["google-play-plugin", "app-store-plugin", "app-annie-plugin"]
+	"plugins": ["@xxorg/google-play-plugin", "@xxorg/app-store-plugin", "@xxorg/app-annie-plugin"]
 }

@@ -5,7 +5,7 @@ import makeFolders from './00-make-folders';
 import connectDatabases from './01-database';
 import setupCluster from './02-cluster';
 import setupAPIServer from './03-api';
-import setupServiceDiscovery from './04-discovery';
+import setupDiscovery from './04-discovery';
 import log from 'common/log';
 import hrtimeToMsFixed from 'bootstrap/common/hrtime-to-ms';
 
@@ -19,7 +19,7 @@ export default async function bootstrapPipeline() {
 	await bootStep(connectDatabases, 'connect_databases');
 	await bootStep(setupCluster, 'setup_cluster');
 	await bootStep(setupAPIServer, 'setup_api');
-	await bootStep(setupServiceDiscovery, 'setup_service_discovery');
+	await bootStep(setupDiscovery, 'setup_service_discovery');
 
 	diff = process.hrtime(beginningTime);
 	log.info('bootstrap finish in %d ms', hrtimeToMsFixed(diff));

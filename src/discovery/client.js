@@ -1,4 +1,4 @@
-import discoveryClient from 'discovery-client';
+import discoveryClient from '@xxorg/discovery-client';
 
 export let client;
 export function init(options) {

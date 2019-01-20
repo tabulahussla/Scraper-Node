@@ -1,5 +1,5 @@
 {
-	"name": "scraper-node",
+	"name": "@xxorg/scraper-node",
 	"version": "1.0.0",
 	"description": "Node.js scraping system",
 	"main": "src/index.js",
@@ -11,6 +11,7 @@
 		"node": ">= 8.2.0"
 	},
 	"scripts": {
+		"start": "yarn bundle; node dist/bundle.min.js",
 		"validate-token": "babel-node bin/token/validate",
 		"generate-token": "babel-node bin/token/generate",
 		"lint": "eslint --fix src/. test/. --config .eslintrc.json",
@@ -19,33 +20,30 @@
 		"tdd": "yarn run test -w --reporter min",
 		"dev": "nodemon bin/nodemon --exec babel-node",
 		"pm2": "pm2 start process.yml --env production",
-		"build": "BABEL_ENV=production rollup -c && yarn uglify && yarn obfuscate",
+		"bundle": "BABEL_ENV=production rollup -c && yarn uglify && yarn obfuscate",
 		"uglify": "uglifyjs dist/bundle.min.js -o dist/bundle.min.js --compress --mangle toplevel",
 		"obfuscate": "javascript-obfuscator dist/bundle.min.js -o dist/bundle.min.js --config obfuscate.config.json"
 	},
 	"dependencies": {
 		"@metarhia/jstp": "youritech/jstp",
-		"app-annie-plugin": "ssh://git@gitlab.com:openseen/asidc/plugins/app-annie.git",
-		"app-store-plugin": "ssh://git@gitlab.com:openseen/asidc/plugins/app-store.git",
+		"@xxorg/database-client": "^0.0.2",
+		"@xxorg/discovery-client": "^1.0.0",
+		"@xxorg/harvesting-plugin": "^1.0.1",
+		"@xxorg/resource-broker-client": "^1.0.0",
 		"bee-queue": "^1.2.2",
 		"bluebird": "^3.5.3",
 		"clone": "^2.1.2",
 		"config": "^2.0.1",
-		"discovery-client": "ssh://git@gitlab.com:openseen/discovery/node.js-client.git",
 		"fs-extra": "^7.0.0",
-		"google-play-plugin": "ssh://git@gitlab.com:openseen/asidc/plugins/google-play.git",
-		"harvesting-plugin": "ssh://git@gitlab.com:openseen/asidc/harvesting-plugin.git",
 		"ioredis": "^4.3.0",
 		"jwt-simple": "^0.5.5",
 		"mongodb": "^3.1.8",
 		"pino": "^4.17.6",
 		"proxy-agent": "^3.0.3",
 		"puppeteer": "^1.11.0",
-		"realtime-database": "ssh://git@gitlab.com:openseen/asidc/database/node.js-client.git",
 		"redis": "^2.8.0",
 		"request": "^2.88.0",
-		"request-promise-native": "^1.0.5",
-		"resource-broker-client": "ssh://git@gitlab.com:openseen/asidc/scraping-system/resource-broker/node.js-client.git"
+		"request-promise-native": "^1.0.5"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0-beta.55",
@@ -77,6 +75,7 @@
 		"rollup": "^0.67.4",
 		"rollup-plugin-babel": "^4.0.3",
 		"rollup-plugin-commonjs": "^9.2.0",
+		"rollup-plugin-json": "^3.1.0",
 		"rollup-plugin-node-resolve": "^3.4.0",
 		"uglify-es": "^3.3.9"
 	}

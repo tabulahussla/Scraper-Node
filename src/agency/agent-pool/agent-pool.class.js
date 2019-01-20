@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { ResourceBrokerClient } from 'resource-broker-client';
+import { ResourceBrokerClient } from '@xxorg/resource-broker-client';
 import Agent from '../agent.class';
 import config from 'config';
 import { findPool } from 'resources/pools';

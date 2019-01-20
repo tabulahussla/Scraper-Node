@@ -1,4 +1,4 @@
-import createClient from 'resource-broker-client';
+import createClient from '@xxorg/resource-broker-client';
 import { client as discoveryClient } from './client';
 import log from 'common/log';
 import config from 'config';

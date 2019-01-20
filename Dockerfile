@@ -5,6 +5,8 @@ RUN mkdir -p /usr/src/app \
     && adduser -D non_privileged_user \
     && chown -R non_privileged_user:non_privileged_user /usr/src/app
 
+RUN which ssh-agent || ( apk --update add openssh-client )
+
 USER non_privileged_user
 WORKDIR /usr/src/app
 
@@ -13,7 +15,6 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package.json ./
 COPY yarn.lock ./
-COPY id_rsa ./
 
 # Installs latest Chromium package.
 RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
@@ -26,15 +27,17 @@ RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repos
 
 RUN apk add --no-cache make gcc g++ python
 
-RUN eval "$(ssh-agent -s)"
-RUN ssh-add -K ./id_rsa
+RUN npm config set //npm.api.haus/:_authToken ${NPM_TOKEN}
 
 RUN yarn install
+
+RUN yarn add @xxorg/google-play-plugin @xxorg/app-store-plugin @xxorg/app-annie-plugin
 
 # Bundle app source
 COPY . .
 
 RUN yarn bundle
+RUN rm -rf src/
 
 EXPOSE 3000
 CMD [ "yarn", "start" ]
