@@ -26,7 +26,8 @@ RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repos
 
 RUN apk add --no-cache make gcc g++ python
 
-RUN git config --local core.sshCommand "ssh -i /usr/src/app/id_rsa"
+RUN eval "$(ssh-agent -s)"
+RUN ssh-add -K ./id_rsa
 
 RUN yarn install
 
