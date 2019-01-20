@@ -31,7 +31,6 @@
 	"discovery": {
 		"service": "scraping-system",
 		"payload": {
-			"host": "localhost",
 			"port": 32212
 		},
 		"client": {
