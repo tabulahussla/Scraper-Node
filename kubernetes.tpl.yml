@@ -33,6 +33,18 @@ spec:
                         value: "_DISCOVERY_PORT_"
                       - name: DISCOVERY_TOKEN
                         value: _DISCOVERY_TOKEN_
+                      - name: POD_NAME
+                        valueFrom:
+                            fieldRef:
+                            fieldPath: metadata.name
+                      - name: POD_NAMESPACE
+                        valueFrom:
+                            fieldRef:
+                            fieldPath: metadata.namespace
+                      - name: POD_IP
+                        valueFrom:
+                            fieldRef:
+                            fieldPath: status.podIP
             imagePullSecrets:
                 - name: gitlab-registry
 ---

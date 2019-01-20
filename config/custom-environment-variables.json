@@ -12,6 +12,7 @@
 	},
 	"discovery": {
 		"payload": {
+			"host": "POD_IP",
 			"port": "EXT_PORT"
 		},
 		"client": {
