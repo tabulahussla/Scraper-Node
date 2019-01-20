@@ -21,7 +21,7 @@
 		}
 	},
 	"api": {
-		"port": 62111,
+		"port": 32212,
 		"type": "ws",
 		"tls": false
 	},
@@ -29,7 +29,7 @@
 		"nodeId": "dev-scraper",
 		"payload": {
 			"host": "localhost",
-			"port": 62111
+			"port": 32212
 		},
 		"client": {
 			"type": "ws",
