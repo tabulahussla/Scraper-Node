@@ -11,7 +11,7 @@
 		"node": ">= 8.2.0"
 	},
 	"scripts": {
-		"start": "yarn bundle; node dist/bundle.min.js",
+		"start": "node dist/bundle.min.js",
 		"validate-token": "babel-node bin/token/validate",
 		"generate-token": "babel-node bin/token/generate",
 		"lint": "eslint --fix src/. test/. --config .eslintrc.json",

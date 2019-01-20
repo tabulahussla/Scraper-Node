@@ -33,8 +33,6 @@ spec:
                         value: _DISCOVERY_API_HOST_
                       - name: DISCOVERY_API_PORT
                         value: _DISCOVERY_API_PORT_
-                      - name: DISCOVERY_EXT_HOST
-                        value: _DISCOVERY_EXT_HOST_
                       - name: DISCOVERY_EXT_PORT
                         value: _DISCOVERY_EXT_PORT_
                       - name: SVC_HOST
@@ -43,8 +41,6 @@ spec:
                         value: _SVC_PORT_
             imagePullSecrets:
                 - name: gitlab-registry
-            nodeSelector:
-                support_etcd: local
 ---
 apiVersion: v1
 kind: Service
