@@ -24,8 +24,11 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package.json ./
 COPY yarn.lock ./
+COPY .yarnrc ./
 
-RUN npm config set //npm.api.haus/:_authToken ${NPM_TOKEN}
+ARG npm_token
+ENV ENV_NPMT=$npm_token
+RUN npm config set //npm.api.haus/:_authToken ${ENV_NPMT}
 
 RUN yarn install
 

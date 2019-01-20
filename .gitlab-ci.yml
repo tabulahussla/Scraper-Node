@@ -14,7 +14,7 @@ test:
         - apk add --no-cache make gcc g++ python
         - npm config set //npm.api.haus/:_authToken ${NPM_TOKEN}
         - yarn install
-        - yarn test-ci
+        - yarn test
     only:
         changes:
             - src/**/*
@@ -29,7 +29,7 @@ build:
         - docker:dind
     script:
         - docker login --username=$REGISTRY_USER --password=$REGISTRY_PASSWORD $REGISTRY_URL
-        - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+        - docker build --build-arg npm_token=${NPM_TOKEN} --pull -t "$CI_REGISTRY_IMAGE" .
         - docker push "$CI_REGISTRY_IMAGE"
     only:
         refs:
