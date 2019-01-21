@@ -12,7 +12,7 @@
 		"db": 0
 	},
 	"api": {
-		"port": 32212,
+		"port": 7006,
 		"type": "ws",
 		"tls": false
 	},
@@ -31,7 +31,7 @@
 	"discovery": {
 		"service": "scraping-system",
 		"payload": {
-			"port": 32212
+			"port": 7006
 		},
 		"client": {
 			"type": "ws",

@@ -40,5 +40,5 @@ COPY . .
 RUN yarn bundle
 RUN rm -rf src/
 
-EXPOSE 32212
+EXPOSE 7006
 CMD [ "yarn", "start" ]

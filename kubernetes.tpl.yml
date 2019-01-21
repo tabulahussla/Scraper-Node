@@ -21,7 +21,7 @@ spec:
                   image: _REGISTRY_IMAGE_
                   imagePullPolicy: Always
                   ports:
-                      - containerPort: 32212
+                      - containerPort: 7006
                   env:
                       - name: JWT_SECRET
                         value: _JWT_SECRET_
@@ -57,9 +57,9 @@ metadata:
 spec:
     type: NodePort
     ports:
-        - port: 32212
-          targetPort: 32212
-          nodePort: 32212
+        - port: 7006
+          targetPort: 7006
+          nodePort: 27006
           protocol: TCP
           name: http
     selector:
