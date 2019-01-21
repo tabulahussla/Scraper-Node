@@ -59,7 +59,7 @@ spec:
     ports:
         - port: 7006
           targetPort: 7006
-          nodePort: 27006
+          nodePort: 31102
           protocol: TCP
           name: http
     selector:
