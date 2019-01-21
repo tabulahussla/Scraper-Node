@@ -29,7 +29,7 @@
 		"@xxorg/database-client": "^0.0.2",
 		"@xxorg/discovery-client": "^1.1.4",
 		"@xxorg/harvesting-plugin": "^1.0.1",
-		"@xxorg/resource-broker-client": "^1.0.0",
+		"@xxorg/resource-broker-client": "^1.0.1",
 		"bee-queue": "^1.2.2",
 		"bluebird": "^3.5.3",
 		"clone": "^2.1.2",

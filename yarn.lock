@@ -892,10 +892,10 @@
     require-directory "^2.1.1"
     uuid "^3.3.2"
 
-"@xxorg/resource-broker-client@^1.0.0":
-  version "1.0.0"
-  resolved "https://npm.api.haus/@xxorg%2fresource-broker-client/-/resource-broker-client-1.0.0.tgz#03e48630a15234da718f6a1f978f8e9f9a53e4f5"
-  integrity sha512-tVYZrDO3axTkCrRq82AnUtZfalU31A5Tp6fdF/QXUHsYc6n1oJqhrV0CTxjn3f6DRxPVHB9Df5+6Gz1TtkYMaw==
+"@xxorg/resource-broker-client@^1.0.1":
+  version "1.0.1"
+  resolved "https://npm.api.haus/@xxorg%2fresource-broker-client/-/resource-broker-client-1.0.1.tgz#754ed99c8b61a0036028609a93ac87ac289bce19"
+  integrity sha512-uYnbLcp20DoPTW746FUNsl837IMUH4H5Kt+4sF2ZRZF3nSe8r0r1jNfH22QBHQiYT+gOG/mrOdk01pl8aQd+AQ==
   dependencies:
     "@metarhia/jstp" "^2.2.0"
     bluebird "^3.5.3"
