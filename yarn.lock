@@ -864,10 +864,10 @@
     pino "^5.9.0"
     uuid "^3.3.2"
 
-"@xxorg/discovery-client@^1.1.0":
-  version "1.1.0"
-  resolved "https://npm.api.haus/@xxorg%2fdiscovery-client/-/discovery-client-1.1.0.tgz#e4c14c118d887db66dc6457546f790fefee8e852"
-  integrity sha512-tfIRYh5BVExdnhrNWZ2T5kTjihbwbLPuu91f+G3yHRT3FYhBGjDTgfpSZzVL+YW/hPq9PhoZHbO0KmcRWE05ig==
+"@xxorg/discovery-client@^1.1.4":
+  version "1.1.4"
+  resolved "https://npm.api.haus/@xxorg%2fdiscovery-client/-/discovery-client-1.1.4.tgz#bb10217d20a4dfd41b2879980cda77cf671f868d"
+  integrity sha512-fTDiAmG3fwLysXFNnqmm2oSWgQzBNqn/kBBYh7mLa9eY6xIDSXfZfWQH3jqCafvzyO0Nj1QmsTm2nx4rcPGPvg==
   dependencies:
     "@metarhia/jstp" "^2.2.0"
     bluebird "^3.5.3"
