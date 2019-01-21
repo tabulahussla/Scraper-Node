@@ -11,25 +11,25 @@
 			"pools": ["appannie_proxies", "appannie_accounts"],
 			"resources": ["proxy", "account"],
 			"workerType": "agent",
-			"concurrency": 25
+			"concurrency": 22
 		},
 		"api.appannie.com": {
 			"pools": ["appannie_proxies", "appannie_accounts"],
 			"resources": ["proxy", "account"],
 			"workerType": "http",
-			"concurrency": 25
+			"concurrency": 23
 		},
 		"play.google.com": {
 			"pools": ["google_play_proxies"],
 			"resources": ["proxy"],
 			"workerType": "http",
-			"concurrency": 25
+			"concurrency": 23
 		},
 		"itunes.apple.com": {
 			"pools": ["app_store_proxies"],
 			"resources": ["proxy"],
 			"workerType": "http",
-			"concurrency": 25
+			"concurrency": 23
 		}
 	},
 	"plugins": [
