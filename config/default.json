@@ -1,6 +1,6 @@
 {
 	"project-name": "SCRAPER-NODE",
-	"log-level": "debug",
+	"log-level": "trace",
 	"node-id": "anonymous-scraper",
 	"mongodb": {
 		"url": "mongodb://localhost:27017/scraping",
@@ -42,7 +42,7 @@
 		}
 	},
 	"userAgent": "AAppC34JTB1NDTWD:290",
-	"make-folders": ["storage/profiles"],
+	"make-folders": ["storage/profiles", "storage/dumps/html"],
 	"profileDir": "storage/profiles",
 	"cluster": {
 		"enabled": false,

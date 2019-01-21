@@ -37,5 +37,10 @@
 			"port": 3000,
 			"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImRlZmF1bHQiLCJleHAiOjE2MzQxNTA1NjUsImlhdCI6MTU0Nzc1MDU2NX0.8PVBMDg8fIHSSWHgz4-nq0mXw4d-RWbeLAF84x9i4PyiNxUYzxAiJaSNJ6CLPY_M"
 		}
-	}
+	},
+	"plugins": [
+		"@xxorg/google-play-plugin",
+		"@xxorg/app-store-plugin",
+		"@xxorg/app-annie-plugin"
+	]
 }

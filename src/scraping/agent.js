@@ -10,6 +10,8 @@ export default async function agentHandler(job) {
 	const payload = parsePayload(job.data);
 	const { site, section, request } = payload;
 
+	log.debug('SCRAPE AGENT', payload);
+
 	const queueConfig = registry.getQueueConfig(job.queue);
 	const allowedPools = queueConfig.pools || [];
 
@@ -22,6 +24,10 @@ export default async function agentHandler(job) {
 
 		if (!fetch) {
 			throw new Error(`Invalid site/section: "${site}/${section}". No fetch script`);
+		}
+
+		if (!(fetch instanceof Function)) {
+			log.error('Fetch is not a function:', fetch);
 		}
 
 		const result = await fetch({ agent, request });
@@ -43,19 +49,18 @@ export default async function agentHandler(job) {
 }
 
 export async function authentication({ agent, site }) {
-	const account = agent.account;
-
-	if (!account) {
-		log.trace('SKIP AUTHENTICATION FOR %s: agent has no account', site);
-		return;
-	}
-
 	const verify = plugins.getHandler(site, 'authentication', 'verify');
 	const authorize = plugins.getHandler(site, 'authentication', 'authorize');
 
 	if (!verify || !authorize) {
-		log.trace('SKIP AUTHENTICATION FOR %s: no script', site);
+		log.debug('SKIP AUTHENTICATION FOR %s: no script', site);
 		return;
+	}
+
+	const account = agent.account;
+
+	if (!account) {
+		throw new Error('Agent has no account');
 	}
 
 	if (!(await verify({ agent, account }))) {

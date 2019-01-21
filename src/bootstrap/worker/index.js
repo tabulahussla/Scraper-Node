@@ -4,8 +4,8 @@ let startTime = process.hrtime();
 let diff;
 
 import connectDatabases from './00-database';
-import setupQueues from './01-queues';
-import setupPlugins from './02-plugins';
+import setupPlugins from './01-plugins';
+import setupQueues from './02-queues';
 import log from 'common/log';
 import hrtimeToMsFixed from 'bootstrap/common/hrtime-to-ms';
 
@@ -24,8 +24,8 @@ export default async function bootstrapWorker(options) {
 	if (!cluster.isMaster) {
 		await bootStep(connectDatabases, [], 'connect_databases');
 	}
-	await bootStep(setupQueues, [options.queues], 'setup_queues');
 	await bootStep(setupPlugins, [], 'setup_plugins');
+	await bootStep(setupQueues, [options.queues], 'setup_queues');
 
 	diff = process.hrtime(beginningTime);
 	log.info('bootstrap finish for worker #%d in %d ms', workerId, hrtimeToMsFixed(diff));

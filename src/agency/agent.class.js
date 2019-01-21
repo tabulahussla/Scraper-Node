@@ -4,6 +4,7 @@ import config from 'config';
 import log from 'common/log';
 import { ObjectId } from 'bson';
 import { EventEmitter } from 'events';
+import { writeFile } from 'fs-extra';
 
 const { defaultLanguages, defaultNavigationTimeout } = config.get('agent');
 
@@ -40,6 +41,15 @@ export default class Agent extends EventEmitter {
 		this.page = null;
 		/** @type {puppeteer.Browser} */
 		this.browser = null;
+
+		process.once('SIGUSR2', () => this.destroy());
+	}
+
+	get proxy() {
+		return this._proxy;
+	}
+	get account() {
+		return this._account;
 	}
 
 	async init() {
@@ -89,10 +99,32 @@ export default class Agent extends EventEmitter {
 	}
 
 	async destroy() {
-		this.emit('destroy');
 		if (this.browser) {
 			await this.browser.close();
 			this.page = this.browser = void 0;
+		}
+		this.emit('destroy');
+	}
+
+	async dumpHtml(label) {
+		let html;
+		const filePath = path.resolve('storage/dumps/html', label + '.html');
+		try {
+			html = await this.page.evaluate(() => document.documentElement.outerHTML);
+		} catch (err) {
+			log.warn('failed to extract page source');
+			log.warn({ err });
+		}
+
+		if (!html) {
+			return;
+		}
+
+		try {
+			await writeFile(filePath, html);
+		} catch (err) {
+			log.warn('failed to write file');
+			log.warn({ err });
 		}
 	}
 

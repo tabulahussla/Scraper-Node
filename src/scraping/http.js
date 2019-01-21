@@ -48,6 +48,10 @@ export default async function httpHandler(job) {
 			throw new Error(`Invalid site/section: "${site}/${section}". No fetch script`);
 		}
 
+		if (!(fetch instanceof Function)) {
+			log.error('Fetch is not a function:', fetch);
+		}
+
 		const result = await fetch({ proxyAgent, request, ...resourcesByType });
 
 		return result;

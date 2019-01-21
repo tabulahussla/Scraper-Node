@@ -4,7 +4,11 @@ export const map = new Map();
 export const plugins = new Set();
 
 export function getHandler(...args) {
-	return map.get(_key(...args));
+	const module = map.get(_key(...args));
+	if (!module) {
+		return module;
+	}
+	return module.default || module;
 }
 
 export function load(name) {
