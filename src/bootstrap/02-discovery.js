@@ -5,7 +5,7 @@ import discoverResourceBroker from 'discovery/resource-broker';
 
 export default async function setup() {
 	await setupServiceDiscovery();
-	await discoverResourceBroker();
+	discoverResourceBroker();
 }
 
 export async function setupServiceDiscovery() {
