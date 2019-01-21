@@ -36,15 +36,15 @@ spec:
                       - name: POD_NAME
                         valueFrom:
                             fieldRef:
-                            fieldPath: metadata.name
+                                fieldPath: metadata.name
                       - name: POD_NAMESPACE
                         valueFrom:
                             fieldRef:
-                            fieldPath: metadata.namespace
+                                fieldPath: metadata.namespace
                       - name: POD_IP
                         valueFrom:
                             fieldRef:
-                            fieldPath: status.podIP
+                                fieldPath: status.podIP
             imagePullSecrets:
                 - name: gitlab-registry
 ---
