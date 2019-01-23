@@ -1,6 +1,7 @@
 let startTime = process.hrtime();
 let diff;
 
+import probe from './-1-probe';
 import makeFolders from './00-make-folders';
 import connectDatabases from './01-database';
 import setupDiscovery from './02-discovery';
@@ -18,6 +19,7 @@ export default async function bootstrapPipeline() {
 	diff = process.hrtime(startTime);
 	log.info('bootstrap() +%d ms', hrtimeToMsFixed(diff));
 
+	await bootStep(probe, 'probe_server');
 	await bootStep(makeFolders, 'create_directories');
 	await bootStep(connectDatabases, 'connect_databases');
 	await bootStep(setupDiscovery, 'setup_service_discovery');
