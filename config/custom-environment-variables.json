@@ -7,13 +7,16 @@
 		"port": "API_PORT",
 		"type": "API_TYPE"
 	},
+	"probe": {
+		"port": "PROBE_PORT"
+	},
 	"resource-broker": {
 		"token": "RESOURCE_BROKER_TOKEN"
 	},
 	"discovery": {
 		"payload": {
 			"host": "POD_IP",
-			"port": "EXT_PORT"
+			"port": "API_PORT"
 		},
 		"client": {
 			"type": "DISCOVERY_TYPE",

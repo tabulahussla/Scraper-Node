@@ -10,6 +10,8 @@ import publish from './05-publish';
 import log from 'common/log';
 import hrtimeToMsFixed from 'bootstrap/common/hrtime-to-ms';
 
+export let isFinished;
+
 export default async function bootstrapPipeline() {
 	const beginningTime = startTime;
 
@@ -22,6 +24,8 @@ export default async function bootstrapPipeline() {
 	await bootStep(setupCluster, 'setup_cluster');
 	await bootStep(setupAPIServer, 'setup_api');
 	await bootStep(publish, 'publish');
+
+	isFinished = true;
 
 	diff = process.hrtime(beginningTime);
 	log.info('bootstrap finish in %d ms', hrtimeToMsFixed(diff));

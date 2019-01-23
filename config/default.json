@@ -16,6 +16,9 @@
 		"type": "ws",
 		"tls": false
 	},
+	"probe": {
+		"port": 55555
+	},
 	"jwt": {
 		"algorithm": "HS384",
 		"secret": "changeMe+++ThisISBase64EncodedToken==",
