@@ -44,6 +44,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+            - name: SERVICE_NAME
+              value: "{{ include "distributor.fullname" . }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

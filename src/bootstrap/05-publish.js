@@ -2,6 +2,7 @@ import config from 'config';
 import os from 'os';
 import { client } from 'discovery/client';
 import log from 'common/log';
+import { getServiceHost } from './04-api';
 
 export default async function setup() {
 	await setupServiceDiscovery();
@@ -12,7 +13,8 @@ export async function setupServiceDiscovery() {
 	const nodeId = config.get('node-id') || os.hostname();
 	const { host, port, type } = config.get('api');
 	const { service, payload } = config.get('discovery');
-	const modifiedPayload = { host, port, type, ...payload };
+	const serviceHost = getServiceHost();
+	const modifiedPayload = { host: serviceHost || host, port, type, ...payload };
 
 	log.debug('REGISTERING %o', modifiedPayload);
 
