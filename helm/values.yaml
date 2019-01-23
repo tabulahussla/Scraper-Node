@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 3
+replicaCount: 1
 
 image:
     repository: nginx
@@ -15,7 +15,7 @@ discoveryToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoicmVzb3
 discoveryHost: 5.189.189.195
 discoveryPort: 33301
 
-resourceBrokerToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImFub255bW91cy1icm9rZXIiLCJleHAiOjE2MzQ2MzE2NTgsImlhdCI6MTU0ODIzMTY1OH0.M3vpgYnXoMwAzZPmxEehmst2jPgO3W8CvDib99Sbmi6IDDEZP1T6r5dZnT46hk-i"
+resourceBrokerToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImFub255bW91cy1icm9rZXIiLCJleHAiOjE2MzQ2NTQyMDAsImlhdCI6MTU0ODI1NDIwMH0.H1AkIpx-BaVdFwmgV0gXgFaDQl6L7s16UQu2zmzjrGM4mp3DTkCemq56JZIIPU44"
 
 nameOverride: ""
 fullnameOverride: ""
