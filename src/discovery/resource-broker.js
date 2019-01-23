@@ -14,10 +14,11 @@ export function getClients() {
 }
 
 export async function connectClient({ nodeId, ...payload }) {
-	log.debug('CONNECT RESOURCE BROKER', nodeId);
+	log.debug('CONNECTING RESOURCE BROKER...', nodeId, payload);
 	const resourceBroker = createClient({ ...payload, ...resourceBrokerConfig });
 	await resourceBroker.connect();
 	CLIENT_MAP.set(nodeId, resourceBroker);
+	log.debug('CONNECTED RESOURCE BROKER', nodeId);
 }
 
 export async function disconnectClient(nodeId) {

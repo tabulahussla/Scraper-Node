@@ -26,13 +26,10 @@ COPY package.json ./
 COPY yarn.lock ./
 COPY .yarnrc ./
 
-ARG npm_token
-ENV ENV_NPMT=$npm_token
-RUN npm config set //npm.api.haus/:_authToken ${ENV_NPMT}
+ARG NPM_TOKEN
+RUN npm config set //npm.api.haus/:_authToken ${NPM_TOKEN}
 
 RUN yarn install
-
-RUN yarn add @xxorg/google-play-plugin @xxorg/app-store-plugin @xxorg/app-annie-plugin
 
 # Bundle app source
 COPY . .
@@ -40,5 +37,5 @@ COPY . .
 RUN yarn bundle
 RUN rm -rf src/
 
-EXPOSE 7006
+EXPOSE ${API_PORT}
 CMD [ "yarn", "start" ]

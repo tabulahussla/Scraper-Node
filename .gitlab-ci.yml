@@ -1,11 +1,16 @@
 stages:
     - test
-    - build
+    - release
     - deploy
 
 variables:
-    CI_REGISTRY_IMAGE: $REGISTRY_URL/$REGISTRY_PACKAGE:$CI_COMMIT_SHA
-    CI_PROJECT_NAME: scraper
+    CHART_PATH: ./helm
+    # NAMESPACES
+    STAGE_NAMESPACE: tiller-world
+    PROD_NAMESPACE: tiller-world
+    # RELEASE NAMES
+    STAGE_RELEASE_NAME: scraping-stage
+    PROD_RELEASE_NAME: scraping-prod
 
 test:
     image: node:8-alpine
@@ -15,67 +20,69 @@ test:
         - npm config set //npm.api.haus/:_authToken ${NPM_TOKEN}
         - yarn install
         - yarn test
-    only:
-        changes:
-            - src/**/*
-            - test/**/*
-            - config/**/*
-            - package.json
 
-build:
+image_release:
     image: docker:stable
-    stage: build
+    stage: release
     services:
         - docker:dind
     script:
-        - docker login --username=$REGISTRY_USER --password=$REGISTRY_PASSWORD $REGISTRY_URL
-        - docker build --build-arg npm_token=${NPM_TOKEN} --pull -t "$CI_REGISTRY_IMAGE" .
-        - docker push "$CI_REGISTRY_IMAGE"
-    only:
-        refs:
-            - master
-        changes:
-            - src/**/*
-            - test/**/*
-            - config/**/*
-            - package.json
-            - Dockerfile
-            - .dockerignore
-            - rollup.config.js
-            - obfuscate.config.json
-            - .babelrc
-            - kubernetes.tpl.yml
-            - .gitlab-ci.yml
+        - echo "${MONGODB_SSL_CA}" > ./mongodb_ca.crt
+        - echo "${MONGODB_SSL_KEY}" > ./mongodb_cert.key
+        - echo "${MONGODB_SSL_CERT}" > ./mongodb_cert.crt
+        - docker info
+        - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+        - docker build --build-arg NPM_TOKEN=${NPM_TOKEN} -t "${CI_REGISTRY_IMAGE}:latest" .
+        - docker tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
+        - docker push "${CI_REGISTRY_IMAGE}:latest"
+        - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
 
-deploy:
+# deploy to staging environment
+deploy_staging:
     stage: deploy
-    image: alpine
-    environment:
-        name: develop
-    script:
-        - apk add --no-cache curl
-        - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-        - chmod +x ./kubectl
-        - mv ./kubectl /usr/local/bin/kubectl
+    image: lwolf/helm-kubectl-docker:latest
+    before_script:
         - kubectl config set-cluster kubernetes --server="$KUBE_URL" --insecure-skip-tls-verify=true
         - kubectl config set-credentials kubernetes-admin --token="$KUBE_TOKEN"
         - kubectl config set-context default --cluster=kubernetes --user=kubernetes-admin
         - kubectl config use-context default
-        - 'printf "apiVersion: v1\nkind: Secret\n$(kubectl create secret docker-registry gitlab-registry --docker-server=$REGISTRY_URL --docker-username=$REGISTRY_USER --docker-password=$REGISTRY_PASSWORD --docker-email=$REGISTRY_EMAIL -o yaml --dry-run)" | kubectl apply -f -'
-        - sed 's/_APP_NAME_/'"$CI_PROJECT_NAME"'/g; s/_REGISTRY_IMAGE_/'${CI_REGISTRY_IMAGE//\//\\\/}'/g; s/_JWT_SECRET_/'${JWT_SECRET//\//\\\/}'/g; s/_DISCOVERY_HOST_/'"$DISCOVERY_HOST"'/g; s/_DISCOVERY_PORT_/'"$DISCOVERY_PORT"'/g; s/_DISCOVERY_TOKEN_/'${DISCOVERY_TOKEN//\//\\\/}'/g; s/_RESOURCE_BROKER_TOKEN_/'${RESOURCE_BROKER_TOKEN//\//\\\/}'/g' kubernetes.tpl.yml > kubernetes.yml;
-        - kubectl apply -f kubernetes.yml
+        - helm init --client-only
+    script:
+        - 'printf "apiVersion: v1\nkind: Secret\n$(kubectl create secret docker-registry --namespace=${STAGE_NAMESPACE} gitlab-registry --docker-server=${CI_REGISTRY} --docker-username=${CI_DEPLOY_USER} --docker-password=${CI_DEPLOY_PASSWORD} --docker-email=${GITLAB_USER_EMAIL} -o yaml --dry-run)" | kubectl apply -f -'
+        - helm delete --tiller-namespace=${STAGE_NAMESPACE} --purge ${STAGE_RELEASE_NAME} || true
+        - helm upgrade --install
+           --tiller-namespace=${STAGE_NAMESPACE}
+          --set image.tag=${CI_COMMIT_SHA}
+          --set image.repository=${CI_REGISTRY_IMAGE}
+          --set service.port=${API_PORT}
+          --namespace=${STAGE_NAMESPACE}
+          ${STAGE_RELEASE_NAME} ${CHART_PATH}
+    environment:
+        name: staging
     only:
-        refs:
-            - master
-        changes:
-            - src/**/*
-            - test/**/*
-            - config/**/*
-            - package.json
-            - Dockerfile
-            - .dockerignore
-            - rollup.config.js
-            - obfuscate.config.json
-            - .babelrc
-            - kubernetes.tpl.yml
-            - .gitlab-ci.yml
+        - master
+
+# deploy to production environment (manual)
+deploy_prod:
+    stage: deploy
+    image: lwolf/helm-kubectl-docker:latest
+    before_script:
+        - kubectl config set-cluster kubernetes --server="$KUBE_URL" --insecure-skip-tls-verify=true
+        - kubectl config set-credentials kubernetes-admin --token="$KUBE_TOKEN"
+        - kubectl config set-context default --cluster=kubernetes --user=kubernetes-admin
+        - kubectl config use-context default
+        - helm init --client-only
+    script:
+        - 'printf "apiVersion: v1\nkind: Secret\n$(kubectl create secret docker-registry --namespace=${PROD_NAMESPACE} gitlab-registry --docker-server=${CI_REGISTRY} --docker-username=${CI_DEPLOY_USER} --docker-password=${CI_DEPLOY_PASSWORD} --docker-email=${GITLAB_USER_EMAIL} -o yaml --dry-run)" | kubectl apply -f -'
+        - helm upgrade --install
+          --tiller-namespace=${PROD_NAMESPACE}
+          --set image.tag=${CI_COMMIT_SHA}
+          --set image.repository=${CI_REGISTRY_IMAGE}
+          --set service.port=${API_PORT}
+          --namespace=${PROD_NAMESPACE}
+          ${PROD_RELEASE_NAME} ${CHART_PATH}
+    environment:
+        name: production
+    when: manual
+    only:
+        - master
