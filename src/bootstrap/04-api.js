@@ -8,7 +8,13 @@ export default async function setupAPIServer() {
 	initialize({ type, tls, secret });
 	listen(listenOptions);
 
-	server.server.once('listening', () => log.info('listening on %o', server.server.address()));
+	await new Promise((resolve, reject) => {
+		server.server.once('listening', () => {
+			log.info('listening on %o', server.server.address());
+			resolve();
+		});
+		server.server.once('error', err => reject(err));
+	});
 
 	printServiceHost();
 }
