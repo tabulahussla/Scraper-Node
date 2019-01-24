@@ -21,38 +21,43 @@ export default {
 	) {
 		log.trace('⛏ %s/%s on %s', contract.site, contract.section, queueName);
 
-		const queue = registry.getQueue(queueName);
-		if (!queue) {
-			throw new Error(`no such queue "${queueName}"`);
+		try {
+			const queue = registry.getQueue(queueName);
+			if (!queue) {
+				throw new Error(`no such queue "${queueName}"`);
+			}
+
+			const job = queue.createJob(contract);
+
+			if (retries > 0) {
+				job.retries(retries);
+			}
+
+			if (delayUntil > 0) {
+				job.delayUntil(delayUntil);
+			}
+
+			if (timeout > 0) {
+				job.timeout(timeout);
+			}
+
+			if (jobId) {
+				job.setId(jobId);
+			}
+
+			if (backoffStrategy) {
+				job.backoff(backoffStrategy, backoffDelayFactor);
+			}
+
+			const resultPromise = waitForJob(job);
+
+			await job.save();
+
+			return resultPromise;
+		} catch (err) {
+			log.error({ err });
+			throw err;
 		}
-
-		const job = queue.createJob(contract);
-
-		if (retries > 0) {
-			job.retries(retries);
-		}
-
-		if (delayUntil > 0) {
-			job.delayUntil(delayUntil);
-		}
-
-		if (timeout > 0) {
-			job.timeout(timeout);
-		}
-
-		if (jobId) {
-			job.setId(jobId);
-		}
-
-		if (backoffStrategy) {
-			job.backoff(backoffStrategy, backoffDelayFactor);
-		}
-
-		const resultPromise = waitForJob(job);
-
-		await job.save();
-
-		return resultPromise;
 	},
 	getQueueConfig(connection, name = void 0) {
 		return registry.getQueueConfig(name);
