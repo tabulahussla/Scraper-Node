@@ -1,5 +1,5 @@
 apps:
-    - script: dist/bundle.min.js
+    - script: dist/index.js
       name: "scraping-system"
       exec_mode: fork
       env_production:
