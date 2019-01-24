@@ -11,8 +11,8 @@ export default {
 			contract,
 			jobOptions: {
 				retries = 10,
-				delayUntil = void 0,
-				timeout = void 0,
+				delayUntil = 0,
+				timeout = 0,
 				jobId = void 0,
 				backoffStrategy = void 0,
 				backoffDelayFactor = void 0,
@@ -52,6 +52,7 @@ export default {
 
 			const resultPromise = waitForJob(job);
 
+			log.debug('SAVING JOB');
 			await job.save();
 			log.debug('CREATED JOB %d', job.id);
 
