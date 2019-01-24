@@ -15,7 +15,7 @@ export function getHandler(...args) {
 export function load(name) {
 	const plugin = require(name);
 
-	const { sites, modules } = plugin;
+	const { sites, modules } = plugin.default || plugin;
 	plugins.add(plugin);
 
 	log.debug('LOAD PLUGIN %s: sites - %o', name, sites);

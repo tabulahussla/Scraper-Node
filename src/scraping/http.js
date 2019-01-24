@@ -48,7 +48,9 @@ export default async function httpHandler(job) {
 		const fetch = plugins.getHandler(site, section, 'fetch');
 
 		if (!fetch) {
-			throw new Error(`Invalid site/section: "${site}/${section}". No fetch script`);
+			throw new Error(
+				`Invalid site/section: "${site}/${section}". No fetch script (${fetch})`,
+			);
 		}
 
 		if (!(fetch instanceof Function)) {
