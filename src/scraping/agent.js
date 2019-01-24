@@ -6,6 +6,9 @@ import * as plugins from 'plugins';
 import log from 'common/log';
 import registry from 'queues/registry';
 import { jobStats } from 'stats';
+import pause from 'common/pause';
+
+const RESOURCES_FREE_TIMEOUT = 5000;
 
 export default async function agentHandler(job) {
 	jobStats(job);
@@ -42,6 +45,7 @@ export default async function agentHandler(job) {
 		if (isAgentBrokenException(e) || !(await validation({ agent, site, allowedPools }))) {
 			try {
 				agent && (await agent.destroy());
+				await pause(RESOURCES_FREE_TIMEOUT);
 			} catch (err) {
 				log.fatal({ err });
 			}
