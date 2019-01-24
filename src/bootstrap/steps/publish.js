@@ -2,7 +2,7 @@ import config from 'config';
 import os from 'os';
 import { client } from 'discovery/client';
 import log from 'common/log';
-import { getServiceHost } from './04-api';
+import { getServiceHost } from './api';
 
 export default async function setup() {
 	await setupServiceDiscovery();

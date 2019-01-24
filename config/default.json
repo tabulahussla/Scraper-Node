@@ -65,5 +65,8 @@
 		"destroyAfterTimeout": 300000,
 		"warnIfNotReturnedTimeout": 800000
 	},
-	"plugins": []
+	"plugins": [],
+	"stats": {
+		"interval": "5s"
+	}
 }

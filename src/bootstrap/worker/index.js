@@ -6,6 +6,7 @@ let diff;
 import connectDatabases from 'bootstrap/steps/database';
 import setupPlugins from './steps/plugins';
 import setupQueues from './steps/queues';
+import printStats from './steps/stats';
 import log from 'common/log';
 import { hrtimeToMsec } from 'bootstrap/common/hrtime';
 
@@ -27,6 +28,7 @@ export default async function bootstrapWorker(options) {
 	}
 	await bootStep(setupPlugins, []);
 	await bootStep(setupQueues, [options.queues]);
+	printStats({ workerId });
 
 	diff = process.hrtime(beginningTime);
 	log.info(
