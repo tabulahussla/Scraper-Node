@@ -67,6 +67,6 @@
 	},
 	"plugins": [],
 	"stats": {
-		"interval": "5s"
+		"interval": "15s"
 	}
 }
