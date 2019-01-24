@@ -15,16 +15,16 @@ export function jobStats(job) {
 	job.once('failed', err => {
 		jobEnded(time, job);
 		jobFailed(job, err);
-		log.trace('job %d %on %s failed', job.id, job.queue.name);
+		log.trace('job %d on %s failed', job.id, job.queue.name);
 	});
 	job.once('succeeded', () => {
 		jobEnded(time, job);
 		jobSucceeded(job);
-		log.trace('job %d %on %s succeeded', job.id, job.queue.name);
+		log.trace('job %d on %s succeeded', job.id, job.queue.name);
 	});
 
 	jobStarted(job);
-	log.trace('job %d %on %s', job.id, job.queue.name);
+	log.trace('job %d on %s', job.id, job.queue.name);
 }
 
 // eslint-disable-next-line no-unused-vars
