@@ -2,7 +2,11 @@ import http from 'http';
 import log from 'common/log';
 import { isFinished } from '../bootstrap';
 
-export default async function setupProbeServer({ port }) {
+export default async function setupProbeServer({ enabled, port }) {
+	if (!enabled) {
+		return;
+	}
+
 	log.info('setupProbeServer %d', port);
 
 	const server = http.createServer((req, res) => {
