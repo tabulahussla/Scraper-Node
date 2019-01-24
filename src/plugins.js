@@ -26,11 +26,17 @@ export function load(name) {
 			log.trace('\t%s:', section);
 			if (modules[site][section] instanceof Function) {
 				map.set(_key(site, section), modules[site][section]);
-				log.trace('+%s/%s', site, section);
+				log.trace('+%s/%s:', site, section, modules[site][section]);
 			} else {
 				for (const script in modules[site][section]) {
 					map.set(_key(site, section, script), modules[site][section][script]);
-					log.trace('+%s/%s/%s', site, section, script);
+					log.trace(
+						'+%s/%s/%s: %o',
+						site,
+						section,
+						script,
+						modules[site][section][script],
+					);
 				}
 			}
 		}
