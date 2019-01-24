@@ -3,6 +3,10 @@ import log from 'common/log';
 export const map = new Map();
 export const plugins = new Set();
 
+function resolveDefault(m) {
+	return m.default || m;
+}
+
 export function getHandler(...args) {
 	const module = map.get(_key(...args));
 	log.trace('get %s: %o', args.join('/'), module);
@@ -10,6 +14,18 @@ export function getHandler(...args) {
 		return module;
 	}
 	return module.default || module;
+}
+
+function resolve(obj, [...path]) {
+	if (!path.length) {
+		return obj;
+	}
+	return resolve(obj[path[0]], path.slice(1));
+}
+
+export function registerHandler(plugin, [...key]) {
+	map.set(_key(...key), resolveDefault(resolve(plugin.modules, ...key)));
+	log.trace('+%s: %o', _key(...key), map.get(_key(...key)));
 }
 
 export function load(name) {
@@ -25,18 +41,10 @@ export function load(name) {
 		for (const section in modules[site]) {
 			log.trace('\t%s:', section);
 			if (modules[site][section] instanceof Function) {
-				map.set(_key(site, section), modules[site][section]);
-				log.trace('+%s/%s:', site, section, modules[site][section]);
+				registerHandler(plugin, [site, section]);
 			} else {
 				for (const script in modules[site][section]) {
-					map.set(_key(site, section, script), modules[site][section][script]);
-					log.trace(
-						'+%s/%s/%s: %o',
-						site,
-						section,
-						script,
-						modules[site][section][script],
-					);
+					registerHandler(plugin, [site, section, script]);
 				}
 			}
 		}
