@@ -24,7 +24,9 @@ export default async function agentHandler(job) {
 		const fetch = plugins.getHandler(site, section, 'fetch');
 
 		if (!fetch) {
-			throw new Error(`Invalid site/section: "${site}/${section}". No fetch script (${fetch})`);
+			throw new Error(
+				`Invalid site/section: "${site}/${section}". No fetch script (${fetch})`,
+			);
 		}
 
 		if (!(fetch instanceof Function)) {
@@ -76,19 +78,21 @@ export async function validation({ agent, site, allowedPools }) {
 	const validate = plugins.getHandler(site, 'validate');
 	if (!validate) {
 		log.trace('SKIP VALIDATION FOR %s: no script', site);
-		return;
+		return true;
 	}
 
 	const { account, proxy } = await validate({ agent });
 
 	if (!account && !proxy) {
-		return false;
+		return true;
 	}
 
-	for (const bannedResource of [account, proxy]) {
+	for (const bannedResource of [account, proxy].filter(v => v)) {
 		const poolId = findPool(bannedResource.type, allowedPools);
 		await resourceBrokerClient().ban(bannedResource, poolId);
 	}
+
+	return false;
 }
 
 export function parsePayload(payload) {

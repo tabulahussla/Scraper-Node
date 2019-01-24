@@ -120,6 +120,8 @@ export default class AgentPool {
 						log.fatal({ err });
 					}
 				}
+				this._timeouts.clearWarning(agent);
+				this._timeouts.destroyAfterInactivity(agent);
 			} catch (err) {
 				log.fatal('failed to release resources');
 				log.fatal({ err });
