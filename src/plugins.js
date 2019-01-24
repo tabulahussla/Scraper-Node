@@ -40,7 +40,7 @@ export function load(name) {
 		log.trace('%s:', site);
 		for (const section in modules[site]) {
 			log.trace('\t%s:', section);
-			if (modules[site][section] instanceof Function) {
+			if (resolveDefault(modules[site][section]) instanceof Function) {
 				registerHandler(plugin, site, section);
 			} else {
 				for (const script in modules[site][section]) {
