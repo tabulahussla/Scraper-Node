@@ -1,6 +1,7 @@
 import { createCollection } from 'measured-core';
 import { name as projectName } from '../project';
 import { hrtimeToSec } from 'bootstrap/common/hrtime';
+import log from 'common/log';
 
 export const FAILED_JOBS = 'FAILED_JOBS';
 export const SUCCEEDED_JOBS = 'SUCCEEDED_JOBS';
@@ -14,13 +15,16 @@ export function jobStats(job) {
 	job.once('failed', err => {
 		jobEnded(time, job);
 		jobFailed(job, err);
+		log.trace('job %d %on %s failed', job.id, job.queue.name);
 	});
 	job.once('succeeded', () => {
 		jobEnded(time, job);
 		jobSucceeded(job);
+		log.trace('job %d %on %s succeeded', job.id, job.queue.name);
 	});
 
 	jobStarted(job);
+	log.trace('job %d %on %s', job.id, job.queue.name);
 }
 
 // eslint-disable-next-line no-unused-vars

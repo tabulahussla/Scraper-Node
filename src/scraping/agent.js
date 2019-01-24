@@ -13,8 +13,6 @@ export default async function agentHandler(job) {
 	const payload = parsePayload(job.data);
 	const { site, section, request } = payload;
 
-	log.debug('SCRAPE AGENT', payload);
-
 	const queueConfig = registry.getQueueConfig(job.queue);
 	const allowedPools = queueConfig.pools || [];
 
