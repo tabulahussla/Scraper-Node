@@ -851,10 +851,10 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.5.tgz#9da44ed75571999b65c37b60c9b2b88db54c585d"
   integrity sha512-SCcK7mvGi3+ZNz833RRjFIxrn4gI1PPR3NtuIS+6vMkvmsGjosqTJwRt5bAEFLRz+wtJMWv8+uOnZf2hi2QXTg==
 
-"@xxorg/app-annie-plugin@^1.1.4":
-  version "1.1.4"
-  resolved "https://npm.api.haus/@xxorg%2fapp-annie-plugin/-/app-annie-plugin-1.1.4.tgz#f5407daab75952b99f00aae45792f684fbbd2cc5"
-  integrity sha512-KbOGGi5K4SYqdSfNKqGrkOJdK2aqqGPNvWrmgF6+VasEmoQRiduKI6LMRwildZZI4L9n7KDFI4uIXotHVGkKMg==
+"@xxorg/app-annie-plugin@^1.1.5":
+  version "1.1.5"
+  resolved "https://npm.api.haus/@xxorg%2fapp-annie-plugin/-/app-annie-plugin-1.1.5.tgz#eaba3e52a652fe15bad42600e02829234d43ef04"
+  integrity sha512-SU9N08Weh9VP+LZpA44HA2EzDYAAo4K9ICtu8MSOqYa61hchORL2Yi5BhCVVr0PNKvYMPbnQBvLYqV+07q5dDQ==
   dependencies:
     config "^3.0.1"
     fs-extra "^7.0.0"
