@@ -90,7 +90,6 @@ export async function resolveResources({
 			throw new Error(`Cannot retreive "${resource}" resource from pool "${poolId}"`);
 		}
 
-		resolved.poolId = poolId;
 		resourcesByType[resolved.type] = resolved;
 		resolvedResources.push(resolved);
 	}

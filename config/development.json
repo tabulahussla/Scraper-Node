@@ -7,7 +7,7 @@
 		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImFub255bW91cy1icm9rZXIiLCJleHAiOjE2MzQzMTkxMTcsImlhdCI6MTU0NzkxOTExN30.3asXNNBXi9JF9trHvsNgA899eEFddKGjjPNVWEU0Fj_bbvRVoMQAWRzRCB_a5J6A"
 	},
 	"queues": {
-		"dev-agent": {
+		"appannie.com": {
 			"pools": ["dev_proxies", "dev_accounts"],
 			"resources": ["proxy", "account"],
 			"workerType": "agent",

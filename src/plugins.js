@@ -9,7 +9,6 @@ function resolveDefault(m) {
 
 export function getHandler(...args) {
 	const module = map.get(_key(...args));
-	log.trace('get %s: %o', args.join('/'), module);
 	if (!module) {
 		return module;
 	}

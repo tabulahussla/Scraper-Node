@@ -15,7 +15,6 @@ for (const resourceType in resourceBrokerConfig.pools) {
 	for (const poolId of pools[resourceType]) {
 		const resourcesForCurrentPool = resourcesInPool.get(poolId) || new Set();
 		resourcesForCurrentPool.add(resourceType);
-		log.debug('ADD RES %s TO POOL %s', resourceType, poolId);
 
 		resourcesInPool.set(poolId, resourcesForCurrentPool);
 	}

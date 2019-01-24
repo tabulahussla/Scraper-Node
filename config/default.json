@@ -17,7 +17,7 @@
 		"tls": false
 	},
 	"probe": {
-		"enabled": true,
+		"enabled": false,
 		"port": 55555
 	},
 	"jwt": {
