@@ -26,6 +26,7 @@ export default {
 			if (!queue) {
 				throw new Error(`no such queue "${queueName}"`);
 			}
+			log.trace('resolved queue %s', queue.name);
 
 			const job = queue.createJob(contract);
 
@@ -54,7 +55,7 @@ export default {
 			await job.save();
 			log.debug('CREATED JOB %d', job.id);
 
-			return resultPromise;
+			return await resultPromise;
 		} catch (err) {
 			log.error({ err });
 			throw err;
