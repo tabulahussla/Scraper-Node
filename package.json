@@ -11,7 +11,7 @@
 		"node": ">= 8.2.0"
 	},
 	"scripts": {
-		"start": "NODE_ENV=production node dist/bundle.min.js",
+		"start": "NODE_ENV=production node dist/index",
 		"validate-token": "babel-node bin/token/validate",
 		"generate-token": "babel-node bin/token/generate",
 		"lint": "eslint --fix src/. test/. --config .eslintrc.json",
@@ -20,7 +20,7 @@
 		"tdd": "yarn run test -w --reporter min",
 		"dev": "nodemon bin/nodemon --exec babel-node",
 		"pm2": "pm2 start process.yml --env production",
-		"bundle": "BABEL_ENV=production rollup -c",
+		"bundle": "rm -rf dist; babel src/ -d dist/",
 		"uglify": "uglifyjs dist/bundle.min.js -o dist/bundle.min.js --compress --mangle toplevel",
 		"obfuscate": "javascript-obfuscator dist/bundle.min.js -o dist/bundle.min.js --config obfuscate.config.json"
 	},

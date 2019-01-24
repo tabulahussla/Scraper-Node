@@ -16,14 +16,14 @@ export function getHandler(...args) {
 	return module.default || module;
 }
 
-function resolve(obj, [...path]) {
+function resolve(obj, ...path) {
 	if (!path.length) {
-		return obj;
+		return obj.default || obj;
 	}
-	return resolve(obj[path[0]], path.slice(1));
+	return resolve(obj[path[0]], ...path.slice(1));
 }
 
-export function registerHandler(plugin, [...key]) {
+export function registerHandler(plugin, ...key) {
 	map.set(_key(...key), resolveDefault(resolve(plugin.modules, ...key)));
 	log.trace('+%s: %o', _key(...key), map.get(_key(...key)));
 }
@@ -41,10 +41,10 @@ export function load(name) {
 		for (const section in modules[site]) {
 			log.trace('\t%s:', section);
 			if (modules[site][section] instanceof Function) {
-				registerHandler(plugin, [site, section]);
+				registerHandler(plugin, site, section);
 			} else {
 				for (const script in modules[site][section]) {
-					registerHandler(plugin, [site, section, script]);
+					registerHandler(plugin, site, section, script);
 				}
 			}
 		}
