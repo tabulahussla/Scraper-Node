@@ -1,6 +1,7 @@
 import registry from 'queues/registry';
 import waitForJob from 'common/wait-for-job';
 import { plugins } from 'plugins';
+import log from 'common/log';
 
 export default {
 	async createJob(
@@ -18,6 +19,8 @@ export default {
 			} = {},
 		},
 	) {
+		log.trace('⛏ %s/%s on %s', contract.site, contract.section, queueName);
+
 		const queue = registry.getQueue(queueName);
 		if (!queue) {
 			throw new Error(`no such queue "${queueName}"`);
