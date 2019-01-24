@@ -5,8 +5,11 @@ import { validateException as isAgentBrokenException } from 'agency/validate';
 import * as plugins from 'plugins';
 import log from 'common/log';
 import registry from 'queues/registry';
+import { jobStats } from 'stats';
 
 export default async function agentHandler(job) {
+	jobStats(job);
+
 	const payload = parsePayload(job.data);
 	const { site, section, request } = payload;
 
