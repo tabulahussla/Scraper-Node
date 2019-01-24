@@ -49,16 +49,9 @@ export default class AgentPool {
 			return agent;
 		}
 
-		let proxyPoolId, accountPoolId;
-		if (resources.includes('proxy')) {
-			proxyPoolId = findPool('proxy', pools);
-		}
+		const { proxy, account } = await this._resolveResources({ resources, pools });
 
-		if (resources.includes('account')) {
-			accountPoolId = findPool('account', pools);
-		}
-
-		agent = await this.createAgent({ proxyPoolId, accountPoolId });
+		agent = await this.createAgent({ proxy, account });
 
 		this._timeouts.warnIfNotReturned(agent);
 		return agent;
@@ -82,24 +75,21 @@ export default class AgentPool {
 		});
 	}
 
-	async createAgent({ proxyPoolId, accountPoolId }) {
-		const proxy = proxyPoolId && (await this._resourceBrokerClient().retrieve(proxyPoolId));
-		const account =
-			accountPoolId && (await this._resourceBrokerClient().retrieve(accountPoolId));
-
-		if (proxy) {
-			// @ts-ignore
-			proxy.poolId = proxyPoolId;
-		} else if (proxyPoolId) {
-			throw new Error('Could not resolve proxy resource');
+	async _resolveResources({ resources, pools, getAllOrThrow = true }) {
+		const resolved = {};
+		for (const type of resources) {
+			const poolId = findPool(type, pools);
+			const resource = await this._resourceBrokerClient().retrieve(poolId);
+			if (resource) {
+				resolved[type] = resource;
+			} else if (getAllOrThrow) {
+				throw new Error(`Cannot resolve resource of type ${type}`);
+			}
 		}
-		if (account) {
-			// @ts-ignore
-			account.poolId = accountPoolId;
-		} else if (accountPoolId) {
-			throw new Error('Could not resolve account resource');
-		}
+		return resolved;
+	}
 
+	async createAgent({ proxy, account }) {
 		const agent = new Agent({
 			// @ts-ignore
 			proxy,
