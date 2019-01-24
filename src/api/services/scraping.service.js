@@ -52,6 +52,7 @@ export default {
 			const resultPromise = waitForJob(job);
 
 			await job.save();
+			log.debug('CREATED JOB %d', job.id);
 
 			return resultPromise;
 		} catch (err) {
