@@ -26,9 +26,9 @@
 	},
 	"dependencies": {
 		"@metarhia/jstp": "youritech/jstp",
-		"@xxorg/app-annie-plugin": "^1.1.1",
+		"@xxorg/app-annie-plugin": "^1.1.2",
 		"@xxorg/app-store-plugin": "^1.0.2",
-		"@xxorg/database-client": "^0.0.2",
+		"@xxorg/database-client": "^1.0.1",
 		"@xxorg/discovery-client": "^1.1.4",
 		"@xxorg/google-play-plugin": "^1.0.2",
 		"@xxorg/harvesting-plugin": "^1.0.1",
