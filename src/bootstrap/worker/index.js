@@ -3,13 +3,14 @@ import cluster from 'cluster';
 let startTime = process.hrtime();
 let diff;
 
-import connectDatabases from './00-database';
-import setupPlugins from './01-plugins';
-import setupQueues from './02-queues';
+import connectDatabases from 'bootstrap/steps/database';
+import setupPlugins from './steps/plugins';
+import setupQueues from './steps/queues';
 import log from 'common/log';
-import hrtimeToMsFixed from 'bootstrap/common/hrtime-to-ms';
+import { hrtimeToMsec } from 'bootstrap/common/hrtime';
 
 export const workerId = cluster.worker ? cluster.worker.id : 0;
+export const FIXED_LENGTH = 6;
 
 /**
  * @export
@@ -19,16 +20,20 @@ export default async function bootstrapWorker(options) {
 	const beginningTime = startTime;
 
 	diff = process.hrtime(startTime);
-	log.info('bootstrap_worker() #%d +%d ms', workerId, hrtimeToMsFixed(diff));
+	log.info('bootstrap_worker() #%d +%d ms', workerId, hrtimeToMsec(diff).toFixed(FIXED_LENGTH));
 
 	if (!cluster.isMaster) {
-		await bootStep(connectDatabases, [], 'connect_databases');
+		await bootStep(connectDatabases, []);
 	}
-	await bootStep(setupPlugins, [], 'setup_plugins');
-	await bootStep(setupQueues, [options.queues], 'setup_queues');
+	await bootStep(setupPlugins, []);
+	await bootStep(setupQueues, [options.queues]);
 
 	diff = process.hrtime(beginningTime);
-	log.info('bootstrap finish for worker #%d in %d ms', workerId, hrtimeToMsFixed(diff));
+	log.info(
+		'bootstrap finish for worker #%d in %d ms',
+		workerId,
+		hrtimeToMsec(diff).toFixed(FIXED_LENGTH),
+	);
 }
 
 async function bootStep(method, args, description = method.name) {
@@ -42,5 +47,10 @@ async function bootStep(method, args, description = method.name) {
 	}
 
 	diff = process.hrtime(startTime);
-	log.info('%s() +%d ms (worker #%d)', description, hrtimeToMsFixed(diff), workerId);
+	log.info(
+		'%s() +%d ms (worker #%d)',
+		description,
+		hrtimeToMsec(diff).toFixed(FIXED_LENGTH),
+		workerId,
+	);
 }

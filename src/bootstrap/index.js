@@ -1,23 +1,24 @@
 let startTime = process.hrtime();
 let diff;
 
-import probe from './-1-probe';
-import makeFolders from './00-make-folders';
-import connectDatabases from './01-database';
-import setupDiscovery from './02-discovery';
-import setupCluster from './03-cluster';
-import setupAPIServer from './04-api';
-import publish from './05-publish';
+import probe from './steps/probe-server';
+import makeFolders from './steps/make-folders';
+import connectDatabases from './steps/database';
+import setupDiscovery from './steps/discovery';
+import setupCluster from './steps/cluster';
+import setupAPIServer from './steps/api';
+import publish from './steps/publish';
 import log from 'common/log';
-import hrtimeToMsFixed from 'bootstrap/common/hrtime-to-ms';
+import { hrtimeToMsec } from 'bootstrap/common/hrtime';
 
 export let isFinished;
+export const FIXED_LENGTH = 6;
 
 export default async function bootstrapPipeline() {
 	const beginningTime = startTime;
 
 	diff = process.hrtime(startTime);
-	log.info('bootstrap() +%d ms', hrtimeToMsFixed(diff));
+	log.info('bootstrap() +%d ms', hrtimeToMsec(diff).toFixed(FIXED_LENGTH));
 
 	await bootStep(probe, 'probe_server');
 	await bootStep(makeFolders, 'create_directories');
@@ -30,7 +31,7 @@ export default async function bootstrapPipeline() {
 	isFinished = true;
 
 	diff = process.hrtime(beginningTime);
-	log.info('bootstrap finish in %d ms', hrtimeToMsFixed(diff));
+	log.info('bootstrap finish in %d ms', hrtimeToMsec(diff).toFixed(FIXED_LENGTH));
 }
 
 async function bootStep(method, description = method.name) {
@@ -44,5 +45,5 @@ async function bootStep(method, description = method.name) {
 	}
 
 	diff = process.hrtime(startTime);
-	log.info('%s() +%d ms', description, hrtimeToMsFixed(diff));
+	log.info('%s() +%d ms', description, hrtimeToMsec(diff).toFixed(FIXED_LENGTH));
 }

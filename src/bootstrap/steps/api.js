@@ -1,4 +1,4 @@
-import { initialize, listen, server } from '../api/server';
+import { initialize, listen, server } from '../../api/server';
 import config from 'config';
 import log from 'common/log';
 
