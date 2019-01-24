@@ -90,10 +90,14 @@ export default class AgentPool {
 		if (proxy) {
 			// @ts-ignore
 			proxy.poolId = proxyPoolId;
+		} else if (proxyPoolId) {
+			throw new Error('Could not resolve proxy resource');
 		}
 		if (account) {
 			// @ts-ignore
 			account.poolId = accountPoolId;
+		} else if (accountPoolId) {
+			throw new Error('Could not resolve account resource');
 		}
 
 		const agent = new Agent({
