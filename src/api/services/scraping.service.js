@@ -2,6 +2,7 @@ import registry from 'queues/registry';
 import waitForJob from 'common/wait-for-job';
 import { plugins } from 'plugins';
 import log from 'common/log';
+import { jobStats } from 'stats';
 
 export default {
 	async createJob(
@@ -52,6 +53,7 @@ export default {
 			const resultPromise = waitForJob(job);
 
 			await job.save();
+			jobStats(job);
 
 			return await resultPromise;
 		} catch (err) {

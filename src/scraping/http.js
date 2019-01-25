@@ -5,14 +5,11 @@ import ProxyAgent from 'proxy-agent';
 import stringifyProxy from 'common/stringify-proxy';
 import log from 'common/log';
 import registry from 'queues/registry';
-import { jobStats } from 'stats';
 
 export const proxyResource = 'proxy';
 export const accountResource = 'account';
 
 export default async function httpHandler(job) {
-	jobStats(job);
-
 	const payload = parsePayload(job.data);
 
 	const { site, section, request } = payload;
