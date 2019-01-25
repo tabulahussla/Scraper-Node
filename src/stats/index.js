@@ -16,6 +16,7 @@ export function jobStats(job) {
 		jobEnded(time, job);
 		jobFailed(job, err);
 		log.trace('job %d on %s failed', job.id, job.queue.name);
+		log.warn({ err });
 	});
 	job.once('succeeded', () => {
 		jobEnded(time, job);
