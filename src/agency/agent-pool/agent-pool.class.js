@@ -72,7 +72,9 @@ export default class AgentPool {
 	}
 
 	findIndex(resources, pools) {
+		log.debug('FIND INDEX: %s in %s', resources, pools);
 		return this._pool.findIndex(agent => {
+			log.debug('AGENT %s has %o', agent.id, agent.resources);
 			return resources.every(resourceType =>
 				agent.resources.find(agentResource => {
 					return (
