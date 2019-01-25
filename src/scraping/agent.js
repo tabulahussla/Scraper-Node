@@ -19,9 +19,11 @@ export default async function agentHandler(job) {
 	const queueConfig = registry.getQueueConfig(job.queue);
 	const allowedPools = queueConfig.pools || [];
 
-	let agent = await agentPool.getOrCreateAgent({ queue: job.queue.name });
+	let agent = void 0;
 
 	try {
+		agent = await agentPool.getOrCreateAgent({ queue: job.queue.name });
+
 		await authentication({ agent, site });
 
 		const fetch = plugins.getHandler(site, section, 'fetch');
@@ -38,7 +40,7 @@ export default async function agentHandler(job) {
 
 		const result = await fetch({ agent, request });
 
-		// TMP: HACK: TODO: trigger succeded event to update job stats
+		// TMP: HACK: TODO: trigger event to update job stats
 		job.emit('succeeded', result);
 		return result;
 	} catch (e) {
@@ -51,7 +53,7 @@ export default async function agentHandler(job) {
 			}
 			agent = null;
 		}
-		// TMP: HACK: TODO: trigger succeded event to update job stats
+		// TMP: HACK: TODO: trigger event to update job stats
 		job.emit('failed', e);
 		throw e;
 	} finally {
