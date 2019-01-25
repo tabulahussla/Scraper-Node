@@ -39,11 +39,9 @@ export default class AgentPool {
 	async getOrCreateAgent({ queue: queueName }) {
 		const { resources = [], pools = [] } = queueConfig[queueName] || {};
 
-		log.debug('GET OR CREATE AGENT << %d >>', this._pool.length);
 		let agent,
 			index = this.findIndex(resources, pools);
 		if (~index) {
-			log.debug('FOUND AGENT WITH ALL RESOURCES!');
 			agent = this._pool[index];
 			this._timeouts.clearDestroy(agent);
 			this._pool.splice(index, 1);
@@ -51,7 +49,6 @@ export default class AgentPool {
 			return agent;
 		}
 
-		log.debug('CREATING NEW AGENT << %d >>', this._pool.length);
 		const { proxy, account } = await this._resolveResources({
 			resources,
 			pools,
@@ -68,13 +65,10 @@ export default class AgentPool {
 		this._pool.push(agent);
 		this._timeouts.clearWarning(agent);
 		this._timeouts.destroyAfterInactivity(agent);
-		log.debug('RETURN AGENT TO POOL << %d >>', this._pool.length);
 	}
 
 	findIndex(resources, pools) {
-		log.debug('FIND INDEX: %s in %s', resources, pools);
 		return this._pool.findIndex(agent => {
-			log.debug('AGENT %s has %o', agent.id, agent.resources);
 			return resources.every(resourceType =>
 				agent.resources.find(agentResource => {
 					return (
@@ -98,21 +92,23 @@ export default class AgentPool {
 		agent.once('destroy', async () => {
 			log.debug('AGENT DESTROYED!', agent.id);
 
-			try {
-				for (const resource of agent.resources) {
-					try {
-						await this._resourceBrokerClient().release(resource, resource.poolId);
-					} catch (err) {
-						log.fatal('failed to release resource %o', resource);
-						log.fatal({ err });
-					}
+			// remove agent from pool
+			let index = this._pool.indexOf(agent);
+			~index && this._pool.splice(index, 1);
+
+			// release resources
+			for (const resource of agent.resources) {
+				try {
+					await this._resourceBrokerClient().release(resource, resource.poolId);
+				} catch (err) {
+					log.fatal('failed to release resource %o', resource);
+					log.fatal({ err });
 				}
-				this._timeouts.clearWarning(agent);
-				this._timeouts.destroyAfterInactivity(agent);
-			} catch (err) {
-				log.fatal('failed to release resources');
-				log.fatal({ err });
 			}
+
+			// clear timeouts
+			this._timeouts.clearWarning(agent);
+			this._timeouts.destroyAfterInactivity(agent);
 		});
 
 		try {
