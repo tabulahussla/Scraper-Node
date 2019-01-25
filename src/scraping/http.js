@@ -59,13 +59,9 @@ export default async function httpHandler(job) {
 
 		const result = await fetch({ proxyAgent, request, ...resourcesByType });
 
-		// TMP: HACK: TODO: trigger event to update job stats
-		job.emit('succeeded', result);
 		return result;
 	} catch (e) {
 		await validation({ proxyAgent, site, allowedPools, ...resourcesByType });
-		// TMP: HACK: TODO: trigger event to update job stats
-		job.emit('failed', e);
 		throw e;
 	} finally {
 		for (const resource of resolvedResources) {

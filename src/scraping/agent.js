@@ -40,8 +40,6 @@ export default async function agentHandler(job) {
 
 		const result = await fetch({ agent, request });
 
-		// TMP: HACK: TODO: trigger event to update job stats
-		job.emit('succeeded', result);
 		return result;
 	} catch (e) {
 		if (isAgentBrokenException(e) || !(await validation({ agent, site, allowedPools }))) {
@@ -53,8 +51,6 @@ export default async function agentHandler(job) {
 			}
 			agent = null;
 		}
-		// TMP: HACK: TODO: trigger event to update job stats
-		job.emit('failed', e);
 		throw e;
 	} finally {
 		agent && agentPool.returnAgent(agent);
