@@ -39,9 +39,11 @@ export default class AgentPool {
 	async getOrCreateAgent({ queue: queueName }) {
 		const { resources = [], pools = [] } = queueConfig[queueName] || {};
 
+		log.debug('GET OR CREATE AGENT << %d >>', this._pool.length);
 		let agent,
 			index = this.findIndex(resources, pools);
 		if (~index) {
+			log.debug('FOUND AGENT WITH ALL RESOURCES!');
 			agent = this._pool[index];
 			this._timeouts.clearDestroy(agent);
 			this._pool.splice(index, 1);
@@ -49,6 +51,7 @@ export default class AgentPool {
 			return agent;
 		}
 
+		log.debug('CREATING NEW AGENT << %d >>', this._pool.length);
 		const { proxy, account } = await this._resolveResources({
 			resources,
 			pools,
@@ -65,6 +68,7 @@ export default class AgentPool {
 		this._pool.push(agent);
 		this._timeouts.clearWarning(agent);
 		this._timeouts.destroyAfterInactivity(agent);
+		log.debug('RETURN AGENT TO POOL << %d >>', this._pool.length);
 	}
 
 	findIndex(resources, pools) {
@@ -77,25 +81,6 @@ export default class AgentPool {
 				}),
 			);
 		});
-	}
-
-	async _resolveResources({ resources, pools, queue, getAllOrThrow = true }) {
-		const resolved = {};
-		for (const type of resources) {
-			const poolId = findPool(type, pools);
-			if (!poolId) {
-				throw new Error(
-					`Cannot resolve pool for resource type ${type} on queue ${queue} (available pools: ${pools})`,
-				);
-			}
-			const resource = await this._resourceBrokerClient().retrieve(poolId);
-			if (resource) {
-				resolved[type] = resource;
-			} else if (getAllOrThrow) {
-				throw new Error(`Cannot resolve resource of type ${type}`);
-			}
-		}
-		return resolved;
 	}
 
 	async createAgent({ proxy, account }) {
@@ -144,5 +129,25 @@ export default class AgentPool {
 		}
 
 		return agent;
+	}
+
+	async _resolveResources({ resources, pools, queue, getAllOrThrow = true }) {
+		const resolved = {};
+		for (const type of resources) {
+			const poolId = findPool(type, pools);
+			if (!poolId) {
+				throw new Error(
+					`Cannot resolve pool for resource type ${type} ` +
+						`on queue ${queue} (available pools: ${pools})`,
+				);
+			}
+			const resource = await this._resourceBrokerClient().retrieve(poolId);
+			if (resource) {
+				resolved[type] = resource;
+			} else if (getAllOrThrow) {
+				throw new Error(`Cannot resolve resource of type ${type}`);
+			}
+		}
+		return resolved;
 	}
 }
