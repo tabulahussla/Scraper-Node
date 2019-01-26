@@ -12,9 +12,7 @@ export async function exec(...args) {
 	const module = getHandler(...args);
 
 	if (!module) {
-		throw new Error(
-			`Invalid path: "${args}". No handler found in any plugin`,
-		);
+		throw new Error(`Invalid path: "${args}". No handler found in any plugin`);
 	}
 
 	while (args.length >= 1) {

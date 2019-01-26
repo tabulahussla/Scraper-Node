@@ -46,7 +46,7 @@
 		}
 	},
 	"userAgent": "AAppC34JTB1NDTWD:290",
-	"make-folders": ["storage/profiles", "storage/dumps/html"],
+	"make-folders": ["storage/profiles", "storage/dumps/html", "storage/screenshots"],
 	"profileDir": "storage/profiles",
 	"cluster": {
 		"enabled": false,
