@@ -28,6 +28,7 @@ export async function exec(...args) {
 }
 
 export function getHandler(...args) {
+	log.debug('GET HANDLER', args);
 	const module = map.get(_key(...args));
 	if (!module) {
 		return module;
