@@ -130,7 +130,7 @@ export default class Agent extends EventEmitter {
 
 	async screenshot(filename) {
 		const outputPath = path.resolve('storage/screenshots', filename);
-		this.page.screenshot({ path: outputPath, type: 'jpeg', quality: 66 });
+		await this.page.screenshot({ path: outputPath, type: 'jpeg', quality: 66 });
 	}
 
 	_setupProxy() {

@@ -25,7 +25,10 @@ export default async function agentHandler(job) {
 
 		return await plugins.exec(site, section, 'fetch', { agent, request });
 	} catch (e) {
-		if (isAgentBrokenException(e) || !(await validation({ agent, site, allowedPools }))) {
+		if (
+			agent &&
+			(isAgentBrokenException(e) || !(await validation({ agent, site, allowedPools })))
+		) {
 			try {
 				agent && (await agent.destroy());
 				await pause(RESOURCES_FREE_TIMEOUT);
