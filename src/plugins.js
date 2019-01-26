@@ -7,6 +7,28 @@ function resolveDefault(m) {
 	return m.default || m;
 }
 
+export async function exec(...args) {
+	const command = args.pop();
+	const module = getHandler(...args);
+
+	if (!module) {
+		throw new Error(
+			`Invalid path: "${args}". No handler found in any plugin`,
+		);
+	}
+
+	while (args.length >= 1) {
+		// pop it until it reaches /site/* complexity then inject */middleware last time
+		args.pop();
+		const parentMiddleware = getHandler(...args, 'middleware');
+		if (parentMiddleware) {
+			await parentMiddleware(command);
+		}
+	}
+
+	return module(command);
+}
+
 export function getHandler(...args) {
 	const module = map.get(_key(...args));
 	if (!module) {

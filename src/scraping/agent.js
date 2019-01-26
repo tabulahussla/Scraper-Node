@@ -23,21 +23,7 @@ export default async function agentHandler(job) {
 
 		await authentication({ agent, site });
 
-		const fetch = plugins.getHandler(site, section, 'fetch');
-
-		if (!fetch) {
-			throw new Error(
-				`Invalid site/section: "${site}/${section}". No fetch script (${fetch})`,
-			);
-		}
-
-		if (!(fetch instanceof Function)) {
-			log.error('Fetch is not a function:', fetch);
-		}
-
-		const result = await fetch({ agent, request });
-
-		return result;
+		return await plugins.exec(site, section, 'fetch', { agent, request });
 	} catch (e) {
 		if (isAgentBrokenException(e) || !(await validation({ agent, site, allowedPools }))) {
 			try {

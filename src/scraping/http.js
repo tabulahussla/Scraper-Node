@@ -42,21 +42,11 @@ export default async function httpHandler(job) {
 		}
 		await authentication({ proxyAgent, site, ...resourcesByType });
 
-		const fetch = plugins.getHandler(site, section, 'fetch');
-
-		if (!fetch) {
-			throw new Error(
-				`Invalid site/section: "${site}/${section}". No fetch script (${fetch})`,
-			);
-		}
-
-		if (!(fetch instanceof Function)) {
-			log.error('Fetch is not a function:', fetch);
-		}
-
-		const result = await fetch({ proxyAgent, request, ...resourcesByType });
-
-		return result;
+		return await plugins.exec(site, section, 'fetch', {
+			proxyAgent,
+			request,
+			...resourcesByType,
+		});
 	} catch (e) {
 		await validation({ proxyAgent, site, allowedPools, ...resourcesByType });
 		throw e;
