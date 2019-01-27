@@ -119,7 +119,7 @@ export async function validation({ proxyAgent, site, allowedPools, ...resources 
 		return false;
 	}
 
-	for (const bannedResource of [account, proxy]) {
+	for (const bannedResource of [account]) {
 		const poolId = findPool(bannedResource.type, allowedPools);
 		await resourceBrokerClient().ban(bannedResource, poolId);
 	}
