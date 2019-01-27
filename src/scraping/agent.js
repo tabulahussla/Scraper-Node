@@ -23,7 +23,7 @@ export default async function agentHandler(job) {
 
 		await authentication({ agent, site });
 
-		return await plugins.exec(site, section, 'fetch', { agent, request });
+		return await plugins.exec(site, section, 'fetch', { agent, request, section, site });
 	} catch (e) {
 		if (
 			agent &&

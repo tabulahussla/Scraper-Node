@@ -46,6 +46,8 @@ export default async function httpHandler(job) {
 			proxyAgent,
 			request,
 			...resourcesByType,
+			section,
+			site,
 		});
 	} catch (e) {
 		await validation({ proxyAgent, site, allowedPools, ...resourcesByType });
