@@ -28,6 +28,10 @@ export function setupQueue(name, options) {
 		throw new Error(`invalid worker type: "${options.workerType}`);
 	}
 
+	if (process.env.DESTROY_QUEUES) {
+		queue.destroy();
+	}
+
 	const handler = workers[options.workerType];
 
 	queue.process(options.concurrency, async job => {
