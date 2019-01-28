@@ -3,6 +3,7 @@ import workers from 'scraping';
 import log from 'common/log';
 import redisClient from 'database/redis';
 import queueRegistry from 'queues/registry';
+import pause from 'common/pause';
 
 /**
  * @export
@@ -19,18 +20,20 @@ export default async function setupQueues(options) {
  * @param {string} name
  * @param {SetupQueueOptions} options
  */
-export function setupQueue(name, options) {
+export async function setupQueue(name, options) {
 	options.settings = options.settings || {};
 	const redis = options.settings.redis || redisClient;
 	const queue = new Queue(name, { ...options.settings, redis });
 
 	if (!(options.workerType in workers)) {
-		throw new Error(`invalid worker type: "${options.workerType}`);
+		throw new Error(`invalid worker type: "${options.workerType}"`);
 	}
 
 	if (process.env.DESTROY_QUEUES) {
-		queue.destroy();
+		await queue.destroy();
 	}
+
+	await pause(1000);
 
 	const handler = workers[options.workerType];
 
