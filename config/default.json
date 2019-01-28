@@ -45,7 +45,11 @@
 			"namespace": "default"
 		}
 	},
-	"userAgent": "AAppC34JTB1NDTWD:290",
+	"api.appannie.com-options": {
+		"userAgent": "AAppC34JTB1NDTWD:290",
+		"clientId": "79499a6f0ceb17a01ce0",
+		"clientSecret": "5936810c7268c0241c5b48ad6c2f082f15029ff2"
+	},
 	"make-folders": ["storage/profiles", "storage/dumps/html", "storage/screenshots"],
 	"profileDir": "storage/profiles",
 	"cluster": {
