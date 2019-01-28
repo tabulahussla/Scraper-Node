@@ -30,6 +30,7 @@ export async function setupQueue(name, options) {
 	}
 
 	if (process.env.DESTROY_QUEUES) {
+		log.warn('DESTROYING QUEUE "%s"', name);
 		await queue.destroy();
 	}
 
