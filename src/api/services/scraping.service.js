@@ -5,21 +5,18 @@ import log from 'common/log';
 import { jobStats } from 'stats';
 
 export default {
-	async createJob(
-		connection,
-		{
-			queue: queueName,
-			contract,
-			jobOptions: {
-				retries = 10,
-				delayUntil = 0,
-				timeout = 0,
-				jobId = void 0,
-				backoffStrategy = void 0,
-				backoffDelayFactor = void 0,
-			} = {},
-		},
-	) {
+	async createJob({
+		queue: queueName,
+		contract,
+		jobOptions: {
+			retries = 10,
+			delayUntil = 0,
+			timeout = 0,
+			jobId = void 0,
+			backoffStrategy = void 0,
+			backoffDelayFactor = void 0,
+		} = {},
+	}) {
 		log.trace('⛏ %s/%s on %s', contract.site, contract.section, queueName);
 
 		try {
@@ -61,7 +58,7 @@ export default {
 			throw err;
 		}
 	},
-	getQueueConfig(connection, name = void 0) {
+	getQueueConfig({ name = void 0 } = {}) {
 		return registry.getQueueConfig(name);
 	},
 	getPlugins() {
