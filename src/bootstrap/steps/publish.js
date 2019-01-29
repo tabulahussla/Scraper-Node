@@ -11,10 +11,11 @@ export default async function setup() {
 export async function setupServiceDiscovery() {
 	// †
 	const nodeId = config.get('node-id') || os.hostname();
-	const { host, port, type } = config.get('api');
+	const { host, port } = config.get('api');
 	const { service, payload } = config.get('discovery');
 	const serviceHost = getServiceHost();
-	const modifiedPayload = { host: serviceHost || host, port, type, ...payload };
+	const address = `ws://${serviceHost || host}:${port}/`;
+	const modifiedPayload = { address, ...payload };
 
 	log.debug('REGISTERING %o', modifiedPayload);
 
