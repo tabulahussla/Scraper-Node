@@ -11,6 +11,6 @@ export async function initialize(options) {
 	});
 
 	Object.keys(services).forEach(serviceName => {
-		server.registerService(services[serviceName], serviceName);
+		server.registerService(services[serviceName]);
 	});
 }
