@@ -4,8 +4,12 @@ import log from 'common/log';
 
 export default async function setupAPIServer() {
 	const apiOptions = config.get('api');
-	const { secret } = config.get('jwt');
-	await initialize({ jwtSecret: Buffer.from(secret, 'base64'), ...apiOptions });
+	const { secret, algorithm } = config.get('jwt');
+	await initialize({
+		jwtSecret: Buffer.from(secret, 'base64'),
+		jwtAlgorithm: algorithm,
+		...apiOptions,
+	});
 
 	log.info('listening on %o', server.wss.address());
 
