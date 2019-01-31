@@ -61,6 +61,9 @@ export async function authentication({ agent, site }) {
 	if (!(await verify({ agent, account }))) {
 		await authorize({ agent, account });
 		if (!(await verify({ agent, account }))) {
+			await agent.dumpHtml(
+				`AUTH_FAIL ${account.email} ${new Date().toLocaleString('ru').replace(/:/g, '-')}`,
+			);
 			throw new Error('authentication failed');
 		}
 	}
