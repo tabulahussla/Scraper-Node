@@ -860,10 +860,10 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.5.tgz#9da44ed75571999b65c37b60c9b2b88db54c585d"
   integrity sha512-SCcK7mvGi3+ZNz833RRjFIxrn4gI1PPR3NtuIS+6vMkvmsGjosqTJwRt5bAEFLRz+wtJMWv8+uOnZf2hi2QXTg==
 
-"@xxorg/app-annie-plugin@^1.3.59":
-  version "1.3.59"
-  resolved "https://npm.api.haus/@xxorg%2fapp-annie-plugin/-/app-annie-plugin-1.3.59.tgz#f75068c187825e64b3e241d2acd328cd005d516c"
-  integrity sha512-8a3VDETgXZWwecmA/wsH8akrrTWVBqweq823CircWwxwwU+oWpdUhzARWEeASGnDIiKJKZQALYDEGpp7wJ4g5w==
+"@xxorg/app-annie-plugin@^1.3.61":
+  version "1.3.61"
+  resolved "https://npm.api.haus/@xxorg%2fapp-annie-plugin/-/app-annie-plugin-1.3.61.tgz#162b0bd30a19d265ba9b231bb5fe2e852ec01d04"
+  integrity sha512-d3XE/dzj9WhfmWaWfGGGt8n6lwHv4tw89voU02ddqQkEIZz3NtdMOmi0CZKQgEeYJ7y2m6IQxclLjSnkej8ggg==
   dependencies:
     fs-extra "^7.0.0"
     mongodb "^3.1.8"
@@ -885,16 +885,17 @@
     promise-retry "^1.1.1"
     require-directory "^2.1.1"
 
-"@xxorg/database-client@^1.1.10":
-  version "1.1.10"
-  resolved "https://npm.api.haus/@xxorg%2fdatabase-client/-/database-client-1.1.10.tgz#64c351d7b54d29721c842fdff7defbf496071a31"
-  integrity sha512-1ym2R58gRMB196LwA+h1R33izpBqy3jDLtmzT/nt/JJ+9oc5GBun1DVo2SVL7UAI7dOzlR2PTkrxk0LrkphhAA==
+"@xxorg/database-client@^1.1.11":
+  version "1.1.11"
+  resolved "https://npm.api.haus/@xxorg%2fdatabase-client/-/database-client-1.1.11.tgz#b0e22d8f806d994889af6d84cdcd2041a4650ba1"
+  integrity sha512-4hY1WShbOyXuRGqnF9zE3J6PV6XOtGsiMg+M9iZYQaBU2fi2Jm7TAbJLZzxYaB3oRwYfwgXnjPCm9xTx/ToXUg==
   dependencies:
     bluebird "^3.5.3"
     cassandra-driver "^4.0.0"
     cassanknex "^1.20.0"
     debug "^4.1.1"
     fs-extra "^7.0.1"
+    int64-buffer "^0.99.1007"
     pino "^5.9.0"
     uuid "^3.3.2"
 
@@ -911,30 +912,27 @@
     lru-cache "^5.1.1"
     pino "^4.17.6"
 
-"@xxorg/google-play-plugin@^1.0.7":
-  version "1.0.7"
-  resolved "https://npm.api.haus/@xxorg%2fgoogle-play-plugin/-/google-play-plugin-1.0.7.tgz#2ad7e527416a1c1a64d8dca7050f3addff54f355"
-  integrity sha512-6JcNQa7Cn8ZZjRxTiLF0oPcS52maa6NOcbdg8IvWZdX9BDgXkDaHs9tdo9ZBdcl6qr5zY/5sZhlVFXpHsKCmPQ==
+"@xxorg/google-play-plugin@^1.1.1":
+  version "1.1.1"
+  resolved "https://npm.api.haus/@xxorg%2fgoogle-play-plugin/-/google-play-plugin-1.1.1.tgz#9b4bddf03f59b9a4b73d29df6560cb5e4fca26c0"
+  integrity sha512-3qTFDELz4cjmS2lyXM6ij9l7KMhp/JFxy2mQWD79XO7N6cGqLKd1BaaexBTfzYTw4zZyrOW7/l1epWSrZMsqYA==
   dependencies:
-    config "^2.0.1"
     fast-deep-equal "^2.0.1"
     fs-extra "^7.0.0"
-    google-play-scraper "^6.2.2"
     moment "^2.23.0"
     mongodb "^3.1.8"
     pino "^4.17.6"
     require-directory "^2.1.1"
     uuid "^3.3.2"
 
-"@xxorg/harvesting-plugin@^1.1.1":
-  version "1.1.1"
-  resolved "https://npm.api.haus/@xxorg%2fharvesting-plugin/-/harvesting-plugin-1.1.1.tgz#20907859eba1bebed06f0df90dfc540593ec101f"
-  integrity sha512-Zokvllqfa8ubgHCwetmVthbPUYeL/fC+chpFFh9nHGvE1B7k0Ncr2B8jfiPUruk8mPg9L2VoAJDRDU86ifIQFw==
+"@xxorg/harvesting-plugin@^1.1.3":
+  version "1.1.3"
+  resolved "https://npm.api.haus/@xxorg%2fharvesting-plugin/-/harvesting-plugin-1.1.3.tgz#b065f0b2444861c321a2e78c79438c92d95949c2"
+  integrity sha512-yLLH+4wlnOGq7LKKg1ooQXuzhNVTc+IxKCZOayfj2NCpbLAW6eFcxeLdV68I5GkJCycqAG+ACGpysaZATUZl7A==
   dependencies:
     config "^2.0.1"
     fast-deep-equal "^2.0.1"
     fs-extra "^7.0.0"
-    google-play-scraper "^6.2.2"
     moment "^2.23.0"
     mongodb "^3.1.8"
     pino "^4.17.6"
@@ -951,10 +949,10 @@
     config "^2.0.1"
     pino "^4.17.6"
 
-"@xxorg/ws-api@^0.0.3":
-  version "0.0.3"
-  resolved "https://npm.api.haus/@xxorg%2fws-api/-/ws-api-0.0.3.tgz#384337af6988c2142a32864e6720381e3d8e537c"
-  integrity sha512-kvsYtTSC9XijoFYnpsO3O5qdkqzTeI0P/KZo+nCfmJ/U9XeFpF8PFy6kQIpu76ZUluriXjl8x4lDYxs01DO/wQ==
+"@xxorg/ws-api@^0.1.0":
+  version "0.1.0"
+  resolved "https://npm.api.haus/@xxorg%2fws-api/-/ws-api-0.1.0.tgz#294809a8578692ac5abee9725484271baf2d1c91"
+  integrity sha512-7huV+AIMtakmxiwVr3mA/W7noXt7NOxyliCVrVKnHzuQZ7eFnlFpR5UUy9WPyU1YmSke4z39d9+TLeeQzHjXXg==
   dependencies:
     jwt-simple "^0.5.5"
     rpc-websockets "^4.3.5"
@@ -3003,10 +3001,9 @@ google-libphonenumber@^3.1.6:
   resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.2.tgz#3d9d7ba727e99a50812f21b0ed313723b76c5c54"
   integrity sha512-ubjGeosYPeusjYbUHy76lCniGTTI0k1rIFc+uKBX+jHQLDmWOSUtlFUxaeoLJ+Y+PAMM6dWp+C1HjHx5BI8kEw==
 
-google-play-scraper@^6.2.2:
+google-play-scraper@youritech/google-play-scraper:
   version "6.2.2"
-  resolved "https://registry.yarnpkg.com/google-play-scraper/-/google-play-scraper-6.2.2.tgz#870c8a4b75129033e3a8aef5165f1c37fa61c10f"
-  integrity sha512-su/ol1cN7VjhTTdUN/6UXRM+AcS9IjOYO1oFrhvmxD/7kJBOr7VeJeiC2qeipvjoLJL+F32uWCJ/9gHxZc7XbA==
+  resolved "https://codeload.github.com/youritech/google-play-scraper/tar.gz/663e5967bd683431bcdc3d3639fed4e488ce6197"
   dependencies:
     cheerio "^0.20.0"
     debug "^2.2.0"
@@ -3303,6 +3300,11 @@ inquirer@^6.1.0:
     string-width "^2.1.0"
     strip-ansi "^5.0.0"
     through "^2.3.6"
+
+int64-buffer@^0.99.1007:
+  version "0.99.1007"
+  resolved "https://registry.yarnpkg.com/int64-buffer/-/int64-buffer-0.99.1007.tgz#211ea089a2fdb960070a2e77cd6d17dc456a5220"
+  integrity sha512-XDBEu44oSTqlvCSiOZ/0FoUkpWu/vwjJLGSKDabNISPQNZ5wub1FodGHBljRsrR0IXRPq7SslshZYMuA55CgTQ==
 
 invariant@^2.2.0, invariant@^2.2.2:
   version "2.2.4"
