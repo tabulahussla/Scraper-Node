@@ -104,7 +104,17 @@ export async function authentication({ proxyAgent, site, ...resources }) {
 		if (!(await verify({ proxyAgent, ...resources }))) {
 			throw new Error('authentication failed');
 		}
+		await saveModifiedAccount(resources[accountResource]);
 	}
+}
+
+export async function saveModifiedAccount(account) {
+	await resourceBrokerClient().modify(account, {
+		$set: {
+			token: account.token,
+			tokenTimestamp: account.tokenTimestamp,
+		},
+	});
 }
 
 export async function validation({ proxyAgent, site, allowedPools, ...resources }) {
