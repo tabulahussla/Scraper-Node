@@ -50,6 +50,11 @@
 		"clientId": "79499a6f0ceb17a01ce0",
 		"clientSecret": "5936810c7268c0241c5b48ad6c2f082f15029ff2"
 	},
+	"app-store-options": {
+		"resolveIdsBatchSize": 128,
+		"amountOfRetriesPerBatch": 5,
+		"randomTimeout": ["1 second", "12 seconds"]
+	},
 	"make-folders": [
 		"storage/profiles",
 		"storage/dumps/html",
@@ -73,13 +78,8 @@
 		"destroyAfterTimeout": 300000,
 		"warnIfNotReturnedTimeout": 800000
 	},
-	"plugins": [],
+	"plugins": ["@xxorg/scraping-plugins"],
 	"stats": {
 		"interval": "15s"
-	},
-	"app-store-options": {
-		"resolveIdsBatchSize": 50,
-		"amountOfRetriesPerBatch": 5,
-		"randomTimeout": ["1 second", "10 seconds"]
 	}
 }
