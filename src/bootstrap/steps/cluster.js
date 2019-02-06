@@ -3,6 +3,7 @@ import config from 'config';
 import path from 'path';
 import os from 'os';
 import bootstrapWorker from 'bootstrap/worker';
+import clone from 'clone';
 
 export default async function setupCluster() {
 	const { maxWorkers, entryPointForWorker, enabled } = config.get('cluster');
@@ -33,7 +34,7 @@ export default async function setupCluster() {
 export async function setupOnMainThread() {
 	bootstrapWorker({
 		_workerInit: true,
-		queues: config.get('queues'),
+		queues: clone(config.get('queues')),
 	});
 }
 

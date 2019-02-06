@@ -12,9 +12,8 @@
 		"db": 0
 	},
 	"api": {
-		"port": 7006,
-		"type": "ws",
-		"tls": false
+		"host": "127.0.0.1",
+		"port": 7006
 	},
 	"probe": {
 		"enabled": false,
@@ -38,9 +37,7 @@
 			"port": 7006
 		},
 		"client": {
-			"type": "ws",
-			"host": "5.189.189.195",
-			"port": 30019,
+			"address": "ws://localhost:7007",
 			"token": "",
 			"namespace": "default"
 		}

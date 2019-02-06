@@ -32,9 +32,7 @@
 			"port": 7006
 		},
 		"client": {
-			"type": "ws",
-			"host": "localhost",
-			"port": 7007,
+			"address": "ws://localhost:7007",
 			"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImRlZmF1bHQiLCJleHAiOjE2MzQxNTA1NjUsImlhdCI6MTU0Nzc1MDU2NX0.8PVBMDg8fIHSSWHgz4-nq0mXw4d-RWbeLAF84x9i4PyiNxUYzxAiJaSNJ6CLPY_M"
 		}
 	}
