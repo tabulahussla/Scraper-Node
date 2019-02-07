@@ -25,10 +25,10 @@
 		"obfuscate": "javascript-obfuscator dist/bundle.min.js -o dist/bundle.min.js --config obfuscate.config.json"
 	},
 	"dependencies": {
-		"@xxorg/database-client": "^2.0.3",
+		"@xxorg/database-client": "^2.1.1",
 		"@xxorg/discovery-client": "^1.2.4",
 		"@xxorg/resource-broker-client": "^1.1.1",
-		"@xxorg/scraping-plugins": "^0.1.3",
+		"@xxorg/scraping-plugins": "^0.1.6",
 		"@xxorg/ws-api": "^0.1.6",
 		"bee-queue": "^1.2.2",
 		"bluebird": "^3.5.3",

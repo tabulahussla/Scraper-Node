@@ -765,10 +765,10 @@
   resolved "https://npm.api.haus/@xxorg%2fasidc-blueprint/-/asidc-blueprint-1.0.2.tgz#c18832d57f2c0a25c8e965d057679ce40009ab5f"
   integrity sha512-BeXFKqmIrgYD/cC4GLJZDaLdS+xT+/3Cgb+fhkmBdjM95NCG53hJTi625uJb2kUr6mAEbNEFwNz1JKkh3rCflA==
 
-"@xxorg/database-client@^2.0.3":
-  version "2.0.3"
-  resolved "https://npm.api.haus/@xxorg%2fdatabase-client/-/database-client-2.0.3.tgz#ea659ccbc14fd1f78c0d30e93fccf65ba3fd5d54"
-  integrity sha512-m8uadjNIaW38vAhxteCp+2BNNBOPkAj1kNfLCIU6Ugb7aatZ2h9uVjCkaVRmwU6/kK4TNLHAAUZWARMImizdzw==
+"@xxorg/database-client@^2.1.1":
+  version "2.1.1"
+  resolved "https://npm.api.haus/@xxorg%2fdatabase-client/-/database-client-2.1.1.tgz#80872b9c09ca47f8cf34ee5db68bfa5eb37dcaa5"
+  integrity sha512-W+ol+twhOutaxQweaaEoOexgaQWs3ZlA+PG5tZsvznPS8LBQlO0c/nSoj32VMcDK6DbaotVNDWpJBaY3PlQQjg==
   dependencies:
     "@xxorg/asidc-blueprint" "^1.0.2"
     bluebird "^3.5.3"
@@ -801,10 +801,10 @@
     config "^3.0.1"
     pino "^5.11.1"
 
-"@xxorg/scraping-plugins@^0.1.3":
-  version "0.1.3"
-  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.1.3.tgz#24a354e2cec9bb6fa28d1d445a6851c97ca74333"
-  integrity sha512-c7qo8Phds+96xGbkzYHHbbPQxinAo/ugs0Eo1/Z7zKcUYJmDIJPNlJfKFDA0UJzkh3M8r/zWB2aTztdCG8NFqw==
+"@xxorg/scraping-plugins@^0.1.6":
+  version "0.1.6"
+  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.1.6.tgz#48acec066e7bbfa2e72e0c239c5f1f5a823512e8"
+  integrity sha512-SubhNqHqEx1bAdxu4X5VDF0taPPiuvW8EcYV5E74fCNm5cFouXJ0RpDlnraiDo9IIdK1p8ZcDYm2u++BBkDl4A==
   dependencies:
     "@xxorg/asidc-blueprint" "^1.0.2"
     app-store-scraper "^0.15.3"
