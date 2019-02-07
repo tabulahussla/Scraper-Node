@@ -99,20 +99,18 @@ export async function authentication({ proxyAgent, site, ...resources }) {
 	}
 
 	if (!(await verify({ proxyAgent, ...resources }))) {
-		// TODO: SAVE CHANGES TO MODIFIED RESOURCES MAYBE?
 		await authorize({ proxyAgent, ...resources });
 		if (!(await verify({ proxyAgent, ...resources }))) {
 			throw new Error('authentication failed');
 		}
-		await saveModifiedAccount(resources[accountResource]);
+		await saveAuthResult(resources[accountResource]);
 	}
 }
 
-export async function saveModifiedAccount(account) {
+export async function saveAuthResult(account) {
 	await resourceBrokerClient().modify(account, {
 		$set: {
-			token: account.token,
-			tokenTimestamp: account.tokenTimestamp,
+			authResult: account.authResult,
 		},
 	});
 }
