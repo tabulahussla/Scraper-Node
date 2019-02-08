@@ -785,10 +785,10 @@
     config "^3.0.1"
     pino "^5.11.1"
 
-"@xxorg/scraping-plugins@^0.1.9":
-  version "0.1.9"
-  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.1.9.tgz#7b21b1d03191f74153a6053054d749a748986138"
-  integrity sha512-S2YVh2snOqQyLNZ8y9BwFvgZ8onei43GdBmahGy9x8l3q1ZJltFylMf4/pGUJBr4b8MF5lMJpT+FX/4+Ortj2Q==
+"@xxorg/scraping-plugins@^0.2.0":
+  version "0.2.0"
+  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.2.0.tgz#d38e54494d626a9c335b9c0b6acd3eb51064aa38"
+  integrity sha512-u0A4Fiq00lfTDMA90JxlrHDGB2Tq6LJDZIMPQDAMmy3JqfuEgxSe/iK5l1pKMbVr68TXCfhfRwcNmaaycQdtiQ==
   dependencies:
     "@xxorg/asidc-blueprint" "^1.0.2"
     app-store-scraper "^0.15.3"
