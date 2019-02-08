@@ -13,8 +13,8 @@ export default {
 			delayUntil = 0,
 			timeout = 0,
 			jobId = void 0,
-			backoffStrategy = void 0,
-			backoffDelayFactor = void 0,
+			backoffStrategy = 'exponential',
+			backoffDelayFactor = 1000,
 		} = {},
 	}) {
 		log.trace('⛏ %s/%s on %s', contract.site, contract.section, queueName);
@@ -44,6 +44,7 @@ export default {
 			}
 
 			if (backoffStrategy) {
+				// @ts-ignore
 				job.backoff(backoffStrategy, backoffDelayFactor);
 			}
 
