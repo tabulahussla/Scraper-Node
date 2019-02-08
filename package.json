@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@xxorg/discovery-client": "^1.2.4",
 		"@xxorg/resource-broker-client": "^1.1.1",
-		"@xxorg/scraping-plugins": "^0.1.8",
+		"@xxorg/scraping-plugins": "^0.1.9",
 		"@xxorg/ws-api": "^0.1.6",
 		"bee-queue": "^1.2.2",
 		"bluebird": "^3.5.3",
