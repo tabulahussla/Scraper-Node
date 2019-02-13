@@ -10,13 +10,11 @@
 		"appannie.com": {
 			"pools": ["dev_proxies", "dev_accounts"],
 			"resources": ["proxy", "account"],
-			"workerType": "agent",
 			"concurrency": 25
 		},
 		"dev-http": {
 			"pools": ["dev_proxies", "dev_accounts"],
 			"resources": ["proxy", "account"],
-			"workerType": "http",
 			"concurrency": 25
 		}
 	},

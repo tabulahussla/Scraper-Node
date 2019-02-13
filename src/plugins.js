@@ -9,16 +9,15 @@ function resolveDefault(m) {
 
 export async function exec(...args) {
 	const command = args.pop();
-	const module = getHandler(...args);
+	const module = resolveModuleDefault(...args);
 
 	if (!module) {
 		throw new Error(`Invalid path: "${args}". No handler found in any plugin`);
 	}
 
 	while (args.length >= 1) {
-		// pop it until it reaches /site/* complexity then inject */middleware last time
 		args.pop();
-		const parentMiddleware = getHandler(...args, 'middleware');
+		const parentMiddleware = resolveModuleDefault(...args, 'middleware');
 		if (parentMiddleware) {
 			log.debug('RUN %s MIDDLEWARE', args);
 			await parentMiddleware(command);
@@ -28,23 +27,37 @@ export async function exec(...args) {
 	return module(command);
 }
 
-export function getHandler(...args) {
-	const module = map.get(_key(...args));
-	if (!module) {
-		return module;
-	}
-	return module.default || module;
+export function getThatOrDefault(obj) {
+	return (obj && obj.default) || obj;
 }
 
-function resolve(obj, ...path) {
+export function resolveModuleDefault(...args) {
+	return getThatOrDefault(resolveModule(...args));
+}
+
+export function getManifest(site, section) {
+	const defaultManifestModule = resolveModuleDefault(site, section, 'manifest');
+	const mainModule = resolveModule(site, section);
+
+	return defaultManifestModule || (mainModule && mainModule.manifest);
+}
+
+export function resolveModule(...args) {
+	const module = map.get(_key(...args));
+	if (module) {
+		return module;
+	}
+}
+
+function resolvePath(obj, ...path) {
 	if (!path.length) {
 		return obj.default || obj;
 	}
-	return resolve(obj[path[0]], ...path.slice(1));
+	return resolvePath(obj[path[0]], ...path.slice(1));
 }
 
-export function registerHandler(plugin, ...key) {
-	map.set(_key(...key), resolveDefault(resolve(plugin.modules, ...key)));
+export function registerModule(plugin, ...key) {
+	map.set(_key(...key), resolveDefault(resolvePath(plugin.modules, ...key)));
 	log.trace('+%s: %o', _key(...key), map.get(_key(...key)));
 }
 
@@ -61,10 +74,10 @@ export function load(name) {
 		for (const section in modules[site]) {
 			log.trace('\t%s:', section);
 			if (resolveDefault(modules[site][section]) instanceof Function) {
-				registerHandler(plugin, site, section);
+				registerModule(plugin, site, section);
 			} else {
 				for (const script in modules[site][section]) {
-					registerHandler(plugin, site, section, script);
+					registerModule(plugin, site, section, script);
 				}
 			}
 		}

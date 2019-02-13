@@ -1,5 +1,5 @@
 import Queue from 'bee-queue';
-import workers from 'scraping';
+import worker from 'scraping/worker';
 import log from 'common/log';
 import redisClient from 'database/redis';
 import queueRegistry from 'queues/registry';
@@ -25,10 +25,6 @@ export async function setupQueue(name, options) {
 	const redis = options.settings.redis || redisClient;
 	const queue = new Queue(name, { ...options.settings, redis });
 
-	if (!(options.workerType in workers)) {
-		throw new Error(`invalid worker type: "${options.workerType}"`);
-	}
-
 	if (process.env.DESTROY_QUEUES) {
 		log.warn('DESTROYING QUEUE "%s"', name);
 		await queue.destroy();
@@ -36,11 +32,9 @@ export async function setupQueue(name, options) {
 
 	await pause(1000);
 
-	const handler = workers[options.workerType];
-
 	queue.process(options.concurrency, async job => {
 		try {
-			return await handler(job);
+			return await worker(job);
 		} catch (err) {
 			log.fatal({ err });
 			throw err;

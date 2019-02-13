@@ -52,7 +52,6 @@ export default class AgentPool {
 		const { proxy, account } = await this._resolveResources({
 			resources,
 			pools,
-			queue: queueName,
 		});
 
 		agent = await this.createAgent({ proxy, account });
@@ -129,14 +128,14 @@ export default class AgentPool {
 		return agent;
 	}
 
-	async _resolveResources({ resources, pools, queue, getAllOrThrow = true }) {
+	async _resolveResources({ resources, pools, getAllOrThrow = true }) {
 		const resolved = {};
 		for (const type of resources) {
 			const poolId = findPool(type, pools);
 			if (!poolId) {
 				throw new Error(
 					`Cannot resolve pool for resource type ${type} ` +
-						`on queue ${queue} (available pools: ${pools})`,
+						`(available pools: ${pools})`,
 				);
 			}
 			const resource = await this._resourceBrokerClient().retrieve(poolId);
