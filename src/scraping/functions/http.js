@@ -7,7 +7,9 @@ import log from 'common/log';
 export const proxyResource = 'proxy';
 export const accountResource = 'account';
 
-export default async function httpHandler({ site, section, request, resources }) {
+export default async function httpHandler({ site, section, request, proxy, account }) {
+	const resources = { proxy, account };
+
 	let proxyAgent;
 	if (resources[proxyResource]) {
 		proxyAgent = new ProxyAgent(
@@ -30,6 +32,7 @@ export default async function httpHandler({ site, section, request, resources })
 		throw e;
 	} finally {
 		for (const resource of Object.values(resources)) {
+			if (!resource) continue;
 			try {
 				await resourceBrokerClient().release(resource, resource.poolId);
 			} catch (err) {

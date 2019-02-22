@@ -50,11 +50,13 @@ export default async function process(job) {
 	const contract = job.data;
 	const { site, section } = contract;
 	const manifest = plugins.getManifest(site, section);
-	const handler = functions[manifest.mode];
 
 	if (!manifest) {
 		throw new Error(`Invalid site/section "${site}/${section}": no manifest`);
 	}
+
+	const handler = functions[manifest.mode];
+
 	if (!handler) {
 		throw new Error(
 			`Invalid site/section "${site}/${section}": no handler for mode ${manifest.mode}`,

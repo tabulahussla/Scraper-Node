@@ -3,8 +3,19 @@ import log from 'common/log';
 export const map = new Map();
 export const plugins = new Set();
 
-function resolveDefault(m) {
-	return m.default || m;
+export function interopDefault(obj) {
+	return (obj && obj.default) || obj;
+}
+
+export function resolveModuleDefault(...args) {
+	return interopDefault(resolveModule(...args));
+}
+
+export function resolveModule(...args) {
+	const module = map.get(_key(...args));
+	if (module) {
+		return module;
+	}
 }
 
 export async function exec(...args) {
@@ -27,26 +38,11 @@ export async function exec(...args) {
 	return module(command);
 }
 
-export function getThatOrDefault(obj) {
-	return (obj && obj.default) || obj;
-}
-
-export function resolveModuleDefault(...args) {
-	return getThatOrDefault(resolveModule(...args));
-}
-
 export function getManifest(site, section) {
 	const defaultManifestModule = resolveModuleDefault(site, section, 'manifest');
 	const mainModule = resolveModule(site, section);
 
 	return defaultManifestModule || (mainModule && mainModule.manifest);
-}
-
-export function resolveModule(...args) {
-	const module = map.get(_key(...args));
-	if (module) {
-		return module;
-	}
 }
 
 function resolvePath(obj, ...path) {
@@ -57,7 +53,7 @@ function resolvePath(obj, ...path) {
 }
 
 export function registerModule(plugin, ...key) {
-	map.set(_key(...key), resolveDefault(resolvePath(plugin.modules, ...key)));
+	map.set(_key(...key), interopDefault(resolvePath(plugin.modules, ...key)));
 	log.trace('+%s: %o', _key(...key), map.get(_key(...key)));
 }
 
@@ -73,7 +69,7 @@ export function load(name) {
 		log.trace('%s:', site);
 		for (const section in modules[site]) {
 			log.trace('\t%s:', section);
-			if (resolveDefault(modules[site][section]) instanceof Function) {
+			if (interopDefault(modules[site][section]) instanceof Function) {
 				registerModule(plugin, site, section);
 			} else {
 				for (const script in modules[site][section]) {

@@ -10,12 +10,22 @@
 		"appannie.com": {
 			"pools": ["dev_proxies", "dev_accounts"],
 			"resources": ["proxy", "account"],
-			"concurrency": 25
+			"concurrency": 5
 		},
 		"dev-http": {
 			"pools": ["dev_proxies", "dev_accounts"],
 			"resources": ["proxy", "account"],
-			"concurrency": 25
+			"concurrency": 5
+		},
+		"itunes.apple.com": {
+			"pools": ["dev_proxies"],
+			"resources": ["proxy"],
+			"concurrency": 5
+		},
+		"play.google.com": {
+			"pools": ["dev_proxies"],
+			"resources": ["proxy"],
+			"concurrency": 5
 		}
 	},
 	"api": {

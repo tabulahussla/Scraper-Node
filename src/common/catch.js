@@ -9,8 +9,9 @@ const workerMessage = worker ? ` on worker ${worker.id}` : '';
 
 process.on('rejectionHandled', () => {});
 process.on('unhandledRejection', (p, reason) => {
-	log.fatal('Unhandled Promise Rejection%s:', workerMessage, p);
-	reason.catch(err => log.fatal({ err }));
+	log.fatal('Unhandled Promise Rejection%s:', workerMessage, p, reason);
+	// eslint-disable-next-line no-process-exit
+	reason.catch(err => log.fatal({ err })).then(() => process.exit(1));
 });
 
 process.on('uncaughtException', err => {
