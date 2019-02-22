@@ -5,6 +5,8 @@ import config from 'config';
 import { findPool } from 'resources/pools';
 import AgentPoolTimeouts from './agent-pool-timeouts.class';
 import log from 'common/log';
+import { DISABLE_PROXIES } from 'flags';
+import { proxyResource } from 'resources';
 
 const queueConfig = config.get('queues');
 // TODO: Synchronise agents on cluster
@@ -129,6 +131,11 @@ export default class AgentPool {
 	}
 
 	async _resolveResources({ resources, pools, getAllOrThrow = true }) {
+		if (DISABLE_PROXIES) {
+			let index = resources.indexOf(proxyResource);
+			~index && resources.slice(index, 1);
+		}
+
 		const resolved = {};
 		for (const type of resources) {
 			const poolId = findPool(type, pools);

@@ -3,9 +3,7 @@ import * as plugins from 'plugins';
 import ProxyAgent from 'proxy-agent';
 import stringifyProxy from 'common/stringify-proxy';
 import log from 'common/log';
-
-export const proxyResource = 'proxy';
-export const accountResource = 'account';
+import { proxyResource, accountResource } from 'resources';
 
 export default async function httpHandler({ site, section, request, proxy, account }) {
 	const resources = { proxy, account };

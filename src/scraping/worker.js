@@ -4,6 +4,8 @@ import agentPool from 'agency/agent-pool';
 import { findPool } from 'resources/pools';
 import resourceBrokerClient from 'resources/broker';
 import registry from 'queues/registry';
+import { DISABLE_PROXIES } from 'flags';
+import { proxyResource } from 'resources';
 
 export async function acquireAgent(job) {
 	const agent = await agentPool.getOrCreateAgent({ queue: job.queue.name });
@@ -37,6 +39,11 @@ export async function acquireResources(job) {
 		throw new Error(
 			'job handler has required resources but no pools available. check your config',
 		);
+	}
+
+	if (DISABLE_PROXIES) {
+		let index = requiredResources.indexOf(proxyResource);
+		~index && requiredResources.slice(index, 1);
 	}
 
 	return await resolveResources({
