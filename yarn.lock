@@ -775,10 +775,10 @@
     fs-extra "^7.0.0"
     pino "^4.17.6"
 
-"@xxorg/google-play-scraping@^0.3.8":
-  version "0.3.8"
-  resolved "https://npm.api.haus/@xxorg%2fgoogle-play-scraping/-/google-play-scraping-0.3.8.tgz#f654acef230b18316021aca8a5917531c6293513"
-  integrity sha512-SVmHBO8D7Dl+8N8Ew9ATanDXMnH5F7/VAV+7B0DfVc5HLj9NTRANrn+YvWJiJEjo42g+gtuWaU4pxfju7jpXkA==
+"@xxorg/google-play-scraping@^0.4.0":
+  version "0.4.0"
+  resolved "https://npm.api.haus/@xxorg%2fgoogle-play-scraping/-/google-play-scraping-0.4.0.tgz#4768f5dcdf386e3e8a368860ed106206bd3b173b"
+  integrity sha512-TiINXjqxesPW0vCl/HZwRoIq8MbZilmlU7K1ryZxvMDIFMNyfx6il55gM6Oron78D3u44Ze8l/WgS4L1PjFv8g==
   dependencies:
     axios "^0.18.0"
     cheerio "^1.0.0-rc.2"
@@ -811,13 +811,13 @@
     config "^3.0.1"
     pino "^5.11.1"
 
-"@xxorg/scraping-plugins@^0.4.2":
-  version "0.4.2"
-  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.4.2.tgz#67a696843561db3113cc3430e174cedcf1813d3e"
-  integrity sha512-xzZ0sZ0JLiDD7ILeZSm/GGK2EKbjnwe5iJq323LAOQ2v9zkuQ7dwsrIcoHKX5qlqx+yE5Fed4o1r/oedBkvmNQ==
+"@xxorg/scraping-plugins@^0.4.3":
+  version "0.4.3"
+  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.4.3.tgz#6d5a578c899cfce6c12011559a655c8ded2521db"
+  integrity sha512-sJeV8zLKB4pFCjjMOPhI5JGYANwwvT/I/N0+7Zzt+VqNA0tt7Yaio4uhv5gv7GdFg27iRAF7wsh4mGLlT7B8Bw==
   dependencies:
     "@xxorg/asidc-blueprint" "^1.0.12"
-    "@xxorg/google-play-scraping" "^0.3.8"
+    "@xxorg/google-play-scraping" "^0.4.0"
     app-store-scraper "^0.15.3"
     config "^3.0.1"
     fs-extra "^7.0.0"
@@ -828,7 +828,7 @@
     pino "^5.11.1"
     promise-retry "^1.1.1"
     request "^2.88.0"
-    request-promise-native "^1.0.5"
+    request-promise-native "^1.0.7"
     require-directory "^2.1.1"
 
 "@xxorg/ws-api@^0.1.4", "@xxorg/ws-api@^0.1.6":
@@ -5357,6 +5357,13 @@ request-promise-core@1.1.1:
   dependencies:
     lodash "^4.13.1"
 
+request-promise-core@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/request-promise-core/-/request-promise-core-1.1.2.tgz#339f6aababcafdb31c799ff158700336301d3346"
+  integrity sha512-UHYyq1MO8GsefGEt7EprS8UrXsm1TxEvFUX1IMTuSLU2Rh7fTIdFtl8xD7JiEYiWU2dl+NYAjCTksTehQUxPag==
+  dependencies:
+    lodash "^4.17.11"
+
 request-promise-native@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/request-promise-native/-/request-promise-native-1.0.5.tgz#5281770f68e0c9719e5163fd3fab482215f4fda5"
@@ -5365,6 +5372,15 @@ request-promise-native@^1.0.5:
     request-promise-core "1.1.1"
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
+
+request-promise-native@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/request-promise-native/-/request-promise-native-1.0.7.tgz#a49868a624bdea5069f1251d0a836e0d89aa2c59"
+  integrity sha512-rIMnbBdgNViL37nZ1b3L/VfPOpSi0TqVDQPAvO6U14lMzOLrt5nilxCQqtDKhZeDiW0/hkCXGoQjhgJd/tCh6w==
+  dependencies:
+    request-promise-core "1.1.2"
+    stealthy-require "^1.1.1"
+    tough-cookie "^2.3.3"
 
 request@^2.55.0, request@^2.86.0, request@^2.87.0, request@^2.88.0:
   version "2.88.0"
@@ -5862,7 +5878,7 @@ static-extend@^0.1.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
-stealthy-require@^1.1.0:
+stealthy-require@^1.1.0, stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
@@ -6114,7 +6130,7 @@ tough-cookie@>=2.3.3:
     psl "^1.1.28"
     punycode "^2.1.1"
 
-tough-cookie@^2.2.0:
+tough-cookie@^2.2.0, tough-cookie@^2.3.3:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"
   integrity sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==
