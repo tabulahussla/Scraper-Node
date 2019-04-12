@@ -81,7 +81,7 @@ export default async function process(contract) {
 
 	try {
 		const artifact = await handler({ ...contract, ...acquiredResources, agent });
-		await harvest(artifact);
+		await harvest(artifact, contract);
 	} finally {
 		agent && (await agent.destroy());
 	}

@@ -6,8 +6,8 @@ import { amqpConnection } from 'database/amqp';
 export let channel;
 export const queue = 'harvesting';
 
-export default async function harvest(artifact) {
-	const buffer = Buffer.from(JSON.stringify(artifact));
+export default async function harvest(artifact, contract) {
+	const buffer = Buffer.from(JSON.stringify({ artifact, contract }));
 	await channel.sendToQueue(queue, buffer);
 }
 
