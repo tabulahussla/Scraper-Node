@@ -4,6 +4,7 @@ import agentPool from 'agent/factory';
 import resourceBrokerClient from 'resources/broker';
 import { DISABLE_PROXIES } from 'flags';
 import config from 'config';
+import harvest from 'harvest';
 
 const SiteConfig = config.get('sites');
 const SiteMap = getSiteMap(SiteConfig);
@@ -79,7 +80,8 @@ export default async function process(contract) {
 	}
 
 	try {
-		return await handler({ ...contract, ...acquiredResources, agent });
+		const artifact = await handler({ ...contract, ...acquiredResources, agent });
+		await harvest(artifact);
 	} finally {
 		agent && (await agent.destroy());
 	}
