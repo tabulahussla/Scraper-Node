@@ -11,8 +11,10 @@ export default function printStatsInterval({ workerId }) {
 
 export function printStats(workerId) {
 	const object = collection.toJSON()[projectName] || {};
-	for (let key in object) {
-		log.info('𝞢 (🚧%s) %s: %o', workerId, key, object[key]);
+	if (Object.keys(object).length) {
+		for (let key in object) {
+			log.info('𝞢 (🚧%s) %s: %o', workerId, key, object[key]);
+		}
+		log.info('┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉');
 	}
-	log.info('┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉');
 }
