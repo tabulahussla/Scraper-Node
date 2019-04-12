@@ -26,6 +26,7 @@ export default class QueueHandler {
 	}
 
 	async consume() {
+		log.debug('consume "%s" queue (concurrency=%d)', this._queue, this._concurrency);
 		await this._channel.prefetch(this._concurrency);
 		await this._channel.assertQueue(this._queue);
 		await this._channel.consume(this._queue, msg => {

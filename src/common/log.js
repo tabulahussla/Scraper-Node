@@ -5,7 +5,7 @@ const log = pino({
 	safe: true,
 	name: config.get('project-name'),
 	level: config.get('log-level'),
-	prettyPrint: process.env.NODE_ENV !== 'production' && { forceColor: true },
+	prettyPrint: process.env.NODE_ENV !== 'production',
 	serializers: {
 		err: stdSerializers.err,
 	},
