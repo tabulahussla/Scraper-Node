@@ -25,5 +25,6 @@
 			"token": "DISCOVERY_TOKEN",
 			"namespace": "DISCOVERY_NAMESPACE"
 		}
-	}
+	},
+	"disableProxies": "DISABLE_PROXIES"
 }

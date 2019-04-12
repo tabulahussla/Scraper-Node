@@ -16,6 +16,7 @@
 		"plugin:import/warnings"
 	],
 	"rules": {
+		"no-unused-vars": ["error", { "varsIgnorePattern": "[iI]gnored" }],
 		"no-shadow": [
 			"error",
 			{ "builtinGlobals": false, "hoist": "functions", "allow": [] }

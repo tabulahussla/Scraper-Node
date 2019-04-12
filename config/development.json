@@ -1,47 +1,34 @@
 {
 	"resource-broker": {
-		"pools": {
-			"proxy": ["dev_proxies"],
-			"account": ["dev_accounts"]
-		},
 		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImFub255bW91cy1icm9rZXIiLCJleHAiOjE2MzQzMTkxMTcsImlhdCI6MTU0NzkxOTExN30.3asXNNBXi9JF9trHvsNgA899eEFddKGjjPNVWEU0Fj_bbvRVoMQAWRzRCB_a5J6A"
 	},
-	"queues": {
-		"appannie.com": {
-			"pools": ["dev_proxies", "dev_accounts"],
-			"resources": ["proxy", "account"],
-			"concurrency": 5
+	"sites": [
+		{
+			"name": "play.google.com",
+			"concurrency": 5,
+			"resources": [
+				{
+					"type": "proxy"
+				}
+			]
 		},
-		"dev-http": {
-			"pools": ["dev_proxies", "dev_accounts"],
-			"resources": ["proxy", "account"],
-			"concurrency": 5
-		},
-		"itunes.apple.com": {
-			"pools": ["dev_proxies"],
-			"resources": ["proxy"],
-			"concurrency": 5
-		},
-		"play.google.com": {
-			"pools": ["dev_proxies"],
-			"resources": ["proxy"],
-			"concurrency": 5
+		{
+			"name": "itunes.apple.com",
+			"concurrency": 5,
+			"resources": [
+				{
+					"type": "proxy"
+				}
+			]
 		}
-	},
+	],
 	"api": {
 		"port": 7006,
 		"type": "ws",
 		"tls": false
 	},
 	"discovery": {
-		"nodeId": "dev-scraper",
-		"payload": {
-			"host": "localhost",
-			"port": 7006
-		},
-		"client": {
-			"address": "ws://localhost:7007",
-			"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImRlZmF1bHQiLCJleHAiOjE2MzQxNTA1NjUsImlhdCI6MTU0Nzc1MDU2NX0.8PVBMDg8fIHSSWHgz4-nq0mXw4d-RWbeLAF84x9i4PyiNxUYzxAiJaSNJ6CLPY_M"
-		}
+		"address": "ws://localhost:7007",
+		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImRlZmF1bHQiLCJleHAiOjE2MzQxNTA1NjUsImlhdCI6MTU0Nzc1MDU2NX0.8PVBMDg8fIHSSWHgz4-nq0mXw4d-RWbeLAF84x9i4PyiNxUYzxAiJaSNJ6CLPY_M"
 	}
 }

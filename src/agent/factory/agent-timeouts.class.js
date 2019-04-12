@@ -3,7 +3,7 @@ import log from 'common/log';
 
 const { destroyAfterTimeout, warnIfNotReturnedTimeout } = config.get('agent');
 
-export default class AgentPoolTimeouts {
+export default class AgentTimeouts {
 	constructor(agentPool) {
 		this._agentPool = agentPool;
 		this._destroy = new Map();

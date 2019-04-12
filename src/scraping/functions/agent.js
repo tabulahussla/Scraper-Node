@@ -1,6 +1,5 @@
-import agentPool from 'agency/agent-pool';
 import resourceBrokerClient from 'resources/broker';
-import { validateException as isAgentBrokenException } from 'agency/validate';
+import { validateException as isAgentBrokenException } from 'agent/validate';
 import * as plugins from 'plugins';
 import log from 'common/log';
 import pause from 'common/pause';
@@ -23,8 +22,6 @@ export default async function agentHandler({ site, section, request, agent }) {
 			agent = null;
 		}
 		throw e;
-	} finally {
-		agent && agentPool.returnAgent(agent);
 	}
 }
 

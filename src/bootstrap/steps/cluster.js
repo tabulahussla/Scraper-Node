@@ -34,12 +34,12 @@ export default async function setupCluster() {
 export async function setupOnMainThread() {
 	bootstrapWorker({
 		_workerInit: true,
-		queues: clone(config.get('queues')),
+		queues: clone(config.get('sites')),
 	});
 }
 
 export async function setupWorker(workerNumber, amountOfWorkers) {
-	const queueConfig = config.get('queues');
+	const queueConfig = config.get('sites');
 	const queues = {};
 	const workerOptions = { _workerInit: true, queues };
 	const worker = cluster.fork();

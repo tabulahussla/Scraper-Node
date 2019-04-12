@@ -6,8 +6,6 @@ import makeFolders from './steps/make-folders';
 import connectDatabases from './steps/database';
 import setupDiscovery from './steps/discovery';
 import setupCluster from './steps/cluster';
-import setupAPIServer from './steps/api';
-import publish from './steps/publish';
 import log from 'common/log';
 import { hrtimeToMsec } from 'bootstrap/common/hrtime';
 
@@ -25,8 +23,6 @@ export default async function bootstrapPipeline() {
 	await bootStep(connectDatabases, 'connect_databases');
 	await bootStep(setupDiscovery, 'setup_service_discovery');
 	await bootStep(setupCluster, 'setup_cluster');
-	await bootStep(setupAPIServer, 'setup_api');
-	await bootStep(publish, 'publish');
 
 	isFinished = true;
 

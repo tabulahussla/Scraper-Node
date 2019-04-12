@@ -1,1 +1,3 @@
-export const DISABLE_PROXIES = !!+process.env.DISABLE_PROXIES;
+import config from 'config';
+
+export const DISABLE_PROXIES = config.get('disableProxies');

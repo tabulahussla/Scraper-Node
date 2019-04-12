@@ -43,6 +43,8 @@ export default class Agent extends EventEmitter {
 		this.browser = null;
 
 		process.once('SIGUSR2', () => this.destroy());
+
+		this._isDestroyed = false;
 	}
 
 	get proxy() {
@@ -99,10 +101,12 @@ export default class Agent extends EventEmitter {
 	}
 
 	async destroy() {
+		if (this._isDestroyed) return;
 		if (this.browser) {
 			await this.browser.close();
 			this.page = this.browser = void 0;
 		}
+		this._isDestroyed = true;
 		this.emit('destroy');
 	}
 

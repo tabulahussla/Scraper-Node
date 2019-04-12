@@ -2,14 +2,17 @@
 	"project-name": "SCRAPER-NODE",
 	"log-level": "trace",
 	"node-id": "anonymous-scraper",
-	"mongodb": {
-		"url": "mongodb://localhost:27017/scraping",
-		"options": {}
-	},
 	"redis": {
 		"host": "127.0.0.1",
 		"port": 6379,
 		"db": 0
+	},
+	"amqp": {
+		"protocol": "amqp",
+		"hostname": "localhost",
+		"port": 5672,
+		"username": "guest",
+		"password": "guest"
 	},
 	"api": {
 		"host": "127.0.0.1",
@@ -19,28 +22,13 @@
 		"enabled": false,
 		"port": 55555
 	},
-	"jwt": {
-		"algorithm": "HS384",
-		"secret": "changeMe+++ThisISBase64EncodedToken==",
-		"options": {}
-	},
 	"resource-broker": {
-		"pools": {
-			"proxy": [],
-			"account": []
-		},
 		"token": ""
 	},
 	"discovery": {
-		"service": "scraping-system",
-		"payload": {
-			"port": 7006
-		},
-		"client": {
-			"address": "ws://localhost:7007",
-			"token": "",
-			"namespace": "default"
-		}
+		"address": "ws://localhost:7007",
+		"token": "",
+		"namespace": "default"
 	},
 	"appannie-api-options": {
 		"userAgent": "AAppC34JTB1NDTWD:290",
@@ -63,7 +51,18 @@
 		"maxWorkers": 4,
 		"entryPointForWorker": "src/worker.index.js"
 	},
-	"queues": {},
+	"sites": [
+		{
+			"name": "test.ru",
+			"concurrency": 5,
+			"resources": [
+				{
+					"type": "proxy"
+				}
+			]
+		}
+	],
+	"disableProxies": false,
 	"puppeteer": {
 		"headless": true,
 		"timeout": 120000

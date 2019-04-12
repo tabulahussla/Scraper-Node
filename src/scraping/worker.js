@@ -1,60 +1,52 @@
 import * as plugins from 'plugins';
 import functions from './functions';
-import agentPool from 'agency/agent-pool';
-import { findPool } from 'resources/pools';
+import agentPool from 'agent/factory';
 import resourceBrokerClient from 'resources/broker';
-import registry from 'queues/registry';
 import { DISABLE_PROXIES } from 'flags';
-import { proxyResource } from 'resources';
+import config from 'config';
 
-export async function acquireAgent(job) {
-	const agent = await agentPool.getOrCreateAgent({ queue: job.queue.name });
+const QueueConfig = config.get('queues');
 
-	return { agent };
+/**
+ * Get resource from either specified pool
+ *
+ * @export
+ * @param {string[]} pools
+ *
+ * TODO: move this method into resource broker client module
+ */
+export async function getResourceFromAnyPool(pools) {
+	let resource;
+	while (!resource && pools.length) {
+		resource = await resourceBrokerClient().retrieve(pools.pop());
+	}
+	return resource;
 }
 
-export async function resolveResources({ required, allowedPools }) {
-	const resources = {};
-
-	for (const resourceType of required) {
-		const poolId = findPool(resourceType, allowedPools);
-		const resolved = await resourceBrokerClient().retrieve(poolId);
-
-		if (!resolved) {
-			throw new Error(`Cannot retreive "${resourceType}" resource from pool "${poolId}"`);
-		}
-
-		resources[resolved.type] = resolved;
-	}
-
-	return resources;
-}
-
-export async function acquireResources(job) {
-	const queueConfig = registry.getQueueConfig(job.queue);
-	const allowedPools = queueConfig.pools || [];
-	const requiredResources = queueConfig.resources || [];
-
-	if (requiredResources.length && !allowedPools.length) {
-		throw new Error(
-			'job handler has required resources but no pools available. check your config',
-		);
-	}
-
+export async function acquireResources(site) {
+	let { resources } = QueueConfig[site];
 	if (DISABLE_PROXIES) {
-		let index = requiredResources.indexOf(proxyResource);
-		~index && requiredResources.slice(index, 1);
+		const { proxy: ignored, ...other } = resources;
+		resources = other;
 	}
-
-	return await resolveResources({
-		required: requiredResources,
-		allowedPools,
-	});
+	const acquiredResources = {};
+	for (const resourceType in resources) {
+		const poolIds = resources[resourceType];
+		const resolved = await getResourceFromAnyPool(poolIds);
+		if (!resolved) {
+			throw new Error(`Cannot retreive "${resourceType}" resource from pools "${poolIds}"`);
+		}
+		acquiredResources[resolved.type] = resolved;
+	}
+	return acquiredResources;
 }
 
-export default async function process(job) {
-	/** @type {Contract} */
-	const contract = job.data;
+/**
+ * @export
+ * @param {Contract} contract
+ * @returns
+ */
+export default async function process(contract) {
 	const { site, section } = contract;
 	const manifest = plugins.getManifest(site, section);
 
@@ -70,12 +62,17 @@ export default async function process(job) {
 		);
 	}
 
-	let resources = {};
+	const acquiredResources = await acquireResources(site);
+
+	let agent;
 	if (manifest.mode === 'agent') {
-		resources = await acquireAgent(job);
-	} else if (manifest.mode === 'http') {
-		resources = await acquireResources(job);
+		// @ts-ignore
+		agent = await agentPool.createAgent(acquiredResources);
 	}
 
-	return await handler({ ...contract, ...resources });
+	try {
+		return await handler({ ...contract, ...acquiredResources, agent });
+	} finally {
+		agent && (await agent.destroy());
+	}
 }
