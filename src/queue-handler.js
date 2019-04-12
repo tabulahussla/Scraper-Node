@@ -35,7 +35,7 @@ export default class QueueHandler {
 					.then(() => this._channel.ack(msg))
 					.catch(err => {
 						log.error(err);
-						this._channel.nack(msg);
+						this._channel.reject(msg, true);
 					});
 			}
 		});
