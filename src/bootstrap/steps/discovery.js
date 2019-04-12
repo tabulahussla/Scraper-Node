@@ -9,7 +9,7 @@ export default async function setup() {
 }
 
 export async function setupServiceDiscovery() {
-	const { client: clientOptions } = config.get('discovery');
+	const clientOptions = config.get('discovery');
 	init(clientOptions);
 
 	await client.connect();

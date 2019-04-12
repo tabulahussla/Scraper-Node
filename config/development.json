@@ -8,7 +8,8 @@
 			"concurrency": 5,
 			"resources": [
 				{
-					"type": "proxy"
+					"type": "proxy",
+					"pools": ["dev_proxies"]
 				}
 			]
 		},
@@ -17,7 +18,8 @@
 			"concurrency": 5,
 			"resources": [
 				{
-					"type": "proxy"
+					"type": "proxy",
+					"pools": ["dev_proxies"]
 				}
 			]
 		}

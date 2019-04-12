@@ -27,7 +27,7 @@ export default async function bootstrapWorker(options) {
 		await bootStep(connectDatabases, []);
 	}
 	await bootStep(setupPlugins, []);
-	await bootStep(setupQueues, [options.queues]);
+	await bootStep(setupQueues, [options.sites]);
 	stats({ workerId });
 
 	diff = process.hrtime(beginningTime);

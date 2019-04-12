@@ -34,35 +34,32 @@ export default async function setupCluster() {
 export async function setupOnMainThread() {
 	bootstrapWorker({
 		_workerInit: true,
-		queues: clone(config.get('sites')),
+		sites: clone(config.get('sites')),
 	});
 }
 
 export async function setupWorker(workerNumber, amountOfWorkers) {
-	const queueConfig = config.get('sites');
-	const queues = {};
-	const workerOptions = { _workerInit: true, queues };
 	const worker = cluster.fork();
-
 	await waitForWorker(worker);
 
-	for (const queue in queueConfig) {
-		const queueOptions = (queues[queue] = { ...queueConfig[queue] });
+	const sites = config.get('sites').map(configuredSite => {
+		const site = { ...configuredSite };
 
-		const concurrencyPerWorker = Math.floor(queueOptions.concurrency / amountOfWorkers);
-		const additionalConcurrency =
-			queueOptions.concurrency - concurrencyPerWorker * amountOfWorkers;
+		const concurrencyPerWorker = Math.floor(configuredSite.concurrency / amountOfWorkers);
+		const totalDistributedConcurrency = concurrencyPerWorker * amountOfWorkers;
+		const concurrencyFix = configuredSite.concurrency - totalDistributedConcurrency;
 
-		queueOptions.concurrency = concurrencyPerWorker;
-		if (workerNumber + 1 === amountOfWorkers) {
-			queueOptions.concurrency += additionalConcurrency;
+		site.concurrency = concurrencyPerWorker;
+
+		const isLastWorker = workerNumber + 1 === amountOfWorkers;
+		if (isLastWorker) {
+			site.concurrency += concurrencyFix;
 		}
 
-		if (queueOptions.concurrency <= 0) {
-			delete queues[queue];
-		}
-	}
+		return site;
+	});
 
+	const workerOptions = { _workerInit: true, sites };
 	await initializeWorker(worker, workerOptions);
 }
 

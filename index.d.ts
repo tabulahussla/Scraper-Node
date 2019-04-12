@@ -1,13 +1,11 @@
 declare interface WorkerInitOptions {
 	_workerInit: true;
-	queues: {
-		[name: string]: SetupQueueOptions;
-	};
+	sites: SiteConfig[];
 }
 
 declare interface Resource {
 	_id: any;
-	poolId?: string
+	poolId?: string;
 	type: string;
 }
 
@@ -27,10 +25,13 @@ declare interface Proxy extends Resource {
 	port: number;
 }
 
-declare interface SetupQueueOptions {
-	resources: string[];
+declare interface ResourceConfig {
+	type: string;
 	pools: string[];
-	workerType: string;
+}
+
+declare interface SiteConfig {
+	name: string;
 	concurrency: number;
-	settings: any;
+	resources: ResourceConfig[];
 }

@@ -3,23 +3,22 @@ import QueueHandler from 'queue-handler';
 
 /**
  * @export
- * @param {{ [name: string]: SetupQueueOptions}} options
+ * @param {SiteConfig[]} sites
  */
-export default async function setupQueues(options) {
-	for (const queueName in options) {
-		setupQueue(queueName, options[queueName]);
+export default async function setupQueues(sites) {
+	for (const siteConfig of sites) {
+		setupQueueForSite(siteConfig);
 	}
 }
 
 /**
  * @export
- * @param {string} queue
- * @param {SetupQueueOptions} options
+ * @param {SiteConfig} siteConfig
  */
-export async function setupQueue(queue, options) {
+export async function setupQueueForSite(siteConfig) {
 	const handler = new QueueHandler({
-		concurrency: options.concurrency,
-		queue,
+		concurrency: siteConfig.concurrency,
+		queue: siteConfig.name,
 		worker,
 	});
 

@@ -5,7 +5,16 @@ import resourceBrokerClient from 'resources/broker';
 import { DISABLE_PROXIES } from 'flags';
 import config from 'config';
 
-const QueueConfig = config.get('queues');
+const SiteConfig = config.get('sites');
+const SiteMap = getSiteMap(SiteConfig);
+
+export function getSiteMap(siteConfig) {
+	const map = new Map();
+	for (const site of siteConfig) {
+		map.set(site.name, site);
+	}
+	return map;
+}
 
 /**
  * Get resource from either specified pool
@@ -24,17 +33,16 @@ export async function getResourceFromAnyPool(pools) {
 }
 
 export async function acquireResources(site) {
-	let { resources } = QueueConfig[site];
+	let { resources } = SiteMap.get(site);
 	if (DISABLE_PROXIES) {
 		const { proxy: ignored, ...other } = resources;
 		resources = other;
 	}
 	const acquiredResources = {};
-	for (const resourceType in resources) {
-		const poolIds = resources[resourceType];
-		const resolved = await getResourceFromAnyPool(poolIds);
+	for (const { type, pools } of resources) {
+		const resolved = await getResourceFromAnyPool(pools);
 		if (!resolved) {
-			throw new Error(`Cannot retreive "${resourceType}" resource from pools "${poolIds}"`);
+			throw new Error(`Cannot retreive "${type}" resource from "${pools}"`);
 		}
 		acquiredResources[resolved.type] = resolved;
 	}
