@@ -36,8 +36,7 @@ export async function getResourceFromAnyPool(pools) {
 export async function acquireResources(site) {
 	let { resources } = SiteMap.get(site);
 	if (DISABLE_PROXIES) {
-		const { proxy: ignored, ...other } = resources;
-		resources = other;
+		resources = resources.filter(({ type }) => type !== 'proxy');
 	}
 	const acquiredResources = {};
 	for (const { type, pools } of resources) {
