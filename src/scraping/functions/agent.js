@@ -1,4 +1,4 @@
-import resourceBrokerClient from 'resources/broker';
+import { resourceBroker } from 'resources/broker';
 import { validateException as isAgentBrokenException } from 'agent/validate';
 import * as plugins from 'plugins';
 import log from 'common/log';
@@ -65,7 +65,7 @@ export async function validation({ agent, site }) {
 	}
 
 	for (const bannedResource of [account].filter(v => v)) {
-		await resourceBrokerClient().ban(bannedResource, bannedResource.poolId);
+		await resourceBroker.ban(bannedResource, bannedResource.poolId);
 	}
 
 	return false;

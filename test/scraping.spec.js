@@ -112,7 +112,7 @@
 // 			mode: RegisterMode.default,
 // 		});
 
-// 		await resourceBrokerClient().release(
+// 		await resourceBroker.release(
 // 			{
 // 				type: 'proxy',
 // 				host: '127.0.0.1',
@@ -122,7 +122,7 @@
 // 			},
 // 			'test proxies',
 // 		);
-// 		await resourceBrokerClient().release(
+// 		await resourceBroker.release(
 // 			{
 // 				type: 'account',
 // 				email: 'le',

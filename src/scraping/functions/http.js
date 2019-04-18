@@ -1,4 +1,4 @@
-import resourceBrokerClient from 'resources/broker';
+import { resourceBroker } from 'resources/broker';
 import * as plugins from 'plugins';
 import ProxyAgent from 'proxy-agent';
 import stringifyProxy from 'common/stringify-proxy';
@@ -32,7 +32,7 @@ export default async function httpHandler({ site, section, request, proxy, accou
 		for (const resource of Object.values(resources)) {
 			if (!resource) continue;
 			try {
-				await resourceBrokerClient().release(resource, resource.poolId);
+				await resourceBroker.release(resource, resource.poolId);
 			} catch (err) {
 				log.error('failed to release resource %o', resource);
 				log.error({ err });
@@ -65,7 +65,7 @@ export async function authentication({ proxyAgent, site, ...resources }) {
 }
 
 export async function saveAuthResult(account) {
-	await resourceBrokerClient().modify(account, {
+	await resourceBroker.modify(account, {
 		$set: {
 			authResult: account.authResult,
 		},

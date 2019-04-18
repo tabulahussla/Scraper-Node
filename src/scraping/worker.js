@@ -1,7 +1,7 @@
 import * as plugins from 'plugins';
 import functions from './functions';
 import agentPool from 'agent/factory';
-import resourceBrokerClient from 'resources/broker';
+import { resourceBroker } from 'resources/broker';
 import { DISABLE_PROXIES } from 'flags';
 import config from 'config';
 import harvest, { channel } from 'harvest';
@@ -29,7 +29,7 @@ export function getSiteMap(siteConfig) {
 export async function getResourceFromAnyPool(pools) {
 	let resource;
 	while (!resource && pools.length) {
-		resource = await resourceBrokerClient().retrieve(pools.pop());
+		resource = await resourceBroker.retrieve(pools.pop());
 	}
 	return resource;
 }

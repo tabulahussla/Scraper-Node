@@ -14,21 +14,13 @@
 		"username": "guest",
 		"password": "guest"
 	},
-	"api": {
-		"host": "127.0.0.1",
-		"port": 7006
-	},
 	"probe": {
 		"enabled": false,
 		"port": 55555
 	},
 	"resource-broker": {
+		"address": "ws://localhost:7005",
 		"token": ""
-	},
-	"discovery": {
-		"address": "ws://localhost:7007",
-		"token": "",
-		"namespace": "default"
 	},
 	"appannie-api-options": {
 		"userAgent": "AAppC34JTB1NDTWD:290",

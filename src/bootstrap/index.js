@@ -4,7 +4,6 @@ let diff;
 import probe from './steps/probe-server';
 import makeFolders from './steps/make-folders';
 import connectDatabases from './steps/database';
-import setupDiscovery from './steps/discovery';
 import setupCluster from './steps/cluster';
 import log from 'common/log';
 import { hrtimeToMsec } from 'bootstrap/common/hrtime';
@@ -21,7 +20,6 @@ export default async function bootstrapPipeline() {
 	await bootStep(probe, 'probe_server');
 	await bootStep(makeFolders, 'create_directories');
 	await bootStep(connectDatabases, 'connect_databases');
-	await bootStep(setupDiscovery, 'setup_service_discovery');
 	await bootStep(setupCluster, 'setup_cluster');
 
 	isFinished = true;

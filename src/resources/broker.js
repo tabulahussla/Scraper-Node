@@ -1,9 +1,10 @@
-import { getClients } from 'discovery/resource-broker';
+// eslint-disable-next-line no-unused-vars
+import createClient, { ResourceBrokerClient } from '@xxorg/resource-broker-client';
 
-export default function getResourceBroker() {
-	const clients = getClients();
-	if (!clients.length) {
-		throw new Error('No resource broker service available');
-	}
-	return clients[0];
+/** @type {ResourceBrokerClient} */
+export let resourceBroker;
+
+export async function connectResourceBroker(options) {
+	resourceBroker = createClient({ ...options });
+	await resourceBroker.connect();
 }

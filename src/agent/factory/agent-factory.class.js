@@ -34,7 +34,7 @@ export default class AgentFactory {
 			// release resources
 			for (const resource of agent.resources) {
 				try {
-					await this._resourceBrokerClient().release(resource, resource.poolId);
+					await this._resourceBroker.release(resource, resource.poolId);
 				} catch (err) {
 					log.fatal('failed to release resource %o', resource);
 					log.fatal({ err });

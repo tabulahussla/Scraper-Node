@@ -4,6 +4,7 @@ let startTime = process.hrtime();
 let diff;
 
 import connectDatabases from 'bootstrap/steps/database';
+import connectResourceBroker from './steps/resource-broker';
 import setupPlugins from './steps/plugins';
 import setupQueues from './steps/queues';
 import stats from './steps/stats';
@@ -27,6 +28,7 @@ export default async function bootstrapWorker(options) {
 		await bootStep(connectDatabases, []);
 	}
 	await bootStep(setupPlugins, []);
+	await bootStep(connectResourceBroker, []);
 	await bootStep(setupQueues, [options.sites]);
 	stats({ workerId });
 
