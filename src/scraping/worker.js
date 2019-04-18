@@ -27,6 +27,7 @@ export function getSiteMap(siteConfig) {
  * TODO: move this method into resource broker client module
  */
 export async function getResourceFromAnyPool(pools) {
+	pools = [...pools];
 	let resource;
 	while (!resource && pools.length) {
 		resource = await resourceBroker.retrieve(pools.pop());
