@@ -773,10 +773,47 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.5.tgz#9da44ed75571999b65c37b60c9b2b88db54c585d"
   integrity sha512-SCcK7mvGi3+ZNz833RRjFIxrn4gI1PPR3NtuIS+6vMkvmsGjosqTJwRt5bAEFLRz+wtJMWv8+uOnZf2hi2QXTg==
 
+"@xxorg/appdb-client@*":
+  version "0.0.8"
+  resolved "https://npm.api.haus/@xxorg%2fappdb-client/-/appdb-client-0.0.8.tgz#9f88ecb57a31efd14991a08a74ca85262c024956"
+  integrity sha512-Sq6W1H05KVy++hkM265F11yaGbBJipmOcKL59to3a9e2rduCXtbPOSjMpqMv7JVUnADGM/wjnKGjfm8KB2DTZA==
+  dependencies:
+    "@xxorg/asidc-blueprint" "^1.0.17"
+    "@xxorg/database-client" "^2.1.13"
+    amqplib "^0.5.3"
+    cassandra-driver "^4.0.0"
+    debug "^4.1.1"
+    fast-deep-equal "^2.0.1"
+    fs-extra "^7.0.0"
+    mkdirp "^0.5.1"
+    ms "^2.1.1"
+    throat "^4.1.0"
+
 "@xxorg/asidc-blueprint@^1.0.12":
   version "1.0.12"
   resolved "https://npm.api.haus/@xxorg%2fasidc-blueprint/-/asidc-blueprint-1.0.12.tgz#fbc746c37b29950f143bef18221bc7168e4e49db"
   integrity sha512-BHzlctAriSupBus5A8qE2sOiys2pHdOvOsELf3gvcZa72ZHYZ68iv7MYuVyu5dFl6hI8JG5g+MN23OpgRnjAwg==
+
+"@xxorg/asidc-blueprint@^1.0.17":
+  version "1.0.17"
+  resolved "https://npm.api.haus/@xxorg%2fasidc-blueprint/-/asidc-blueprint-1.0.17.tgz#a6d0c5b724a02e5a5c3a4d55f9bd6ba8251926fe"
+  integrity sha512-96WrH2VLEh6wqdJ/0Zr3hXDP6iL8UkkBNcNj1IxdU7bPKgXvAT635+BtN503wCD6clrSB8B370HwoDNxsw3EQg==
+
+"@xxorg/database-client@^2.1.13":
+  version "2.1.13"
+  resolved "https://npm.api.haus/@xxorg%2fdatabase-client/-/database-client-2.1.13.tgz#815a9350776d22ba1d99392768d17ebe72d1926b"
+  integrity sha512-90i82T4xeXhZhNXk/mU05eMfO/AeSyC3X50aMgY1CphzNjAuyY8T1d1FsKbneAxJgF21XVg8K2LLZkXgUKqEvQ==
+  dependencies:
+    "@xxorg/asidc-blueprint" "^1.0.17"
+    bluebird "^3.5.3"
+    cassandra-driver "^4.0.0"
+    cassanknex "^1.20.0"
+    clone "^2.1.2"
+    debug "^4.1.1"
+    fs-extra "^7.0.1"
+    int64-buffer "^0.99.1007"
+    pino "^5.9.0"
+    uuid "^3.3.2"
 
 "@xxorg/discovery-client@^1.2.4":
   version "1.2.4"
@@ -813,6 +850,13 @@
     ramda "^0.26.1"
     require-directory "^2.1.1"
     throat "^4.1.0"
+
+"@xxorg/maintenance-common@^0.0.3":
+  version "0.0.3"
+  resolved "https://npm.api.haus/@xxorg%2fmaintenance-common/-/maintenance-common-0.0.3.tgz#c7f136fb5cc8fe9fd4034f7c2cdbec378511e614"
+  integrity sha512-K3vt0HWtJkShV2tGmj7QOTJBgdd+0C5hGVjGvrdpSoEHGHuvKChBJDPDSMoth6yzRXX+WYNkpzmAfIX9uhiwjA==
+  dependencies:
+    "@xxorg/appdb-client" "*"
 
 "@xxorg/resource-broker-client@^1.1.1":
   version "1.1.1"
@@ -1406,6 +1450,29 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
+
+cassandra-driver@^3.5.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/cassandra-driver/-/cassandra-driver-3.6.0.tgz#a9fb78ca6fcc1f5bf3f3258efb6cc683a9c3f558"
+  integrity sha512-CkN3V+oPaF5RvakUjD3uUjEm8f6U8S0aT1+YqeQsVT3UDpPT2K8SOdNDEHA1KjamakHch6zkDgHph1xWyqBGGw==
+  dependencies:
+    long "^2.2.0"
+
+cassandra-driver@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cassandra-driver/-/cassandra-driver-4.0.0.tgz#d86abe44848784dda7c4b75d015a6ddaadecd812"
+  integrity sha512-Mmj0+iHSe4LKowtybPcrUqt22UMK2I89TUb4iDi8v50lsg0ix6OFl2lkPBjyEC/iZJUP1B4xGYDsBuFA+PEUzw==
+  dependencies:
+    long "^2.2.0"
+
+cassanknex@^1.20.0:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/cassanknex/-/cassanknex-1.20.0.tgz#0d528088e7ec113428f489cea5c1f65ac6db4354"
+  integrity sha512-SgCxTKMS3nUdor89Y1Vftu7Okvyhy1H+6Dvqnau5mip4IpIAeEldaRlOqxagl9oYqOE9rNFEnB/ksL2P5ydZIg==
+  dependencies:
+    cassandra-driver "^3.5.0"
+    inherits "^2.0.3"
+    lodash "^4.17.10"
 
 chalk@1.1.3, chalk@^1.0.0:
   version "1.1.3"
@@ -3263,6 +3330,11 @@ inquirer@^6.1.0:
     strip-ansi "^5.0.0"
     through "^2.3.6"
 
+int64-buffer@^0.99.1007:
+  version "0.99.1007"
+  resolved "https://registry.yarnpkg.com/int64-buffer/-/int64-buffer-0.99.1007.tgz#211ea089a2fdb960070a2e77cd6d17dc456a5220"
+  integrity sha512-XDBEu44oSTqlvCSiOZ/0FoUkpWu/vwjJLGSKDabNISPQNZ5wub1FodGHBljRsrR0IXRPq7SslshZYMuA55CgTQ==
+
 invariant@^2.2.2:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
@@ -3925,6 +3997,11 @@ lodash@^4.1.0, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11,
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
+
+long@^2.2.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-2.4.0.tgz#9fa180bb1d9500cdc29c4156766a1995e1f4524f"
+  integrity sha1-n6GAux2VAM3CnEFWdmoZleH0Uk8=
 
 loose-envify@^1.0.0:
   version "1.4.0"
@@ -4871,7 +4948,7 @@ pino@^5.11.1:
     quick-format-unescaped "^3.0.0"
     sonic-boom "^0.7.1"
 
-pino@^5.12.2:
+pino@^5.12.2, pino@^5.9.0:
   version "5.12.2"
   resolved "https://registry.yarnpkg.com/pino/-/pino-5.12.2.tgz#e9f43d918d455684280a6015254c5ad96a91f278"
   integrity sha512-EunVRDkw/eQzgAudJiZuqzEQ20hDezixLRLrdxUMBzavvt5ot3vep7K8swRvXSgj2bKtbOmoHnrRMtYzRjfITQ==
