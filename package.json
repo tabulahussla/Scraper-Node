@@ -26,6 +26,7 @@
 	},
 	"dependencies": {
 		"@xxorg/discovery-client": "^1.2.4",
+		"@xxorg/maintenance-common": "^0.0.3",
 		"@xxorg/resource-broker-client": "^1.1.1",
 		"@xxorg/scraping-plugins": "^0.4.3",
 		"amqplib": "^0.5.3",
