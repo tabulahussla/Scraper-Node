@@ -4,7 +4,8 @@ import agentPool from 'agent/factory';
 import resourceBrokerClient from 'resources/broker';
 import { DISABLE_PROXIES } from 'flags';
 import config from 'config';
-import harvest from 'harvest';
+import harvest, { channel } from 'harvest';
+import { sendWorkerMessage, EventEnum } from '@xxorg/maintenance-common';
 
 const SiteConfig = config.get('sites');
 const SiteMap = getSiteMap(SiteConfig);
@@ -55,6 +56,11 @@ export async function acquireResources(site) {
  * @returns
  */
 export default async function process(contract) {
+	await sendWorkerMessage(channel, 'scraping', {
+		event: EventEnum.OnBeforeScraping,
+		contract,
+	});
+
 	const { site, section } = contract;
 	const manifest = plugins.getManifest(site, section);
 
@@ -81,6 +87,11 @@ export default async function process(contract) {
 	try {
 		const artifact = await handler({ ...contract, ...acquiredResources, agent });
 		await harvest(artifact, contract);
+		await sendWorkerMessage(channel, 'scraping', {
+			event: EventEnum.OnAfterScraping,
+			artifact,
+			contract,
+		});
 	} finally {
 		agent && (await agent.destroy());
 	}
