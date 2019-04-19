@@ -11,7 +11,7 @@
 		"node": ">= 8.2.0"
 	},
 	"scripts": {
-		"start": "NODE_ENV=production node dist/index",
+		"start": "NODE_ENV=production node dist/",
 		"validate-token": "babel-node bin/token/validate",
 		"generate-token": "babel-node bin/token/generate",
 		"lint": "eslint --fix src/. test/. --config .eslintrc.json",
@@ -20,15 +20,14 @@
 		"tdd": "yarn run test -w --reporter min",
 		"dev": "nodemon bin/nodemon --exec babel-node",
 		"pm2": "pm2 start process.yml --env production",
-		"bundle": "rm -rf dist; babel src/ -d dist/",
+		"build": "rm -rf dist; babel src/ -d dist/",
 		"uglify": "uglifyjs dist/bundle.min.js -o dist/bundle.min.js --compress --mangle toplevel",
 		"obfuscate": "javascript-obfuscator dist/bundle.min.js -o dist/bundle.min.js --config obfuscate.config.json"
 	},
 	"dependencies": {
-		"@xxorg/discovery-client": "^1.2.4",
-		"@xxorg/maintenance-common": "^0.0.3",
-		"@xxorg/resource-broker-client": "^1.1.1",
-		"@xxorg/scraping-plugins": "^0.4.3",
+		"@xxorg/maintenance-common": "latest",
+		"@xxorg/resource-broker-client": "latest",
+		"@xxorg/scraping-plugins": "latest",
 		"amqplib": "^0.5.3",
 		"bluebird": "^3.5.3",
 		"clone": "^2.1.2",
