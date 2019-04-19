@@ -891,10 +891,10 @@
     config "^3.0.1"
     pino "^5.11.1"
 
-"@xxorg/scraping-plugins@^0.4.7":
-  version "0.4.7"
-  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.4.7.tgz#8eb9a0935a68cfa24dd4f0d11321386ddfbdd251"
-  integrity sha512-prKwlJm4WA/NMGyt5Z6lDv6nm5/mxgyN3Drjjjjr5zAWDacQUBM5sLhdb9Awfp6xpX4wF01+YnVbnEEma91iGA==
+"@xxorg/scraping-plugins@latest":
+  version "0.5.0"
+  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.5.0.tgz#24b9abaf1c564ad066e7fa60569abdf5bd0f2fef"
+  integrity sha512-h7vE9dsrH1TmGpKgiBkPl1kFuO0g0Ae98UXwaTLalM8UJD34G5k1cij3q5FlDIPvX6J6O3KSVG82XmAz5rEb6g==
   dependencies:
     "@xxorg/asidc-blueprint" latest
     "@xxorg/google-play-scraping" latest
