@@ -833,9 +833,9 @@
   integrity sha512-dhHVUJEJh4iADG2bgWEGNpL6HNX011X9QCFuW5MvoMKB4W+tB1AjS/lnxS4o8Lj3qekWo4vBtt0VzUWqTYxPPg==
 
 "@xxorg/database-client@*":
-  version "2.1.15"
-  resolved "https://npm.api.haus/@xxorg%2fdatabase-client/-/database-client-2.1.15.tgz#255a26eac81c3491f2bf85e69b85e05d98c560bf"
-  integrity sha512-vT3VVgclotXGpiu1cRvZSyyD/yiiJwaLAwY7wjBoHg52Ncla0czABWt/j8KxhaXOXxuAOB2nTSry8yyYoSEc0w==
+  version "2.1.19"
+  resolved "https://npm.api.haus/@xxorg%2fdatabase-client/-/database-client-2.1.19.tgz#9cdcf2c9960d96306e615fe7ba300ee9f2616d37"
+  integrity sha512-no38+vqZMHHU3bXyKvjZDUQlzD2eQIIMYb0POF7IpAGIYlry3crYcnA1eEPUJRe58RN/tT4PnqjPkrRMkyjwAQ==
   dependencies:
     "@xxorg/asidc-blueprint" "*"
     bluebird "^3.5.3"
@@ -849,9 +849,9 @@
     uuid "^3.3.2"
 
 "@xxorg/google-play-scraping@latest":
-  version "0.4.1"
-  resolved "https://npm.api.haus/@xxorg%2fgoogle-play-scraping/-/google-play-scraping-0.4.1.tgz#e34ff43fda2f4acb1da269f26a244b7282dadd0b"
-  integrity sha512-8BxnXDdIDXCtM+ZQaw43dbqZYaQiCvAQYcyHFtlcXMZjM3MBj0a6rWt0/L9ugNy2LlENU4Vs7AwiYt66uozlSQ==
+  version "0.4.2"
+  resolved "https://npm.api.haus/@xxorg%2fgoogle-play-scraping/-/google-play-scraping-0.4.2.tgz#02557168756e4df225a5572aaa2ec9ff8f27697b"
+  integrity sha512-7xL0Ua6Xb+i+ha3CDe/Sp4K1il3Fs2m8Rdw4cpTYdabxG1vNmW1do+nsNIIvfAbas5ptYrPX12f1G4DSekgY9g==
   dependencies:
     axios "^0.18.0"
     cheerio "^1.0.0-rc.2"
@@ -891,10 +891,10 @@
     config "^3.0.1"
     pino "^5.11.1"
 
-"@xxorg/scraping-plugins@latest":
-  version "0.5.0"
-  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.5.0.tgz#24b9abaf1c564ad066e7fa60569abdf5bd0f2fef"
-  integrity sha512-h7vE9dsrH1TmGpKgiBkPl1kFuO0g0Ae98UXwaTLalM8UJD34G5k1cij3q5FlDIPvX6J6O3KSVG82XmAz5rEb6g==
+"@xxorg/scraping-plugins@^0.5.1":
+  version "0.5.1"
+  resolved "https://npm.api.haus/@xxorg%2fscraping-plugins/-/scraping-plugins-0.5.1.tgz#13e7f6a0afb91935ab811f800137a58229d0de05"
+  integrity sha512-ssNwe2eYAoRTEbxDp+EVirFIPAc/SF4/g99w+LS3f7uqY4BJNHj6GohKdlUzPi1K5SbB+O+S6Lj7Uw2bCeK+Ow==
   dependencies:
     "@xxorg/asidc-blueprint" latest
     "@xxorg/google-play-scraping" latest
