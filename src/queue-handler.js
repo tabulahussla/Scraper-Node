@@ -61,21 +61,26 @@ export default class QueueHandler {
 			this._channel.nack(msg, false, false);
 			return;
 		}
-		this._channel.ack(msg);
-		this._worker(contract).catch(err => {
-			log.error('failed to process contract', { err }, contract);
-			log.error(err);
+		this._worker(contract)
+			.then(() => {
+				this._channel.ack(msg);
+			})
+			.catch(err => {
+				log.error('failed to process contract', { err }, contract);
+				log.error(err);
 
-			// retry
-			let numTries = this._retries;
-			if (RetryHeader in msg.properties.headers) {
-				numTries = +msg.properties.headers[RetryHeader];
-			}
-			if (numTries > 0) {
-				numTries -= 1;
-				const headers = { ...msg.properties.headers, [RetryHeader]: numTries };
-				this._channel.sendToQueue(this._queue, msg.content, { headers });
-			}
-		});
+				// retry
+				let numTries = this._retries;
+				if (RetryHeader in msg.properties.headers) {
+					numTries = +msg.properties.headers[RetryHeader];
+				}
+				if (numTries > 0) {
+					numTries -= 1;
+					const headers = { ...msg.properties.headers, [RetryHeader]: numTries };
+					this._channel.sendToQueue(this._queue, msg.content, { headers });
+				}
+
+				this._channel.nack(msg, false, false);
+			});
 	}
 }
