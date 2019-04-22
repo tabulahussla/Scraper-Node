@@ -1,12 +1,11 @@
 import { createCollection } from "measured-core";
 import { hrtimeToSec } from "~/bootstrap/common/hrtime";
-import { name as projectName } from "../project";
 
 export const FAILED_JOBS = "FAILED_JOBS";
 export const SUCCEEDED_JOBS = "SUCCEEDED_JOBS";
 export const JOB_TIME = "JOB_TIME";
 export const SCHEDULED_JOBS = "SCHEDULED_JOBS";
-export const collection = createCollection(projectName);
+export const collection = createCollection();
 
 // eslint-disable-next-line no-unused-vars
 export function jobFailed(contract, err) {

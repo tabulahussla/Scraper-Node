@@ -36,12 +36,8 @@ export default async function agentHandler({ site, section, request, agent }) {
 }
 
 export async function authentication({ agent, site }) {
-	const verify = plugins.resolveModuleDefault(
-		site,
-		"authentication",
-		"verify"
-	);
-	const authorize = plugins.resolveModuleDefault(
+	const verify = plugins.resolveHandler(site, "authentication", "verify");
+	const authorize = plugins.resolveHandler(
 		site,
 		"authentication",
 		"authorize"
@@ -72,7 +68,7 @@ export async function authentication({ agent, site }) {
 }
 
 export async function validation({ agent, site }) {
-	const validate = plugins.resolveModuleDefault(site, "validate");
+	const validate = plugins.resolveHandler(site, "validate");
 	if (!validate) {
 		log.trace("SKIP VALIDATION FOR %s: no script", site);
 		return true;

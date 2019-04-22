@@ -55,12 +55,8 @@ export async function authentication({ proxyAgent, site, ...resources }) {
 		return;
 	}
 
-	const verify = plugins.resolveModuleDefault(
-		site,
-		"authentication",
-		"verify"
-	);
-	const authorize = plugins.resolveModuleDefault(
+	const verify = plugins.resolveHandler(site, "authentication", "verify");
+	const authorize = plugins.resolveHandler(
 		site,
 		"authentication",
 		"authorize"
@@ -89,7 +85,7 @@ export async function saveAuthResult(account) {
 }
 
 export async function validation({ proxyAgent, site, ...resources }) {
-	const validate = plugins.resolveModuleDefault(site, "validate");
+	const validate = plugins.resolveHandler(site, "validate");
 	if (!validate) {
 		return;
 	}

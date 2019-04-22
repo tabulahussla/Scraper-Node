@@ -1,26 +1,19 @@
 import log from "~/common/log";
 
-export const map = new Map();
-export const plugins = new Set();
+export const map = new Map<string, any>();
+export const plugins = new Set<IPlugin>();
 
-export function interopDefault(obj) {
+export function getDefaultExport(obj) {
 	return (obj && obj.default) || obj;
 }
 
-export function resolveModuleDefault(...args) {
-	return interopDefault(resolveModule(...args));
-}
-
-export function resolveModule(...args) {
-	const module = map.get(_key(...args));
-	if (module) {
-		return module;
-	}
+export function resolveHandler(...keyPath: string[]) {
+	return map.get(serializeKey(...keyPath));
 }
 
 export async function exec(...args) {
 	const command = args.pop();
-	const module = resolveModuleDefault(...args);
+	const module = resolveHandler(...args);
 
 	if (!module) {
 		throw new Error(
@@ -30,7 +23,7 @@ export async function exec(...args) {
 
 	while (args.length >= 1) {
 		args.pop();
-		const parentMiddleware = resolveModuleDefault(...args, "middleware");
+		const parentMiddleware = resolveHandler(...args, "middleware");
 		if (parentMiddleware) {
 			log.debug("RUN %s MIDDLEWARE", args);
 			await parentMiddleware(command);
@@ -41,45 +34,36 @@ export async function exec(...args) {
 }
 
 export function getManifest(site, section) {
-	const defaultManifestModule = resolveModuleDefault(
-		site,
-		section,
-		"manifest"
-	);
-	const mainModule = resolveModule(site, section);
+	const defaultManifestModule = resolveHandler(site, section, "manifest");
+	const mainModule = resolveHandler(site, section);
 
 	return defaultManifestModule || (mainModule && mainModule.manifest);
 }
 
-function resolvePath(obj, ...path) {
+function getByPath(obj, ...path) {
 	if (!path.length) {
 		return obj.default || obj;
 	}
-	return resolvePath(obj[path[0]], ...path.slice(1));
+	return getByPath(obj[path[0]], ...path.slice(1));
 }
 
 export function registerModule(plugin, ...key) {
-	map.set(_key(...key), interopDefault(resolvePath(plugin.modules, ...key)));
-	log.trace("+%s: %o", _key(...key), map.get(_key(...key)));
+	map.set(
+		serializeKey(...key),
+		getDefaultExport(getByPath(plugin.modules, ...key))
+	);
+	log.trace("+%s: %o", serializeKey(...key), map.get(serializeKey(...key)));
 }
 
-export function load(name) {
-	const plugin = require(name);
-
-	const {
-		sites,
-		modules,
-	}: { sites: string[]; modules: { [site: string]: any } } =
-		plugin.default || plugin;
+export function loadPlugin(plugin: IPlugin) {
+	const { sites, modules } = plugin;
 	plugins.add(plugin);
-
-	log.debug("LOAD PLUGIN %s: sites - %o", name, sites);
 
 	for (const site of sites) {
 		log.trace("%s:", site);
 		for (const section of Object.keys(modules[site])) {
 			log.trace("\t%s:", section);
-			if (interopDefault(modules[site][section]) instanceof Function) {
+			if (getDefaultExport(modules[site][section]) instanceof Function) {
 				registerModule(plugin, site, section);
 			} else {
 				for (const script of Object.keys(modules[site][section])) {
@@ -90,12 +74,19 @@ export function load(name) {
 	}
 }
 
+export function loadPluginModule(name) {
+	const plugin = getDefaultExport(require(name)) as IPlugin;
+	loadPlugin(plugin);
+
+	log.debug("LOADED PLUGIN %s", name);
+}
+
 export const SEP = "/";
 
-export function _key(...args) {
+export function serializeKey(...args) {
 	return args.join(SEP);
 }
 
-export function _unkey(key) {
+export function parseKey(key) {
 	return key.split(SEP);
 }
