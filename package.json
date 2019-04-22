@@ -16,7 +16,7 @@
 		"start": "NODE_ENV=production node dist/",
 		"dev": "nodemon src/index.ts",
 		"lint": "tslint --project $(pwd)",
-		"test": "BABEL_DISABLE_CACHE=1 NODE_ENV=test BABEL_ENV=development mocha --full-trace --bail --exit -r ./babel-register.js -r @babel/polyfill test/**/*.ts",
+		"test": "BABEL_DISABLE_CACHE=1 NODE_ENV=test BABEL_ENV=development mocha --full-trace --bail --exit -r ./babel-register.js -r @babel/polyfill test/**/*.spec.ts",
 		"cov": "NODE_ENV=test nyc mocha --exit -r ./babel-register.js -r @babel/polyfill test/**/*.ts",
 		"type-check": "tsc --noEmit",
 		"type-check:watch": "yarn type-check --watch",
