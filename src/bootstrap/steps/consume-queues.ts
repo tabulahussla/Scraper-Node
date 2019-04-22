@@ -5,13 +5,13 @@ import worker from "~/scraping/worker";
 export const ConsumedQueues: string[] = [];
 
 export default async function consumeQueues() {
-	const siteConfiguration: SiteConfig[] = config.get("sites");
+	const siteConfiguration: ISiteConfig[] = config.get("sites");
 	for (const siteConfig of siteConfiguration) {
 		await consumeQueueForSite(siteConfig);
 	}
 }
 
-export async function consumeQueueForSite(siteConfig: SiteConfig) {
+export async function consumeQueueForSite(siteConfig: ISiteConfig) {
 	const handler = new QueueHandler({
 		concurrency: siteConfig.concurrency,
 		queue: siteConfig.name,

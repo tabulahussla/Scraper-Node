@@ -41,7 +41,7 @@ export async function acquireResources(site) {
 	if (DISABLE_PROXIES) {
 		resources = resources.filter(({ type }) => type !== "proxy");
 	}
-	const acquiredResources = {};
+	const acquiredResources: IAcquiredResources = {};
 	for (const { type, pools } of resources) {
 		const resolved = await getResourceFromAnyPool(pools);
 		if (!resolved) {
@@ -52,6 +52,13 @@ export async function acquireResources(site) {
 		acquiredResources[resolved.type] = resolved;
 	}
 	return acquiredResources;
+}
+
+export async function reuseResoruces(acquiredResources: IAcquiredResources) {
+	for (const type of Object.keys(acquiredResources)) {
+		const resource: IResource = acquiredResources[type];
+		await resourceBroker.release(resource, resource.poolId);
+	}
 }
 
 /**

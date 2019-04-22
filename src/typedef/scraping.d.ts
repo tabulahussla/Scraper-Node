@@ -1,15 +1,10 @@
-declare interface WorkerInitOptions {
-	_workerInit: true;
-	sites: SiteConfig[];
-}
-
-declare interface Resource {
+declare interface IResource {
 	_id: any;
 	poolId?: string;
 	type: string;
 }
 
-declare interface Account extends Resource {
+declare interface IAccount extends IResource {
 	email: string;
 	password: string;
 	languages?: string[];
@@ -17,21 +12,25 @@ declare interface Account extends Resource {
 	viewport?: { width: number; height: number };
 }
 
-declare interface Proxy extends Resource {
-	protocol: 'http' | 'https' | 'socks5' | 'socks4';
-	username: string;
-	password: string;
+declare interface IProxy extends IResource {
+	protocol: "http" | "https" | "socks5" | "socks4";
+	username?: string;
+	password?: string;
 	host: string;
 	port: number;
 }
 
-declare interface ResourceConfig {
+declare interface IResourceConfig {
 	type: string;
 	pools: string[];
 }
 
-declare interface SiteConfig {
+declare interface ISiteConfig {
 	name: string;
 	concurrency: number;
-	resources: ResourceConfig[];
+	resources: IResourceConfig[];
+}
+
+declare interface IAcquiredResources {
+	[type: string]: IResource;
 }

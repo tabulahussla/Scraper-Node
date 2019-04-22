@@ -11,9 +11,9 @@ const { defaultLanguages, defaultNavigationTimeout } = config.get("agent");
 export default class Agent extends EventEmitter {
 	public resources: any[];
 	// tslint:disable-next-line: variable-name
-	private _proxy: any;
+	private _proxy: IProxy;
 	// tslint:disable-next-line: variable-name
-	private _account: any;
+	private _account: IAccount;
 	// tslint:disable-next-line: variable-name
 	private _id: string;
 	private puppeteerOptions: any;
@@ -31,10 +31,10 @@ export default class Agent extends EventEmitter {
 	 * Creates an instance of Agent.
 	 *
 	 * @param {Object} options
-	 * @param {Proxy} options.proxy
-	 * @param {Account} options.account
+	 * @param {IProxy} options.proxy
+	 * @param {IAccount} options.account
 	 * @param {puppeteer.LaunchOptions} options.puppeteerOptions
-	 * @param {Resource[]} options.resources
+	 * @param {IResource[]} options.resources
 	 * @memberof Agent
 	 */
 	constructor({ proxy, account, puppeteerOptions, resources }) {
