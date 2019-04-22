@@ -1,6 +1,7 @@
 import { Channel } from "amqplib";
 import log from "~/common/log";
 import { amqpConnection } from "~/database/amqp";
+import ConsumerAcknowledgement from "./common/queue/test/consumer-ack";
 
 export const RetryHeader = "_retries";
 
@@ -39,7 +40,7 @@ export default class QueueHandler {
 			);
 		}
 		log.debug(
-			"consume \"%s\" queue (concurrency=%d)",
+			'consume "%s" queue (concurrency=%d)',
 			this.queue,
 			this.concurrency
 		);
@@ -58,7 +59,7 @@ export default class QueueHandler {
 	 */
 	private async consumeMessage(msg) {
 		log.debug(
-			"consume message from \"%s\" queue: %o (headers: %o)",
+			'consume message from "%s" queue: %o (headers: %o)',
 			this.queue,
 			msg.content.toString(),
 			msg.properties.headers
@@ -76,6 +77,10 @@ export default class QueueHandler {
 		this.worker(contract)
 			.then(() => {
 				this.channel!.ack(msg);
+				ConsumerAcknowledgement.emit("ack", {
+					queue: this.queue,
+					message: contract,
+				});
 			})
 			.catch(err => {
 				log.error("failed to process contract", { err }, contract);
@@ -98,6 +103,10 @@ export default class QueueHandler {
 				}
 
 				this.channel!.nack(msg, false, false);
+				ConsumerAcknowledgement.emit("nack", {
+					queue: this.queue,
+					message: msg.content,
+				});
 			});
 	}
 }

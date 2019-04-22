@@ -8,6 +8,6 @@ export default async function loadPlugins() {
 	}
 
 	for (const pluginModule of pluginList) {
-		plugins.load(pluginModule);
+		plugins.loadPluginModule(pluginModule);
 	}
 }
