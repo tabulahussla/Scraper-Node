@@ -1,6 +1,5 @@
 import "mocha";
 import amqp from "amqplib";
-import bootstrapPipeline from "~/bootstrap";
 import sendJSONToQueue from "~/common/queue/send-json-to-queue";
 import { waitForAck } from "~/common/queue/test/consumer-ack";
 import { amqpConnection } from "~/database/amqp";
@@ -14,7 +13,6 @@ describe("Queues", () => {
 	let channel: amqp.Channel;
 
 	before(async () => {
-		await bootstrapPipeline();
 		loadPlugin(testPlugin);
 		channel = await amqpConnection.createChannel();
 	});

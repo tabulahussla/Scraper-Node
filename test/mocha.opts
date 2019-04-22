@@ -1,0 +1,9 @@
+--full-trace
+--bail
+--exit
+--require ./babel-register.js
+--require @babel/polyfill
+--file ./test/bootstrap.ts
+--file ./test/teardown.ts
+--recursive
+./test/**/*.spec.ts
