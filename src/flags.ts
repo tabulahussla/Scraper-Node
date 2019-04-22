@@ -1,3 +1,7 @@
 import config from "config";
 
-export const DISABLE_PROXIES: boolean = config.get("disableProxies");
+export let DISABLE_PROXIES: boolean = config.get("disableProxies");
+
+export function setDisableProxies(value) {
+	DISABLE_PROXIES = value;
+}

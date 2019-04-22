@@ -13,6 +13,26 @@
 			"name": "test.ru",
 			"concurrency": 1,
 			"resources": []
+		},
+		{
+			"name": "test-proxies.ru",
+			"concurrency": 1,
+			"resources": [
+				{
+					"type": "proxy",
+					"pools": ["test_proxies"]
+				}
+			]
+		},
+		{
+			"name": "test-accounts.ru",
+			"concurrency": 1,
+			"resources": [
+				{
+					"type": "account",
+					"pools": ["test_accounts"]
+				}
+			]
 		}
 	],
 	"puppeteer": {
