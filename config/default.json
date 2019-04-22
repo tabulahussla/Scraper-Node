@@ -20,7 +20,7 @@
 	},
 	"resource-broker": {
 		"address": "ws://localhost:7005",
-		"token": ""
+		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJjb25zdW1lcklkIjoidGVzdCIsIm5vZGVJZCI6ImFub255bW91cy1icm9rZXIiLCJleHAiOjE2MzQzMTkxMTcsImlhdCI6MTU0NzkxOTExN30.3asXNNBXi9JF9trHvsNgA899eEFddKGjjPNVWEU0Fj_bbvRVoMQAWRzRCB_a5J6A"
 	},
 	"appannie-api-options": {
 		"userAgent": "AAppC34JTB1NDTWD:290",
@@ -43,18 +43,7 @@
 		"maxWorkers": 4,
 		"entryPointForWorker": "src/worker.index.js"
 	},
-	"sites": [
-		{
-			"name": "test.ru",
-			"concurrency": 5,
-			"resources": [
-				{
-					"type": "proxy",
-					"pools": ["dev_proxies"]
-				}
-			]
-		}
-	],
+	"sites": [],
 	"disableProxies": false,
 	"puppeteer": {
 		"headless": true,
