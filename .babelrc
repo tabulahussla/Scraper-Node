@@ -7,33 +7,26 @@
 					"node": "current"
 				}
 			}
-		]
+		],
+		"@babel/typescript"
 	],
 	"plugins": [
-		"add-module-exports",
+		"@babel/proposal-class-properties",
+		"@babel/proposal-object-rest-spread",
 		[
 			"module-resolver",
 			{
 				"root": ["./src"],
 				"alias": {
-					"test": "./test"
+					"~": "./src",
+					"!": "./test"
 				}
 			}
 		]
 	],
 	"env": {
-		"production": {
-			"presets": [
-				[
-					"@babel/preset-env",
-					{
-						"targets": {
-							"node": "current"
-						},
-						"modules": false
-					}
-				]
-			]
+		"test": {
+			"plugins": ["istanbul"]
 		}
 	}
 }

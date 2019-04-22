@@ -1,9 +1,9 @@
 {
-	"exec": "babel-node",
+	"exec": "babel-node --extensions .ts",
 	"env": {
 		"NODE_ENV": "development"
 	},
-	"watch": ["src", "config"],
-	"ignore": ["storage"],
+	"watch": ["src", "config", "package.json"],
+	"ext": "ts",
 	"signal": "SIGUSR2"
 }
