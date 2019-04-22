@@ -6,6 +6,7 @@ import { DISABLE_PROXIES } from 'flags';
 import config from 'config';
 import harvest, { channel } from 'harvest';
 import { sendWorkerMessage, EventEnum } from '@xxorg/maintenance-common';
+import { jobEnded, jobFailed, jobSucceeded, jobStarted } from 'stats';
 
 const SiteConfig = config.get('sites');
 const SiteMap = getSiteMap(SiteConfig);
@@ -56,7 +57,10 @@ export async function acquireResources(site) {
  * @param {Contract} contract
  * @returns
  */
-export default async function process(contract) {
+export default async function processContract(contract) {
+	const startTime = process.hrtime();
+	jobStarted(contract);
+
 	await sendWorkerMessage(channel, 'scraping', {
 		event: EventEnum.OnBeforeScraping,
 		contract,
@@ -93,6 +97,11 @@ export default async function process(contract) {
 			artifact,
 			contract,
 		});
+
+		jobSucceeded(startTime, contract);
+	} catch (err) {
+		jobFailed(contract, err);
+		throw err;
 	} finally {
 		agent && (await agent.destroy());
 	}
