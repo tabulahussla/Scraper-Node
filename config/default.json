@@ -14,6 +14,9 @@
 		"username": "guest",
 		"password": "guest"
 	},
+	"queue": {
+		"maxPriority": 10
+	},
 	"probe": {
 		"enabled": false,
 		"port": 55555

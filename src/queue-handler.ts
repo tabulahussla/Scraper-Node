@@ -1,9 +1,11 @@
 import { Channel } from "amqplib";
+import config from "config";
 import log from "~/common/log";
 import { amqpConnection } from "~/database/amqp";
 import ConsumerAcknowledgement from "./common/queue/test/consumer-ack";
 
 export const RetryHeader = "_retries";
+export const assertOptions = config.get("queue");
 
 export default class QueueHandler {
 	private queue: any;
@@ -40,12 +42,12 @@ export default class QueueHandler {
 			);
 		}
 		log.debug(
-			'consume "%s" queue (concurrency=%d)',
+			"consume \"%s\" queue (concurrency=%d)",
 			this.queue,
 			this.concurrency
 		);
 		await this.channel.prefetch(this.concurrency);
-		await this.channel.assertQueue(this.queue);
+		await this.channel.assertQueue(this.queue, assertOptions);
 		await this.channel.consume(this.queue, msg => {
 			if (msg !== null) {
 				this.consumeMessage(msg);
@@ -59,7 +61,7 @@ export default class QueueHandler {
 	 */
 	private async consumeMessage(msg) {
 		log.debug(
-			'consume message from "%s" queue: %o (headers: %o)',
+			"consume message from \"%s\" queue: %o (headers: %o)",
 			this.queue,
 			msg.content.toString(),
 			msg.properties.headers
