@@ -163,3 +163,4 @@ storage/
 /ROOT.*
 /SERVER.*
 config/production.json
+config/development.json
