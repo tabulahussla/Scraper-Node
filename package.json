@@ -28,7 +28,7 @@
 	"dependencies": {
 		"@xxorg/maintenance-common": "latest",
 		"@xxorg/resource-broker-client": "latest",
-		"@xxorg/scraping-plugins": "^0.6.0",
+		"@xxorg/scraping-plugins": "^0.6.1",
 		"amqplib": "^0.5.3",
 		"bluebird": "^3.5.3",
 		"clone": "^2.1.2",
